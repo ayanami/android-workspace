@@ -1,0 +1,4 @@
+<FindBugsFilter>
+    <Match classregex=".*Test*" />
+    <Match classregex="test.*" />
+</FindBugsFilter>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="methodcomment_context" deleted="false" description="オーバーライドしないメソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
+ * メソッド概要。
+ * 
+ * ${tags}
+ */</template><template autoinsert="true" context="gettercomment_context" deleted="false" description="getter 関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return ${bare_field_name}
+ */</template><template autoinsert="true" context="settercomment_context" deleted="false" description="setter 関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} セットする ${bare_field_name}
+ */</template><template autoinsert="false" context="overridecomment_context" deleted="false" description="オーバーライドするメソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment">/**
+ * {@inheritDoc}
+ */</template><template autoinsert="true" context="constructorcomment_context" deleted="false" description="作成済みコンストラクターのコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * ${tags}
+ */</template><template autoinsert="true" context="filecomment_context" deleted="false" description="作成済みの JavaScript ファイルのコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.filecomment" name="filecomment">/**
+ * 
+ */</template><template autoinsert="true" context="methodcomment_context" deleted="false" description="オーバーライドしない関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
+ * ${tags}
+ */</template><template autoinsert="true" context="typecomment_context" deleted="false" description="作成済みの型のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.typecomment" name="typecomment">/**
+ * @author ${user}
+ *
+ * ${tags}
+ */</template><template autoinsert="true" context="settercomment_context" deleted="false" description="setter メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} ${bare_field_name} を設定。
+ */</template><template autoinsert="true" context="filecomment_context" deleted="false" description="作成済み Java ファイルのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/**
+ * 
+ */</template><template autoinsert="false" context="fieldcomment_context" deleted="false" description="変数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/** ${field} のコメント */</template><template autoinsert="false" context="constructorcomment_context" deleted="false" description="作成済みコンストラクターのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * コンストラクタ。
+ * ${tags}
+ */</template><template autoinsert="true" context="gettercomment_context" deleted="false" description="getter メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return ${bare_field_name} を戻します。
+ */</template><template autoinsert="false" context="fieldcomment_context" deleted="false" description="フィールドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/** ${field} のコメント */</template><template autoinsert="true" context="delegatecomment_context" deleted="false" description="委譲関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template><template autoinsert="false" context="typecomment_context" deleted="false" description="作成済みの型のコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**
+ * &lt;p&gt;
+ * クラス概要。
+ * &lt;/p&gt;
+ * 
+ * 作成日：${date}&lt;br&gt;
+ * 
+ * &lt;b&gt;更新履歴&lt;/b&gt;&lt;br&gt;
+ * &lt;table border bgcolor="#ffffff"&gt;
+ * &lt;tr bgcolor="#ccccff"&gt;
+ * &lt;td&gt;日付&lt;/td&gt;
+ * &lt;td&gt;欠陥管理番号&lt;/td&gt;
+ * &lt;td&gt;担当&lt;/td&gt;
+ * &lt;td&gt;変更点&lt;/td&gt;
+ * &lt;/tr&gt;
+ * &lt;tr&gt;
+ * &lt;td&gt;${date}&lt;/td&gt;
+ * &lt;td&gt;－&lt;/td&gt;
+ * &lt;td&gt;HWS 苗字&lt;/td&gt;
+ * &lt;td&gt;新規作成&lt;/td&gt;
+ * &lt;/tr&gt;
+ * &lt;/table&gt;
+ * 
+ * @author HWS 苗字
+ */</template><template autoinsert="true" context="delegatecomment_context" deleted="false" description="委譲メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template><template autoinsert="false" context="overridecomment_context" deleted="false" description="オーバーライドする関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.overridecomment" name="overridecomment">/**
+ * {@inheritDoc}
+ */</template></templates>

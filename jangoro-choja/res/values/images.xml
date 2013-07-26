@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tiles">
+        <item>@drawable/a_ms1_1</item>
+        <item>@drawable/a_ms2_1</item>
+        <item>@drawable/a_ms3_1</item>
+        <item>@drawable/a_ms4_1</item>
+        <item>@drawable/a_ms5_1</item>
+        <item>@drawable/a_ms5_1_red</item>
+        <item>@drawable/a_ms6_1</item>
+        <item>@drawable/a_ms7_1</item>
+        <item>@drawable/a_ms8_1</item>
+        <item>@drawable/a_ms9_1</item>
+        <item>@drawable/b_ps1_1</item>
+        <item>@drawable/b_ps2_1</item>
+        <item>@drawable/b_ps3_1</item>
+        <item>@drawable/b_ps4_1</item>
+        <item>@drawable/b_ps5_1</item>
+        <item>@drawable/b_ps5_1_red</item>
+        <item>@drawable/b_ps6_1</item>
+        <item>@drawable/b_ps7_1</item>
+        <item>@drawable/b_ps8_1</item>
+        <item>@drawable/b_ps9_1</item>
+        <item>@drawable/c_ss1_1</item>
+        <item>@drawable/c_ss2_1</item>
+        <item>@drawable/c_ss3_1</item>
+        <item>@drawable/c_ss4_1</item>
+        <item>@drawable/c_ss5_1</item>
+        <item>@drawable/c_ss5_1_red</item>
+        <item>@drawable/c_ss6_1</item>
+        <item>@drawable/c_ss7_1</item>
+        <item>@drawable/c_ss8_1</item>
+        <item>@drawable/c_ss9_1</item>
+        
+        <item>@drawable/d_ji_e_1</item>
+        <item>@drawable/e_ji_s_1</item>
+        <item>@drawable/f_ji_w_1</item>
+        <item>@drawable/g_ji_n_1</item>
+        <item>@drawable/h_no_1</item>
+        <item>@drawable/i_ji_h_1</item>
+        <item>@drawable/j_ji_c_1</item>
+    </string-array>
+    <string-array name="tiles_grayscale">
+        <item>@drawable/a_ms1_1_g</item>
+        <item>@drawable/a_ms2_1_g</item>
+        <item>@drawable/a_ms3_1_g</item>
+        <item>@drawable/a_ms4_1_g</item>
+        <item>@drawable/a_ms5_1_g</item>
+        <item>@drawable/a_ms5_1_red_g</item>
+        <item>@drawable/a_ms6_1_g</item>
+        <item>@drawable/a_ms7_1_g</item>
+        <item>@drawable/a_ms8_1_g</item>
+        <item>@drawable/a_ms9_1_g</item>
+        <item>@drawable/b_ps1_1_g</item>
+        <item>@drawable/b_ps2_1_g</item>
+        <item>@drawable/b_ps3_1_g</item>
+        <item>@drawable/b_ps4_1_g</item>
+        <item>@drawable/b_ps5_1_g</item>
+        <item>@drawable/b_ps5_1_red_g</item>
+        <item>@drawable/b_ps6_1_g</item>
+        <item>@drawable/b_ps7_1_g</item>
+        <item>@drawable/b_ps8_1_g</item>
+        <item>@drawable/b_ps9_1_g</item>
+        <item>@drawable/c_ss1_1_g</item>
+        <item>@drawable/c_ss2_1_g</item>
+        <item>@drawable/c_ss3_1_g</item>
+        <item>@drawable/c_ss4_1_g</item>
+        <item>@drawable/c_ss5_1_g</item>
+        <item>@drawable/c_ss5_1_red_g</item>
+        <item>@drawable/c_ss6_1_g</item>
+        <item>@drawable/c_ss7_1_g</item>
+        <item>@drawable/c_ss8_1_g</item>
+        <item>@drawable/c_ss9_1_g</item>
+        <item>@drawable/d_ji_e_1_g</item>
+        <item>@drawable/e_ji_s_1_g</item>
+        <item>@drawable/f_ji_w_1_g</item>
+        <item>@drawable/g_ji_n_1_g</item>
+        <item>@drawable/h_no_1_g</item>
+        <item>@drawable/i_ji_h_1_g</item>
+        <item>@drawable/j_ji_c_1_g</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: Jacpot CheckStyle Rule
+    Description: none
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <property name="tabWidth" value="4"/>
+    <module name="ConstantName"/>
+    <module name="LocalFinalVariableName"/>
+    <module name="LocalVariableName">
+      <property name="format" value="^*[a-z]*[_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="MemberName">
+      <property name="format" value="^[a-z]*[_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$|^(get|set)[_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z_][a-zA-Z0-9_]*)*$"/>
+    </module>
+    <module name="ParameterName">
+      <property name="format" value="^[a-z]*[_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="StaticVariableName">
+      <property name="format" value="^[a-z]*[_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="TypeName">
+      <property name="format" value="^[A-Z][_a-zA-Z0-9]*$"/>
+    </module>
+    <module name="IllegalImport"/>
+    <module name="RedundantImport"/>
+    <module name="LineLength">
+      <property name="ignorePattern" value="^ *\*.*$|^ *//.*$|^.*&quot;;$"/>
+      <property name="max" value="120"/>
+    </module>
+    <module name="LineLength">
+      <property name="ignorePattern" value="^(?:(?!^ *\*)(?!^.*//).*$)"/>
+      <property name="max" value="120"/>
+    </module>
+    <module name="MethodParamPad"/>
+    <module name="NoWhitespaceAfter">
+      <property name="tokens" value="TYPECAST"/>
+    </module>
+    <module name="NoWhitespaceBefore"/>
+    <module name="OperatorWrap"/>
+    <module name="ParenPad"/>
+    <module name="TypecastParenPad"/>
+    <module name="WhitespaceAfter">
+      <property name="tokens" value="COMMA,SEMI"/>
+    </module>
+    <module name="WhitespaceAround">
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyMethods" value="true"/>
+    </module>
+    <module name="ModifierOrder"/>
+    <module name="RedundantModifier"/>
+    <module name="AvoidNestedBlocks"/>
+    <module name="LeftCurly">
+      <property name="maxLineLength" value="100"/>
+    </module>
+    <module name="NeedBraces"/>
+    <module name="RightCurly"/>
+    <module name="AvoidInlineConditionals"/>
+    <module name="EqualsHashCode"/>
+    <module name="HiddenField">
+      <property name="tokens" value="VARIABLE_DEF"/>
+      <property name="ignoreSetter" value="true"/>
+      <property name="ignoreConstructorParameter" value="true"/>
+    </module>
+    <module name="InnerAssignment"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="FinalClass">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="ArrayTypeStyle"/>
+    <module name="Regexp">
+      <property name="severity" value="ignore"/>
+      <property name="format" value="\\r|\\n|\\"/>
+      <property name="message" value="システム依存文字の記述は禁止です。"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_STR008:システム依存文字チェック"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="UpperEll"/>
+    <module name="PackageDeclaration"/>
+    <module name="SuperFinalize"/>
+    <module name="Regexp">
+      <property name="format" value="^import\sjava.util.Vector;.*$"/>
+      <property name="message" value="java.util.Vectorの使用は禁止です。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_CLT001:java.util.Vectorはインポート禁止"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^.*\{[.+|}]$"/>
+      <property name="message" value="左大括弧の後にはステートメントは書かない。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_FMT004:左大括弧({)の後にはステートメント記述禁止チェック"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^.*import\sjava.util.Hashtable;.*$"/>
+      <property name="message" value="java.util.Hashtableの使用は禁止です。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_CLT001:java.util.Hashtableはインポート禁止"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value=".*\sextends\sError\s.*"/>
+      <property name="message" value="Errorクラスの継承は禁止です。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_EXT004:Errorクラスを継承しないチェック"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value=".*\sextends\sThrowable\s.*"/>
+      <property name="message" value="Throwableクラスの継承は禁止です。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="ignoreComments" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="C_EXT004:Throwableクラスを継承しないチェック"/>
+    </module>
+    <module name="NestedTryDepth">
+      <property name="max" value="2"/>
+    </module>
+    <module name="RedundantThrows"/>
+    <module name="ModifiedControlVariable"/>
+    <module name="StringLiteralEquality"/>
+    <module name="NestedIfDepth">
+      <property name="max" value="3"/>
+    </module>
+    <module name="SuperClone"/>
+    <module name="IllegalThrows">
+      <property name="illegalClassNames" value="java.lang.Error, java.lang.RuntimeException"/>
+    </module>
+    <module name="DeclarationOrder"/>
+    <module name="ParameterAssignment"/>
+    <module name="DefaultComesLast"/>
+    <module name="FallThrough"/>
+    <module name="UnnecessaryParentheses"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="HideUtilityClassConstructor"/>
+    <module name="AbstractClassName">
+      <property name="format" value="^Abstract.*$"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="allowUndeclaredRTE" value="true"/>
+    </module>
+    <module name="JavadocVariable"/>
+    <module name="JavadocType">
+      <property name="authorFormat" value="^HWS\s.*$"/>
+    </module>
+    <module name="ClassTypeParameterName"/>
+    <module name="MethodTypeParameterName"/>
+    <module name="AnnotationUseStyle"/>
+    <module name="MissingDeprecated"/>
+    <module name="MissingOverride"/>
+    <module name="AvoidStarImport"/>
+    <module name="GenericWhitespace">
+    </module>
+    <module name="EmptyForInitializerPad"/>
+    <module name="EmptyForIteratorPad"/>
+    <module name="NoWhitespaceBefore">
+      <property name="allowLineBreaks" value="true"/>
+      <property name="tokens" value="DOT"/>
+    </module>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+    </module>
+    <module name="EmptyStatement"/>
+    <module name="EqualsAvoidNull"/>
+    <module name="UnusedImports"/>
+    <module name="ImportOrder">
+      <property name="option" value="top"/>
+      <property name="ordered" value="false"/>
+      <property name="separated" value="true"/>
+      <property name="caseSensitive" value="false"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^.*&lt;b&gt;更新履歴&lt;/b&gt;&lt;br&gt;$"/>
+      <property name="message" value="クラスには更新履歴が必要です。"/>
+      <property name="duplicateLimit" value="1"/>
+      <property name="errorLimit" value="0"/>
+      <message key="required.regexp" value="クラスには更新履歴が必要です。"/>
+      <message key="duplicate.regexp" value="｛0｝"/>
+      <message key="illegal.regexp" value="｛0｝"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^.*System\.out.*$"/>
+      <property name="message" value="System,outは禁止されています。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="duplicateLimit" value="1"/>
+      <property name="errorLimit" value="0"/>
+      <message key="illegal.regexp" value="{0}"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^.*System\.error.*$"/>
+      <property name="message" value="System.errorは禁止されています。"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="duplicateLimit" value="1"/>
+      <property name="errorLimit" value="0"/>
+      <message key="illegal.regexp" value="{0}"/>
+    </module>
+  </module>
+  <module name="FileTabCharacter"/>
+  <module name="NewlineAtEndOfFile"/>
+</module>

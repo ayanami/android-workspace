@@ -288,10 +288,10 @@ public class MakeReadyHandsActivity extends Activity {
         // (2) リソースIDリストの取得
         // ---------------------------------------------
         selectTilesResourceIds.clear();
-//        selectTilesResourceIds =
-//                        ImageResourceUtil
-//                                        .getRandomResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
-        selectTilesResourceIds = ImageResourceUtil.getEspeciallyResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
+        selectTilesResourceIds =
+                        ImageResourceUtil
+                                        .getRandomResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
+//        selectTilesResourceIds = Test.getJustAsWellResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
         // ---------------------------------------------
         // (3) イメージリソースの設定
         // ---------------------------------------------

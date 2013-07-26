@@ -123,24 +123,6 @@ public class ImageResourceUtil {
 
         return resourceIds;
     }
-    
-    public static List<Integer> getEspeciallyResourceIds(int size) {
-        
-        List<Integer> especiallyResourceIds = new ArrayList<Integer>() {
-            
-            {
-                add(R.drawable.a_ms1_1);
-                add(R.drawable.a_ms2_1);
-                add(R.drawable.a_ms3_1);
-                add(R.drawable.a_ms1_1);
-                add(R.drawable.a_ms2_1);
-                add(R.drawable.a_ms3_1);
-            }
-        };
-        
-        return getSpecifiedResourceIds(especiallyResourceIds, size);
-        
-    }
 
     /**
      * 国士無双のリソースIDを含むリソースIDリストを返却します。

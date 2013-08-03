@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.headwaters.jacpot.R;
-
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 /**
@@ -65,8 +63,6 @@ public class ImageResourceUtil {
      */
     public static List<Integer> getRandomResourceIds(int size) {
 
-        int range = ResourceUtil.getTilesStatus().size();
-
         List<Integer> resourceIds = new ArrayList<Integer>();
 
         for (int i = 0; i < size; i++) {
@@ -75,7 +71,7 @@ public class ImageResourceUtil {
             while (true) {
 
                 // ランダムなインデックスを生成
-                int j = (int)(Math.floor(Math.random() * range));
+                int j = (int)(Math.floor(Math.random() * ResourceUtil.tilesStatus.size()));
 
                 int resourceId = getAvailableResourceId(j);
 
@@ -102,13 +98,11 @@ public class ImageResourceUtil {
     public static List<Integer>
                     getSpecifiedResourceIds(List<Integer> specifiedResourceIds, int size) {
 
-        SparseArray<SparseIntArray> tilesStatus = ResourceUtil.getTilesStatus();
-
         List<Integer> resourceIds = new ArrayList<Integer>();
 
         for (Integer resourceId : specifiedResourceIds) {
-            for (int i = 0; i < tilesStatus.size(); i++) {
-                SparseIntArray useCnts = tilesStatus.get(i);
+            for (int i = 0; i < ResourceUtil.tilesStatus.size(); i++) {
+                SparseIntArray useCnts = ResourceUtil.tilesStatus.get(i);
                 if (resourceId == useCnts.keyAt(0)) {
                     getAvailableResourceId(i);
                     resourceIds.add(resourceId);
@@ -163,10 +157,8 @@ public class ImageResourceUtil {
      */
     private static Integer getAvailableResourceId(int idx) {
 
-        SparseArray<SparseIntArray> tilesStatus = ResourceUtil.getTilesStatus();
-
         // 生成したインデックスで利用回数ハッシュを取得
-        SparseIntArray useCnts = tilesStatus.get(idx);
+        SparseIntArray useCnts = ResourceUtil.tilesStatus.get(idx);
 
         int resourceId = useCnts.keyAt(0);
         int useCnt = useCnts.get(resourceId);
@@ -176,7 +168,7 @@ public class ImageResourceUtil {
 
             // 利用回数をインクリメント
             useCnts.put(resourceId, useCnt + 1);
-            tilesStatus.put(idx, useCnts);
+            ResourceUtil.tilesStatus.put(idx, useCnts);
 
             return resourceId;
         }
@@ -192,7 +184,7 @@ public class ImageResourceUtil {
      */
     public static boolean isReverse(int resourceId) {
 
-        if (ResourceUtil.getGrayscaleToNormal().get(resourceId, -1) != -1) {
+        if (ResourceUtil.grayscaleToNormal.indexOfKey(resourceId) >= 0) {
             return true;
         }
 
@@ -208,10 +200,10 @@ public class ImageResourceUtil {
     public static int getReversedResourceId(int resourceId) {
 
         if (isReverse(resourceId)) {
-            return ResourceUtil.getGrayscaleToNormal().get(resourceId);
+            return ResourceUtil.grayscaleToNormal.get(resourceId);
         }
 
-        return ResourceUtil.getNormalToGrayscale().get(resourceId);
+        return ResourceUtil.normalToGrayscale.get(resourceId);
     }
 
 }

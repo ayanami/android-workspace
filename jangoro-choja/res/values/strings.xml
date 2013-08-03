@@ -12,8 +12,9 @@
     <string name="ac_direction_text_direction">ゲームを通じて、麻雀を覚えてください！！</string>
 
     <!-- MakeReadyHandsActivity ac_make_ready_hands -->
-    <string name="ac_make_ready_hands_text_doragon">ドラ</string>
-    <string name="ac_make_ready_hands_text_select_tiles">牌を選択して聴牌形を作成して下さい。</string>
+    <string name="ac_make_ready_hands_text_to_go">残り</string>
+    <string name="ac_make_ready_hands_text_second">秒</string>
+    <string name="ac_make_ready_hands_text_select_tiles">時間内に聴牌形を完成させろ！！</string>
     <string name="ac_make_ready_hands_text_ready_hands">聴牌形</string>
     <string name="ac_make_ready_hands_btn_caption_clear">クリア</string>
     <string name="ac_make_ready_hands_btn_caption_ok">OK</string>

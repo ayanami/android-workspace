@@ -3,6 +3,7 @@
  */
 package jp.co.headwaters.jacpot.function.mahjong.util;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,27 @@ import android.util.SparseIntArray;
  */
 public class ResourceUtil {
 
+    /** 局リスト{value:東{0}局{1}家} */
+    public static List<String> rounds;
+
+    /** 麻雀牌ハッシュ {key:リソースID, value:牌インデックス} */
+    public static SparseIntArray tiles;
+
+    /** 麻雀牌ステータスハッシュ{key:インデックス, value:利用回数ハッシュ{key:リソースID(麻雀牌画像), value:利用回数}} */
+    public static SparseArray<SparseIntArray> tilesStatus;
+
+    /** リソースIDハッシュ(ノーマル->グレースケール){key:ノーマルリソースID, value:グレースケールリソースID} */
+    public static SparseIntArray normalToGrayscale;
+
+    /** リソースIDハッシュ(グレースケール->ノーマル){key:グレースケールリソースID, value:ノーマルリソースID} */
+    public static SparseIntArray grayscaleToNormal;
+
+    /** 風配列 */
+    private static final String[] WINDS = new String[]{"東", "南", "西", "北"};
+
+    /** 場 */
+    private static final String ROUND = "東{0}局{1}家";
+
     /** 利用回数デフォルト */
     private static final int USE_CNT_DEFAULT = 0;
 
@@ -52,18 +74,6 @@ public class ResourceUtil {
 
     /** リソースIDリスト(赤5) */
     private static final List<Integer> RED_FIVE_IDS = new ArrayList<Integer>();
-
-    /** 麻雀牌ハッシュ {key:リソースID, value:牌インデックス} */
-    private static SparseIntArray tiles;
-
-    /** 麻雀牌ステータスハッシュ{key:インデックス, value:利用回数ハッシュ{key:リソースID(麻雀牌画像), value:利用回数}} */
-    private static SparseArray<SparseIntArray> tilesStatus;
-
-    /** リソースIDハッシュ(ノーマル->グレースケール){key:ノーマルリソースID, value:グレースケールリソースID} */
-    private static SparseIntArray normalToGrayscale;
-
-    /** リソースIDハッシュ(グレースケール->ノーマル){key:グレースケールリソースID, value:ノーマルリソースID} */
-    private static SparseIntArray grayscaleToNormal;
 
     /**
      * ユーティリティクラスのため、コンストラクタをプロテクトします。
@@ -94,10 +104,16 @@ public class ResourceUtil {
      */
     public static void createResources(TypedArray resourceIds, TypedArray grayscaleIds) {
 
+        rounds = new ArrayList<String>();
         tiles = new SparseIntArray();
         tilesStatus = new SparseArray<SparseIntArray>();
         normalToGrayscale = new SparseIntArray();
         grayscaleToNormal = new SparseIntArray();
+
+        // ---------------------------------------------
+        // (1) 局リストの生成
+        // ---------------------------------------------
+        createRounds();
 
         int tilesIdx = 0;
         for (int i = 0; i < resourceIds.length(); i++) {
@@ -106,7 +122,7 @@ public class ResourceUtil {
             int grayscaleId = grayscaleIds.getResourceId(i, -1);
 
             // ---------------------------------------------
-            // (1) 麻雀牌ハッシュの生成
+            // (2) 麻雀牌ハッシュの生成
             // ---------------------------------------------
             if (RED_FIVE_IDS.contains(resourceId)) {
                 tilesIdx--;
@@ -115,58 +131,22 @@ public class ResourceUtil {
             tilesIdx++;
 
             // ---------------------------------------------
-            // (2) 麻雀牌ステータスハッシュの生成
+            // (3) 麻雀牌ステータスハッシュの生成
             // ---------------------------------------------
             SparseIntArray useCnts = new SparseIntArray();
             useCnts.put(resourceId, USE_CNT_DEFAULT);
             tilesStatus.put(i, useCnts);
 
             // ---------------------------------------------
-            // (3) リソースIDハッシュの生成
+            // (4) リソースIDハッシュの生成
             // ---------------------------------------------
             normalToGrayscale.put(resourceId, grayscaleId);
             grayscaleToNormal.put(grayscaleId, resourceId);
         }
         // ---------------------------------------------
-        // (4) 麻雀牌ステータスハッシュの初期化
+        // (5) 麻雀牌ステータスハッシュの初期化
         // ---------------------------------------------
         initTilesStatus();
-    }
-
-    /**
-     * 麻雀牌ハッシュを返却します。
-     * 
-     * @return 麻雀牌ハッシュ
-     */
-    public static SparseIntArray getTiles() {
-        return tiles;
-    }
-
-    /**
-     * 麻雀牌ステータスハッシュを返却します。
-     * 
-     * @return 麻雀牌ステータスハッシュ
-     */
-    public static SparseArray<SparseIntArray> getTilesStatus() {
-        return tilesStatus;
-    }
-
-    /**
-     * リソースIDハッシュ(ノーマル->グレースケール)を返却します。
-     * 
-     * @return リソースIDハッシュ(ノーマル->グレースケール)
-     */
-    public static SparseIntArray getNormalToGrayscale() {
-        return normalToGrayscale;
-    }
-
-    /**
-     * リソースIDハッシュ(グレースケール->ノーマル)を返却します。
-     * 
-     * @return リソースIDハッシュ(グレースケール->ノーマル)
-     */
-    public static SparseIntArray getGrayscaleToNormal() {
-        return grayscaleToNormal;
     }
 
     /**
@@ -193,6 +173,25 @@ public class ResourceUtil {
             }
 
             tilesStatus.put(i, useCnts);
+        }
+    }
+
+    /**
+     * 局リストを生成します。
+     * 
+     */
+    private static void createRounds() {
+
+        int wind = (int)(Math.floor(Math.random() * WINDS.length));
+
+        for (int i = 0; i < WINDS.length; i++) {
+
+            if (wind >= WINDS.length) {
+                wind = 0;
+            }
+            wind++;
+
+            rounds.add(MessageFormat.format(ROUND, new Object[]{i + 1, WINDS[wind - 1]}));
         }
     }
 

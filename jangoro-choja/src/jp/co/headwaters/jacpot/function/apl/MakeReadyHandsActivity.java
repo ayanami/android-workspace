@@ -6,6 +6,7 @@ package jp.co.headwaters.jacpot.function.apl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import jp.co.headwaters.jacpot.MainActivity;
 import jp.co.headwaters.jacpot.R;
@@ -15,6 +16,7 @@ import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +71,12 @@ public class MakeReadyHandsActivity extends Activity {
 
     /** 最大ステージカウント */
     private static final int STAGE_MAX_CNT = 3;
+
+    /** カウントダウンインターバル(ミリ秒) */
+    private static final long COUNT_DONW_INTERVAL = 1000;
+    
+    /** 開始秒数配列(ミリ秒) */
+    private static final long[] MILLIS_IN_FUTURES = new long[] {40000, 30000, 20000};
 
     /** 現在のステージ */
     private static int currentStage;
@@ -154,35 +162,7 @@ public class MakeReadyHandsActivity extends Activity {
                 return;
             }
 
-            String text = null;
-            if (HandsJudgmentUtil.isReadyHands(readyHandsResourceIds)) {
-                text = "正解！！";
-                correctAnswerCnt++;
-            } else {
-                text = "残念！！";
-            }
-
-            currentStage++;
-
-            MakeReadyHandsActivity.this.setResultLayout(text);
-
-            new Handler().postDelayed(changeLayout, 1000);
-
-        }
-    };
-
-    /**
-     * 一定時間後にレイアウトを切り替えるための{@link Runnable}匿名クラスです。
-     */
-    private Runnable changeLayout = new Runnable() {
-
-        @Override
-        public void run() {
-            if (currentStage <= STAGE_MAX_CNT) {
-                MakeReadyHandsActivity.this.setMainLayout();
-            } else {
-                MakeReadyHandsActivity.this.setFinishLayout();
-            }
+            MakeReadyHandsActivity.this.changeLayout();
         }
     };
 
@@ -194,6 +174,21 @@ public class MakeReadyHandsActivity extends Activity {
         @Override
         public void onClick(View v) {
             startActivity(new Intent(MakeReadyHandsActivity.this, MainActivity.class));
+        }
+    };
+
+    /**
+     * 一定時間後にレイアウトを切り替えるための{@link Runnable}匿名クラスです。
+     */
+    private Runnable autoChangeLayout = new Runnable() {
+
+        @Override
+        public void run() {
+            if (currentStage <= STAGE_MAX_CNT) {
+                MakeReadyHandsActivity.this.setMainLayout();
+            } else {
+                MakeReadyHandsActivity.this.setFinishLayout();
+            }
         }
     };
 
@@ -219,33 +214,50 @@ public class MakeReadyHandsActivity extends Activity {
         // ---------------------------------------------
         setContentView(R.layout.ac_make_ready_hands_main);
         // ---------------------------------------------
-        // (2) ドラ表示エリア設定
+        // (2) 局の設定
+        // ---------------------------------------------
+        this.setRound();
+        // ---------------------------------------------
+        // (3) ドラ表示エリア設定
         // ---------------------------------------------
         this.setDisplayDoragonLayout();
         // ---------------------------------------------
-        // (3) 牌選択エリア設定
+        // (4) 牌選択エリア設定
         // ---------------------------------------------
         this.setSelectTilesLayout();
         // ---------------------------------------------
-        // (4) 手牌エリア設定
+        // (5) 手牌エリア設定
         // ---------------------------------------------
         this.setReadyHands();
         // ---------------------------------------------
-        // (5) 利用回数初期化
+        // (6) 利用回数初期化
         // ---------------------------------------------
         ResourceUtil.initTilesStatus();
         // ---------------------------------------------
-        // (6) クリアボタン設定
+        // (7) クリアボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsClear)).setOnClickListener(clearClickListener);
         // ---------------------------------------------
-        // (7) OKボタン設定
+        // (8) OKボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsOk)).setOnClickListener(okClickListener);
+        // ---------------------------------------------
+        // (9) カウントダウン開始
+        // ---------------------------------------------
+        this.countDown(MILLIS_IN_FUTURES[currentStage - 1]);
     }
 
     /**
-     * ドラ表示エリア設定
+     * 局を設定します。
+     */
+    private void setRound() {
+
+        TextView tv = (TextView)findViewById(R.id.textViewRound);
+        tv.setText(ResourceUtil.rounds.get(currentStage - 1));
+    }
+
+    /**
+     * ドラ表示エリアを設定します。
      */
     private void setDisplayDoragonLayout() {
 
@@ -276,7 +288,7 @@ public class MakeReadyHandsActivity extends Activity {
     }
 
     /**
-     * 牌選択エリア設定
+     * 牌選択エリアを設定します。
      */
     private void setSelectTilesLayout() {
 
@@ -291,7 +303,7 @@ public class MakeReadyHandsActivity extends Activity {
         selectTilesResourceIds =
                         ImageResourceUtil
                                         .getRandomResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
-//        selectTilesResourceIds = Test.getJustAsWellResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
+        // selectTilesResourceIds = Test.getJustAsWellResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
         // ---------------------------------------------
         // (3) イメージリソースの設定
         // ---------------------------------------------
@@ -316,7 +328,7 @@ public class MakeReadyHandsActivity extends Activity {
     }
 
     /**
-     * 手牌エリア設定
+     * 手牌エリアを設定します。
      */
     private void setReadyHands() {
         // ---------------------------------------------
@@ -334,6 +346,31 @@ public class MakeReadyHandsActivity extends Activity {
             readyHandsImageViews.add(iv);
         }
 
+    }
+
+    /**
+     * カウントダウンを開始します。
+     * 
+     * @param millisInFuture 開始秒数(ミリ秒)
+     */
+    private void countDown(long millisInFuture) {
+
+        final TextView tv = (TextView)findViewById(R.id.textViewSecondToGo);
+
+        CountDownTimer cd = new CountDownTimer(millisInFuture, COUNT_DONW_INTERVAL) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tv.setText(String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)));
+            }
+
+            @Override
+            public void onFinish() {
+                MakeReadyHandsActivity.this.changeLayout();
+            }
+        };
+
+        cd.start();
     }
 
     /**
@@ -386,6 +423,30 @@ public class MakeReadyHandsActivity extends Activity {
 
     /**
      * 
+     * レイアウトを切り替えます。
+     * 
+     */
+    private void changeLayout() {
+
+        String text = null;
+
+        if (HandsJudgmentUtil.isReadyHands(readyHandsResourceIds)) {
+            text = "正解！！";
+            correctAnswerCnt++;
+        } else {
+            text = "残念！！";
+        }
+
+        currentStage++;
+
+        this.setResultLayout(text);
+
+        new Handler().postDelayed(autoChangeLayout, 1000);
+
+    }
+
+    /**
+     * 
      * 結果レイアウトを設定します。
      * 
      * @param text テキスト
@@ -404,8 +465,8 @@ public class MakeReadyHandsActivity extends Activity {
     private void setFinishLayout() {
 
         setContentView(R.layout.ac_make_ready_hands_finish);
-        ((TextView)findViewById(R.id.textViewFinish))
-                        .setText(correctAnswerCnt + "/" + STAGE_MAX_CNT);
+        ((TextView)findViewById(R.id.textViewFinish)).setText(correctAnswerCnt + "/"
+                        + STAGE_MAX_CNT);
         ((Button)findViewById(R.id.btnMakeReadyHandsRestart))
                         .setOnClickListener(restartClickListener);
     }

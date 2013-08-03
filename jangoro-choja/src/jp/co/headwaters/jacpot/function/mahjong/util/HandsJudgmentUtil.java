@@ -6,8 +6,6 @@ package jp.co.headwaters.jacpot.function.mahjong.util;
 import java.util.Arrays;
 import java.util.List;
 
-import android.util.SparseIntArray;
-
 /**
  * <p>
  * 手牌判定ユーティリティクラスです。
@@ -37,6 +35,9 @@ public class HandsJudgmentUtil {
 
     /** 麻雀牌種類 */
     private static final int TILE_TYPES = 34;
+
+    /** 聴牌形手牌枚数 */
+    private static final int READY_HANDS_CNTS = 13;
 
     /** 上がり形手牌枚数 */
     private static final int COMPLETE_HANDS_CNTS = 14;
@@ -75,11 +76,14 @@ public class HandsJudgmentUtil {
      */
     public static boolean isReadyHands(List<Integer> resourceIds) {
 
+        if (resourceIds.size() < READY_HANDS_CNTS) {
+            return false;
+        }
+
         int[] hands = new int[COMPLETE_HANDS_CNTS];
-        SparseIntArray tiles = ResourceUtil.getTiles();
 
         for (int i = 0; i < resourceIds.size(); i++) {
-            hands[i] = tiles.get(resourceIds.get(i));
+            hands[i] = ResourceUtil.tiles.get(resourceIds.get(i));
         }
 
         for (int i = 0; i < TILE_TYPES; i++) {
@@ -227,7 +231,7 @@ public class HandsJudgmentUtil {
      * @param useCnts 利用数配列
      */
     private static void analyzeThirteenOrphans(int current, int[] useCnts) {
-        
+
         if (!Arrays.asList(thirteenOrphans).contains(current)) {
             // 雀頭が中張牌(2~8)の場合は処理を抜ける
             return;

@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.ac_main);
 
-        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.jacpot);
+        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.logo);
 
         ((Button)findViewById(R.id.btnMainStart)).setOnClickListener(startClickListener);
 

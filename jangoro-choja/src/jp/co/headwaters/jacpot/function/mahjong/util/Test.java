@@ -62,10 +62,12 @@ public class Test {
                 add(R.drawable.a_ms1_1);
                 add(R.drawable.a_ms2_1);
                 add(R.drawable.a_ms3_1);
+                add(R.drawable.a_ms2_1);
+                add(R.drawable.a_ms3_1);
             }
         };
         
-        return ImageResourceUtil.getSpecifiedResourceIds(especiallyResourceIds, size);
+        return ResourceUtil.getSpecifiedResourceIds(especiallyResourceIds, size);
         
     }
 

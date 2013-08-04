@@ -4,6 +4,7 @@
 package jp.co.headwaters.jacpot.function.mahjong.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,19 +83,33 @@ public class HandsJudgmentUtil {
 
         int[] hands = new int[COMPLETE_HANDS_CNTS];
 
+        // 聴牌形の牌インデックスを格納
         for (int i = 0; i < resourceIds.size(); i++) {
-            hands[i] = ResourceUtil.tiles.get(resourceIds.get(i));
+            hands[i] = ResourceUtil.resourceIdToIdx.get(resourceIds.get(i));
         }
 
+        // あがり牌リソースIDリストを初期化
+        ResourceUtil.winningResourceIds.clear();
+
+        // 1萬から順に判定
         for (int i = 0; i < TILE_TYPES; i++) {
 
             hands[COMPLETE_HANDS_MAX_IDX] = i;
+
+            // あがり成立の場合は、あがり牌リソースIDリストに格納
             if (isCompleteHands(hands)) {
-                return true;
+                ResourceUtil.winningResourceIds.addAll(ResourceUtil.getAvailableResourceIds(i));
             }
         }
 
-        return false;
+        if (ResourceUtil.winningResourceIds.isEmpty()) {
+            return false;
+        }
+
+        // あがり牌リソースIDリストをシャッフル
+        Collections.shuffle(ResourceUtil.winningResourceIds);
+
+        return true;
     }
 
     /**

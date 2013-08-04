@@ -104,25 +104,33 @@ public final class R {
     }
     public static final class id {
         public static final int btnMainStart=0x7f090001;
-        public static final int btnMakeReadyHandsClear=0x7f090009;
-        public static final int btnMakeReadyHandsOk=0x7f09000a;
-        public static final int btnMakeReadyHandsRestart=0x7f090003;
-        public static final int menuDirection=0x7f09000c;
-        public static final int tableLayoutDisplayDoragon=0x7f090006;
-        public static final int tableLayoutDisplaySelectTiles=0x7f090007;
-        public static final int tableRowDisplayReadyHands=0x7f090008;
+        public static final int btnMakeReadyHandsClear=0x7f09000b;
+        public static final int btnMakeReadyHandsOk=0x7f09000c;
+        public static final int btnMakeReadyHandsRestart=0x7f090008;
+        public static final int menuDirection=0x7f090010;
+        public static final int tableLayoutDisplayDoragon=0x7f090003;
+        public static final int tableLayoutDisplayReadyHands=0x7f090004;
+        public static final int tableLayoutDisplaySelectTiles=0x7f09000a;
+        public static final int tableLayoutDisplayYaku=0x7f09000e;
+        public static final int tableRowDisplayReadyHands=0x7f090005;
+        public static final int tableRowDisplaySelectWinningTiles=0x7f09000d;
         public static final int textViewDirection=0x7f090000;
-        public static final int textViewFinish=0x7f090002;
-        public static final int textViewResult=0x7f09000b;
-        public static final int textViewRound=0x7f090005;
-        public static final int textViewSecondToGo=0x7f090004;
+        public static final int textViewFan=0x7f09000f;
+        public static final int textViewFinish=0x7f090007;
+        public static final int textViewRound=0x7f090002;
+        public static final int textViewScore=0x7f090006;
+        public static final int textViewSecondToGo=0x7f090009;
     }
     public static final class layout {
         public static final int ac_direction=0x7f030000;
         public static final int ac_main=0x7f030001;
-        public static final int ac_make_ready_hands_finish=0x7f030002;
-        public static final int ac_make_ready_hands_main=0x7f030003;
-        public static final int ac_make_ready_hands_result=0x7f030004;
+        public static final int ac_make_ready_hands_display_dragon=0x7f030002;
+        public static final int ac_make_ready_hands_display_ready_hands=0x7f030003;
+        public static final int ac_make_ready_hands_display_score=0x7f030004;
+        public static final int ac_make_ready_hands_finish=0x7f030005;
+        public static final int ac_make_ready_hands_main=0x7f030006;
+        public static final int ac_make_ready_hands_result_failure=0x7f030007;
+        public static final int ac_make_ready_hands_result_success=0x7f030008;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -141,6 +149,7 @@ public final class R {
         public static final int ac_make_ready_hands_text_ready_hands=0x7f060007;
         public static final int ac_make_ready_hands_text_second=0x7f060005;
         public static final int ac_make_ready_hands_text_select_tiles=0x7f060006;
+        public static final int ac_make_ready_hands_text_select_winning_tiles=0x7f06000b;
         /**  MakeReadyHandsActivity ac_make_ready_hands 
          */
         public static final int ac_make_ready_hands_text_to_go=0x7f060004;

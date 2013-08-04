@@ -19,4 +19,6 @@
     <string name="ac_make_ready_hands_btn_caption_clear">クリア</string>
     <string name="ac_make_ready_hands_btn_caption_ok">OK</string>
     <string name="ac_make_ready_hands_btn_caption_restart">もう一回</string>
+    <string name="ac_make_ready_hands_text_select_winning_tiles">あがり牌を選択しろ！！</string>
+
 </resources>

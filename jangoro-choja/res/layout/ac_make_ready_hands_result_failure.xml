@@ -8,9 +8,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
-        <include layout="@layout/ac_make_ready_hands_display_dragon" />
+        <include layout="@layout/common_round" />
+
+        <include layout="@layout/common_dragon" />
     </LinearLayout>
 
     <LinearLayout
@@ -19,7 +21,7 @@
         android:layout_weight="1"
         android:gravity="center_horizontal" >
 
-        <include layout="@layout/ac_make_ready_hands_display_score" />
+        <include layout="@layout/common_score" />
     </LinearLayout>
 
 </LinearLayout>

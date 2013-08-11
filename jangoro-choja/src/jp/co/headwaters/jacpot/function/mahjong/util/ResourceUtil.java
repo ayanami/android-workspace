@@ -3,13 +3,11 @@
  */
 package jp.co.headwaters.jacpot.function.mahjong.util;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.headwaters.jacpot.R;
 import android.content.res.TypedArray;
-import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 /**
@@ -39,17 +37,20 @@ import android.util.SparseIntArray;
  */
 public class ResourceUtil {
 
-    /** 局リスト{value:東{0}局{1}家} */
-    public static List<String> rounds;
+    /** 局リスト{value:{場、局、風}} */
+    public static List<Object[]> rounds;
 
     /** 麻雀牌ハッシュ {key:リソースID(麻雀牌画像), value:牌インデックス} */
     public static SparseIntArray resourceIdToIdx;
-    
+
     /** 麻雀牌リソースIDリスト */
     public static List<Integer> idxToResourceId;
 
-    /** 麻雀牌ステータスハッシュ{key:インデックス, value:利用回数ハッシュ{key:リソースID(麻雀牌画像), value:利用回数}} */
-    public static SparseArray<SparseIntArray> tilesStatus;
+    /** 麻雀牌リソースIDリスト(赤含む) */
+    public static List<Integer> idxToResourceIdIncRed;
+
+    /** 利用回数ハッシュ {key:リソースID(麻雀牌画像), value:利用回数} */
+    public static SparseIntArray resourceIdIncRedToUseCnt;
 
     /** リソースIDハッシュ(ノーマル->グレースケール){key:ノーマルリソースID, value:グレースケールリソースID} */
     public static SparseIntArray normalToGrayscale;
@@ -59,15 +60,15 @@ public class ResourceUtil {
 
     /** リソースIDハッシュ(5->赤5){key:リソースID(5), value:リソースID(赤5)} */
     public static SparseIntArray fiveToRedFive;
-    
+
     /** あがり牌リソースIDリスト */
     public static List<Integer> winningResourceIds;
 
+    /** 場配列 */
+    private static final String[] ROUNDS = new String[]{"東", "南"};
+
     /** 風配列 */
     private static final String[] WINDS = new String[]{"東", "南", "西", "北"};
-
-    /** 場 */
-    private static final String ROUND = "東{0}局{1}家";
 
     /** 利用回数デフォルト */
     private static final int USE_CNT_DEFAULT = 0;
@@ -116,10 +117,11 @@ public class ResourceUtil {
      */
     public static void createResources(TypedArray resourceIds, TypedArray grayscaleIds) {
 
-        rounds = new ArrayList<String>();
+        rounds = new ArrayList<Object[]>();
         resourceIdToIdx = new SparseIntArray();
         idxToResourceId = new ArrayList<Integer>();
-        tilesStatus = new SparseArray<SparseIntArray>();
+        idxToResourceIdIncRed = new ArrayList<Integer>();
+        resourceIdIncRedToUseCnt = new SparseIntArray();
         normalToGrayscale = new SparseIntArray();
         grayscaleToNormal = new SparseIntArray();
         fiveToRedFive = new SparseIntArray();
@@ -151,54 +153,51 @@ public class ResourceUtil {
                 idxToResourceId.add(resourceId);
             }
             // ---------------------------------------------
-            // (4) 麻雀牌ステータスハッシュの生成
+            // (4) 麻雀牌リソースIDリスト(赤含む)の生成
             // ---------------------------------------------
-            SparseIntArray useCnts = new SparseIntArray();
-            useCnts.put(resourceId, USE_CNT_DEFAULT);
-            tilesStatus.put(i, useCnts);
-
+            idxToResourceIdIncRed.add(resourceId);
             // ---------------------------------------------
-            // (5) リソースIDハッシュ(ノーマル->グレースケール, グレースケール->ノーマル)の生成
+            // (5) 麻雀牌ステータスハッシュの生成
+            // ---------------------------------------------
+            resourceIdIncRedToUseCnt.put(resourceId, USE_CNT_DEFAULT);
+            // ---------------------------------------------
+            // (6) リソースIDハッシュ(ノーマル->グレースケール, グレースケール->ノーマル)の生成
             // ---------------------------------------------
             normalToGrayscale.put(resourceId, grayscaleId);
             grayscaleToNormal.put(grayscaleId, resourceId);
         }
         // ---------------------------------------------
-        // (6) リソースIDハッシュ(5->赤5)の生成
+        // (7) リソースIDハッシュ(5->赤5)の生成
         // ---------------------------------------------
         for (int i = 0; i < FIVE_IDS.size(); i++) {
             fiveToRedFive.put(FIVE_IDS.get(i), RED_FIVE_IDS.get(i));
         }
         // ---------------------------------------------
-        // (7) 麻雀牌ステータスハッシュの初期化
+        // (8) 麻雀牌ステータスハッシュの初期化
         // ---------------------------------------------
-        initTilesStatus();
+        initResourceIdIncRedToUseCnt();
     }
 
     /**
      * 
-     * 麻雀牌ハッシュの利用回数を初期化します。
+     * 利用回数ハッシュを初期化します。
      * 
      */
-    public static void initTilesStatus() {
+    public static void initResourceIdIncRedToUseCnt() {
 
-        for (int i = 0; i < tilesStatus.size(); i++) {
+        for (int i = 0; i < resourceIdIncRedToUseCnt.size(); i++) {
 
-            SparseIntArray useCnts = tilesStatus.get(i);
+            int resourceId = resourceIdIncRedToUseCnt.keyAt(i);
 
-            int resourceId = useCnts.keyAt(0);
-
-            useCnts.put(resourceId, USE_CNT_DEFAULT);
+            resourceIdIncRedToUseCnt.put(resourceId, USE_CNT_DEFAULT);
 
             if (FIVE_IDS.contains(resourceId)) {
-                useCnts.put(resourceId, USE_CNT_DEFAULT_FOR_5);
+                resourceIdIncRedToUseCnt.put(resourceId, USE_CNT_DEFAULT_FOR_5);
             }
 
             if (RED_FIVE_IDS.contains(resourceId)) {
-                useCnts.put(resourceId, USE_CNT_DEFAULT_FOR_RED_5);
+                resourceIdIncRedToUseCnt.put(resourceId, USE_CNT_DEFAULT_FOR_RED_5);
             }
-
-            tilesStatus.put(i, useCnts);
         }
     }
 
@@ -210,14 +209,16 @@ public class ResourceUtil {
 
         int wind = (int)(Math.floor(Math.random() * WINDS.length));
 
-        for (int i = 0; i < WINDS.length; i++) {
+        for (int i = 0; i < ROUNDS.length; i++) {
+            for (int j = 0; j < WINDS.length; j++) {
 
-            if (wind >= WINDS.length) {
-                wind = 0;
+                if (wind >= WINDS.length) {
+                    wind = 0;
+                }
+                wind++;
+
+                rounds.add(new Object[]{ROUNDS[i], j + 1, WINDS[wind - 1]});
             }
-            wind++;
-
-            rounds.add(MessageFormat.format(ROUND, new Object[]{i + 1, WINDS[wind - 1]}));
         }
     }
 
@@ -246,9 +247,9 @@ public class ResourceUtil {
             while (true) {
 
                 // ランダムなインデックスを生成
-                int j = (int)(Math.floor(Math.random() * tilesStatus.size()));
+                int randomIdx = (int)(Math.floor(Math.random() * resourceIdIncRedToUseCnt.size()));
 
-                int resourceId = getAvailableResourceId(j);
+                int resourceId = getAvailableResourceId(randomIdx);
 
                 if (resourceId != -1) {
 
@@ -276,13 +277,8 @@ public class ResourceUtil {
         List<Integer> resourceIds = new ArrayList<Integer>();
 
         for (Integer resourceId : specifiedResourceIds) {
-            for (int i = 0; i < tilesStatus.size(); i++) {
-                SparseIntArray useCnts = tilesStatus.get(i);
-                if (useCnts.indexOfKey(resourceId) >= 0) {
-                    getAvailableResourceId(i);
-                    resourceIds.add(resourceId);
-                }
-            }
+            getAvailableResourceId(idxToResourceIdIncRed.lastIndexOf(resourceId));
+            resourceIds.add(resourceId);
         }
 
         int diff = size - specifiedResourceIds.size();
@@ -327,23 +323,19 @@ public class ResourceUtil {
     /**
      * 利用可能なリソースIDを返却します。
      * 
-     * @param idx 麻雀牌ステータスハッシュの添え字
+     * @param idx 利用回数ハッシュの添え字
      * @return リソースID
      */
     private static Integer getAvailableResourceId(int idx) {
 
-        // 生成したインデックスで利用回数ハッシュを取得
-        SparseIntArray useCnts = tilesStatus.get(idx);
-
-        int resourceId = useCnts.keyAt(0);
-        int useCnt = useCnts.get(resourceId);
+        int resourceId = resourceIdIncRedToUseCnt.keyAt(idx);
+        int useCnt = resourceIdIncRedToUseCnt.get(resourceId);
 
         // 利用回数が上限に達していないかを判定
         if (useCnt < USE_CNT_LIMIT) {
 
             // 利用回数をインクリメント
-            useCnts.put(resourceId, useCnt + 1);
-            tilesStatus.put(idx, useCnts);
+            resourceIdIncRedToUseCnt.put(resourceId, useCnt + 1);
 
             return resourceId;
         }
@@ -388,16 +380,9 @@ public class ResourceUtil {
      */
     public static boolean isAvailable(int resourceId) {
 
-        for (int i = 0; i < tilesStatus.size(); i++) {
-            SparseIntArray useCnts = tilesStatus.get(i);
-            if (useCnts.indexOfKey(resourceId) < 0) {
-                continue;
-            }
-            if (useCnts.get(resourceId) < USE_CNT_LIMIT) {
-                return true;
-            }
+        if (resourceIdIncRedToUseCnt.get(resourceId) < USE_CNT_LIMIT) {
+            return true;
         }
-
         return false;
     }
 

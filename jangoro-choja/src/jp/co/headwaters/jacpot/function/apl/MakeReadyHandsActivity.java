@@ -3,29 +3,27 @@
  */
 package jp.co.headwaters.jacpot.function.apl;
 
-import java.text.MessageFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import jp.co.headwaters.jacpot.MainActivity;
 import jp.co.headwaters.jacpot.R;
+import jp.co.headwaters.jacpot.common.CallbackListener;
 import jp.co.headwaters.jacpot.function.mahjong.util.HandsJudgmentUtil;
 import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
-import jp.co.headwaters.jacpot.function.mahjong.util.Test;
+import jp.co.headwaters.jacpot.view.ChooseTilesTableLayout;
+import jp.co.headwaters.jacpot.view.ChooseWinningTilesTableLayout;
+import jp.co.headwaters.jacpot.view.CountDownTimerLinearLayout;
+import jp.co.headwaters.jacpot.view.DragonTableLayout;
+import jp.co.headwaters.jacpot.view.FanTextView;
+import jp.co.headwaters.jacpot.view.RoundTextView;
+import jp.co.headwaters.jacpot.view.ScoreTextView;
+import jp.co.headwaters.jacpot.view.SelectedTilesTableLayout;
+import jp.co.headwaters.jacpot.view.YakuTableLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,22 +53,7 @@ import android.widget.Toast;
  * 
  * @author HWS 鈴木
  */
-public class MakeReadyHandsActivity extends Activity {
-
-    /** ドラエリア牌数 */
-    private static final int DISPLAY_DORAGON_AREA_TILES_CNT = 7;
-
-    /** ドラ表示位置 */
-    private static final int DISPLAY_DORAGON_POS = 2;
-
-    /** 牌選択エリアイメージリソースサイズ */
-    private static final int SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE = 34;
-
-    /** 牌選択エリア{@link ImageView}上限 */
-    private static final int SELECT_TILES_AREA_IMAGE_VIEW_LIMIT = 9;
-
-    /** 手牌エリア{@link TableRow}イメージリソースサイズ */
-    private static final int READY_HANDS_AREA_IAMGE_RESOURCE_SIZE = 13;
+public class MakeReadyHandsActivity extends Activity implements CallbackListener {
 
     /** 最大ステージカウント */
     private static final int STAGE_MAX_CNT = 3;
@@ -78,20 +61,11 @@ public class MakeReadyHandsActivity extends Activity {
     /** レイアウト切替インターバル(ミリ秒) */
     private static final long CHANGE_LAYOUT_INTERVAL = 2000;
 
-    /** カウントダウンインターバル(ミリ秒) */
-    private static final long COUNT_DONW_INTERVAL = 1000;
-
     /** 開始秒数配列(ミリ秒) */
-    private static final long[] MILLIS_IN_FUTURES = new long[]{40000, 30000, 20000};
+    private static final long[] MILLIS_IN_FUTURES = new long[]{30000, 20000, 10000};
 
-    /** 役表示エリア{@link TextView}上限 */
-    private static final int DISPLAY_YAKU_AREA_TEXT_VIEW_LIMIT = 2;
-    
-    /** 得点 */
-    private static final String SCORE = "{0}点";
-
-    /** 飜 */
-    private static final String FAN = "{0}符{1}飜";
+    /** Warningメッセージ(手牌は13枚で構成してください。) */
+    private static final String W_MSG_SPECIFIED_SIZE = "手牌は13枚で構成してください。";
 
     /** 現在のステージ */
     private int currentStage;
@@ -99,60 +73,20 @@ public class MakeReadyHandsActivity extends Activity {
     /** 総得点 */
     private int totalScore;
 
+    /** {@link CountDownTimerLinearLayout} */
+    private CountDownTimerLinearLayout countDownTimer;
+
     /** ドラ表示エリア{@link TableRow} */
-    private TableRow tableRowDisplayDoragon;
+    private TableRow tableRowDoragon;
 
-    /** 牌選択エリア{@link ImageView}リスト */
-    private List<ImageView> selectTilesImageViews = new ArrayList<ImageView>();
-
-    /** 牌選択エリアリソースIDリスト */
-    private List<Integer> selectTilesResourceIds = new ArrayList<Integer>();
+    /** {@link ChooseTilesTableLayout} */
+    private ChooseTilesTableLayout chooseTilesTableLayout;
 
     /** 手牌エリア{@link TableRow} */
-    private TableRow tableRowDisplayReadyHands;
+    private TableRow tableRowSelectedTiles;
 
-    /** 手牌エリア{@link ImageView}リスト */
-    private List<ImageView> readyHandsImageViews = new ArrayList<ImageView>();
-
-    /** 手牌エリアリソースIDリスト */
-    private List<Integer> readyHandsResourceIds = new ArrayList<Integer>();
-
-    /** {@link CountDownTimer} */
-    private CountDownTimer countDownTimer;
-
-    /** あがり牌が既に選択されたかを判定するフラグ */
-    private boolean isSelect = false;
-
-    /**
-     * 牌選択エリア{@link ImageView}の{@link OnClickListener}匿名クラスです。
-     */
-    private OnClickListener selectTilesClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            ImageView iv = (ImageView)v;
-            // ---------------------------------------------
-            // (1) 手牌エリアの設定
-            // ---------------------------------------------
-            int currentId = Integer.parseInt(iv.getTag().toString());
-            boolean isReverse = ResourceUtil.isReverse(currentId);
-
-            if (!isReverse && readyHandsResourceIds.size() >= READY_HANDS_AREA_IAMGE_RESOURCE_SIZE) {
-                return;
-            }
-
-            MakeReadyHandsActivity.this.setReadyHandsResourceIds(isReverse, currentId);
-            MakeReadyHandsActivity.this.setImageViews(readyHandsImageViews, readyHandsResourceIds);
-
-            // ---------------------------------------------
-            // (2) 牌選択エリアの設定
-            // ---------------------------------------------
-            int nextId = ResourceUtil.getReversedResourceId(currentId);
-            iv.setImageResource(nextId);
-            iv.setTag(nextId);
-        }
-    };
+    /** {@link ChooseWinningTilesTableLayout} */
+    private ChooseWinningTilesTableLayout chooseWinningTilesTableLayout;
 
     /**
      * +@id/btnMakeReadyHandsClearの{@link OnClickListener}匿名クラスです。
@@ -162,16 +96,8 @@ public class MakeReadyHandsActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-            // ---------------------------------------------
-            // (1) 牌選択エリアの初期化
-            // ---------------------------------------------
-            setImageViews(selectTilesImageViews, selectTilesResourceIds);
-
-            // ---------------------------------------------
-            // (2) 手牌エリアの初期化
-            // ---------------------------------------------
-            MakeReadyHandsActivity.this.cleanImageViews(readyHandsImageViews);
-            readyHandsResourceIds.clear();
+            chooseTilesTableLayout.setChooseTilesImageViews();
+            chooseTilesTableLayout.clearSelectedTilesResources();
         }
     };
 
@@ -183,9 +109,9 @@ public class MakeReadyHandsActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-            if (readyHandsResourceIds.size() < READY_HANDS_AREA_IAMGE_RESOURCE_SIZE) {
-                Toast.makeText(MakeReadyHandsActivity.this, "手牌は13枚で構成してください。", Toast.LENGTH_SHORT)
-                                .show();
+            if (!chooseTilesTableLayout.isSpecifiedSize()) {
+                Toast.makeText(MakeReadyHandsActivity.this, W_MSG_SPECIFIED_SIZE,
+                               Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -193,30 +119,7 @@ public class MakeReadyHandsActivity extends Activity {
             countDownTimer.cancel();
 
             // レイアウト変更
-            MakeReadyHandsActivity.this.changeLayout();
-        }
-    };
-
-    /**
-     * あがり牌選択エリア{@link ImageView}の{@link OnClickListener}匿名クラスです。
-     */
-    private OnClickListener winningTilesClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            if (isSelect) {
-                return;
-            }
-            isSelect = true;
-
-            ImageView iv = (ImageView)v;
-            int selectResourceId = Integer.parseInt(iv.getTag().toString());
-
-            iv.setImageResource(selectResourceId);
-            readyHandsResourceIds.add(selectResourceId);
-
-            MakeReadyHandsActivity.this.analyzeCompleteHands();
+            changeLayout();
         }
     };
 
@@ -239,9 +142,9 @@ public class MakeReadyHandsActivity extends Activity {
         @Override
         public void run() {
             if (currentStage <= STAGE_MAX_CNT) {
-                MakeReadyHandsActivity.this.setMainLayout();
+                setMainLayout();
             } else {
-                MakeReadyHandsActivity.this.setFinishLayout();
+                setFinishLayout();
             }
         }
     };
@@ -274,19 +177,26 @@ public class MakeReadyHandsActivity extends Activity {
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        this.setDisplayDoragonLayout();
+        DragonTableLayout dtl = (DragonTableLayout)findViewById(R.id.tableLayoutDragon);
+        dtl.init();
+        this.tableRowDoragon = dtl.getRecycleTableRow();
         // ---------------------------------------------
         // (4) 牌選択エリア設定
         // ---------------------------------------------
-        this.setSelectTilesLayout();
+        this.chooseTilesTableLayout =
+                        (ChooseTilesTableLayout)findViewById(R.id.tableLayoutChooseTiles);
+        this.chooseTilesTableLayout.init();
         // ---------------------------------------------
         // (5) 手牌エリア設定
         // ---------------------------------------------
-        this.setReadyHands();
+        SelectedTilesTableLayout sttl =
+                        (SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles);
+        sttl.init(this.chooseTilesTableLayout.getSelectedTilesImageViews());
+        this.tableRowSelectedTiles = sttl.getRecycleTableRow();
         // ---------------------------------------------
         // (6) 利用回数初期化
         // ---------------------------------------------
-        ResourceUtil.initTilesStatus();
+        ResourceUtil.initResourceIdIncRedToUseCnt();
         // ---------------------------------------------
         // (7) クリアボタン設定
         // ---------------------------------------------
@@ -298,8 +208,9 @@ public class MakeReadyHandsActivity extends Activity {
         // ---------------------------------------------
         // (9) カウントダウン開始
         // ---------------------------------------------
-        countDownTimer = this.getCountDownTimer(MILLIS_IN_FUTURES[currentStage - 1]);
-        countDownTimer.start();
+        this.countDownTimer =
+                        (CountDownTimerLinearLayout)findViewById(R.id.linearLayoutCountDownTimer);
+        this.countDownTimer.start(MILLIS_IN_FUTURES[currentStage - 1]);
     }
 
     /**
@@ -307,189 +218,7 @@ public class MakeReadyHandsActivity extends Activity {
      */
     private void setRound() {
 
-        TextView tv = (TextView)findViewById(R.id.textViewRound);
-        tv.setText(ResourceUtil.rounds.get(currentStage - 1));
-    }
-
-    /**
-     * ドラ表示エリアを設定します。
-     */
-    private void setDisplayDoragonLayout() {
-
-        // ---------------------------------------------
-        // (1) ドラ表示エリアのTableLayoutの取得
-        // ---------------------------------------------
-        TableLayout tl = (TableLayout)findViewById(R.id.tableLayoutDisplayDoragon);
-        // ---------------------------------------------
-        // (2) リソースIDの取得
-        // ---------------------------------------------
-        int resouceId = ResourceUtil.getRandomResourceId();
-        // ---------------------------------------------
-        // (3) イメージリソースの設定
-        // ---------------------------------------------
-        tableRowDisplayDoragon = new TableRow(this);
-        tl.addView(tableRowDisplayDoragon);
-        for (int i = 0; i < DISPLAY_DORAGON_AREA_TILES_CNT; i++) {
-
-            ImageView iv = new ImageView(this);
-
-            if (i == DISPLAY_DORAGON_POS) {
-                iv.setImageResource(resouceId);
-            } else {
-                iv.setImageResource(R.drawable.p_bk_1);
-            }
-            tableRowDisplayDoragon.addView(iv);
-        }
-    }
-
-    /**
-     * 牌選択エリアを設定します。
-     */
-    private void setSelectTilesLayout() {
-
-        // ---------------------------------------------
-        // (1) 牌選択エリアのTableLayoutの取得
-        // ---------------------------------------------
-        TableLayout tl = (TableLayout)findViewById(R.id.tableLayoutDisplaySelectTiles);
-        // ---------------------------------------------
-        // (2) リソースIDリストの取得
-        // ---------------------------------------------
-        selectTilesResourceIds.clear();
-        // selectTilesResourceIds =
-        // ResourceUtil.getRandomResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
-        selectTilesResourceIds =
-                        Test.getJustAsWellResourceIds(SELECT_TILES_AREA_IMAGE_RESOURCE_SIZE);
-        // ---------------------------------------------
-        // (3) イメージリソースの設定
-        // ---------------------------------------------
-        selectTilesImageViews.clear();
-        TableRow tr = null;
-        for (int i = 0; i < selectTilesResourceIds.size(); i++) {
-
-            // TableRowに設定するImageViewの個数を判定
-            if (i % SELECT_TILES_AREA_IMAGE_VIEW_LIMIT == 0) {
-                tr = new TableRow(this);
-                tl.addView(tr);
-            }
-
-            ImageView iv = new ImageView(this);
-            iv.setImageResource(selectTilesResourceIds.get(i));
-            iv.setTag(selectTilesResourceIds.get(i));
-            iv.setOnClickListener(selectTilesClickListener);
-            selectTilesImageViews.add(iv);
-            tr.addView(iv);
-        }
-    }
-
-    /**
-     * 手牌エリアを設定します。
-     */
-    private void setReadyHands() {
-        // ---------------------------------------------
-        // (1) 牌選択エリアのTableRowの取得
-        // ---------------------------------------------
-        tableRowDisplayReadyHands = (TableRow)findViewById(R.id.tableRowDisplayReadyHands);
-        // ---------------------------------------------
-        // (2) ImageViewの初期化
-        // ---------------------------------------------
-        readyHandsResourceIds.clear();
-        readyHandsImageViews.clear();
-        for (int i = 0; i < READY_HANDS_AREA_IAMGE_RESOURCE_SIZE; i++) {
-            ImageView iv = new ImageView(this);
-            tableRowDisplayReadyHands.addView(iv);
-            readyHandsImageViews.add(iv);
-        }
-
-    }
-
-    /**
-     * {@link CountDownTimer}を返却します。
-     * 
-     * @param millisInFuture 開始秒数(ミリ秒)
-     * @return {@link CountDownTimer}
-     */
-    private CountDownTimer getCountDownTimer(long millisInFuture) {
-
-        final TextView tv = (TextView)findViewById(R.id.textViewSecondToGo);
-
-        return new CountDownTimer(millisInFuture, COUNT_DONW_INTERVAL) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tv.setText(String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)));
-            }
-
-            @Override
-            public void onFinish() {
-                MakeReadyHandsActivity.this.changeLayout();
-            }
-        };
-
-    }
-
-    /**
-     * 手牌エリアのイメージIDリストを設定します。
-     * 
-     * @param isReverse イメージリソースが反転しているか
-     * @param resourceId リソースID
-     */
-    private void setReadyHandsResourceIds(boolean isReverse, int resourceId) {
-
-        if (isReverse) {
-            readyHandsResourceIds.remove((Object)ResourceUtil.getReversedResourceId(resourceId));
-        } else {
-            readyHandsResourceIds.add(resourceId);
-        }
-
-        Collections.sort(readyHandsResourceIds);
-
-    }
-
-    /**
-     * {@link ImageView}リストを初期化します。
-     * 
-     * @param imageViews {@link ImageView}リスト
-     */
-    private void cleanImageViews(List<ImageView> imageViews) {
-
-        for (ImageView iv : imageViews) {
-            iv.setImageDrawable(null);
-        }
-    }
-
-    /**
-     * 
-     * {@link ImageView}リストを設定します。
-     * 
-     * @param imageViews {@link ImageView}リスト
-     * @param resourceIds リソースIDリスト
-     */
-    private void setImageViews(List<ImageView> imageViews, List<Integer> resourceIds) {
-
-        this.cleanImageViews(imageViews);
-
-        for (int i = 0; i < resourceIds.size(); i++) {
-            imageViews.get(i).setImageResource(resourceIds.get(i));
-            imageViews.get(i).setTag(resourceIds.get(i));
-        }
-    }
-
-    /**
-     * 
-     * レイアウトを切り替えます。
-     * 
-     */
-    private void changeLayout() {
-
-        if (HandsJudgmentUtil.isReadyHands(readyHandsResourceIds)) {
-            isSelect = false;
-            this.setResultSuccessLayout();
-        } else {
-            this.setResultFailureLayout();
-            new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
-        }
-
-        currentStage++;
+        ((RoundTextView)findViewById(R.id.textViewRound)).setRound(currentStage - 1);
     }
 
     /**
@@ -509,49 +238,16 @@ public class MakeReadyHandsActivity extends Activity {
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        this.resetView(findViewById(R.id.tableLayoutDisplayDoragon), tableRowDisplayDoragon);
+        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(this.tableRowDoragon);
         // ---------------------------------------------
         // (4) 手牌エリア設定
         // ---------------------------------------------
-        this.resetView(findViewById(R.id.tableLayoutDisplayReadyHands), tableRowDisplayReadyHands);
+        ((SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles))
+                        .resetView(this.tableRowSelectedTiles);
         // ---------------------------------------------
         // (5) あがり牌選択エリア設定
         // ---------------------------------------------
-        TableRow tr = (TableRow)findViewById(R.id.tableRowDisplaySelectWinningTiles);
-        for (int resourceId : ResourceUtil.winningResourceIds) {
-            ImageView iv = new ImageView(this);
-            iv.setImageResource(R.drawable.p_bk_1);
-            iv.setTag(resourceId);
-            iv.setOnClickListener(winningTilesClickListener);
-            tr.addView(iv);
-        }
-    }
-
-    /**
-     * 
-     * 手役を解析します。
-     * 
-     */
-    private void analyzeCompleteHands() {
-        TableLayout tl = (TableLayout)findViewById(R.id.tableLayoutDisplayYaku);
-        TableRow tr = null;
-        for (int i = 0; i < 8; i++) {
-
-            // TableRowに設定するTextViewの個数を判定
-            if (i % DISPLAY_YAKU_AREA_TEXT_VIEW_LIMIT == 0) {
-                tr = new TableRow(this);
-                tl.addView(tr);
-            }
-
-            TextView tv = new TextView(this);
-            tv.setText("hoge");
-            tv.setTextSize(20);
-            tr.addView(tv);
-        }
-        
-        ((TextView)findViewById(R.id.textViewFan)).setText(FAN);
-        ((TextView)findViewById(R.id.textViewScore)).setText(this.getFormatScore(12000));
-        new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
+        ((ChooseWinningTilesTableLayout)findViewById(R.id.tableLayoutChooseWinningTiles)).init();
     }
 
     /**
@@ -571,34 +267,12 @@ public class MakeReadyHandsActivity extends Activity {
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        this.resetView(findViewById(R.id.tableLayoutDisplayDoragon), tableRowDisplayDoragon);
+        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(tableRowDoragon);
         // ---------------------------------------------
         // (4) 得点設定
         // ---------------------------------------------
-        ((TextView)findViewById(R.id.textViewScore)).setText(this.getFormatScore(0));
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(0);
 
-    }
-
-    /**
-     * 子{@link View}を親{@link View}に再設定します。
-     * 
-     * @param parent 親{@link View}
-     * @param child 子{@link View}
-     */
-    private void resetView(View parent, View child) {
-
-        ((ViewGroup)child.getParent()).removeAllViews();
-        ((ViewGroup)parent).addView(child);
-    }
-
-    /**
-     * 編集後の得点を返却します。
-     * 
-     * @param score 得点
-     * @return 編集後の得点
-     */
-    private String getFormatScore(int score) {
-        return MessageFormat.format(SCORE, new Object[]{NumberFormat.getInstance().format(score)});
     }
 
     /**
@@ -612,6 +286,51 @@ public class MakeReadyHandsActivity extends Activity {
         ((TextView)findViewById(R.id.textViewFinish)).setText(String.valueOf(totalScore));
         ((Button)findViewById(R.id.btnMakeReadyHandsRestart))
                         .setOnClickListener(restartClickListener);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void callback(View v) {
+        if (v instanceof CountDownTimerLinearLayout) {
+            this.changeLayout();
+        } else
+            if (v instanceof ChooseWinningTilesTableLayout) {
+                this.analyzeCompleteHands();
+            }
+    }
+
+    /**
+     * 
+     * レイアウトを変更します。
+     * 
+     */
+    private void changeLayout() {
+
+        if (HandsJudgmentUtil.isReadyHands(this.chooseTilesTableLayout
+                        .getSelectedTilesResourceIds())) {
+            this.setResultSuccessLayout();
+        } else {
+            this.setResultFailureLayout();
+            new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
+        }
+
+        currentStage++;
+    }
+
+    /**
+     * 
+     * 手役を解析します。
+     * 
+     */
+    private void analyzeCompleteHands() {
+        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(this.chooseTilesTableLayout
+                        .getSelectedTilesResourceIds(), this.chooseWinningTilesTableLayout
+                        .getWinningTileResourceId());
+        ((FanTextView)findViewById(R.id.textViewFan)).setFan(40, 3);
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(12000);
+        new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
     }
 
 }

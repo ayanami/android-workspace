@@ -4,9 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/ac_make_ready_hands_display_dragon" />
+    <include layout="@layout/common_round" />
 
-    <include layout="@layout/ac_make_ready_hands_display_ready_hands" />
+    <include layout="@layout/common_dragon" />
+
+    <include layout="@layout/common_selected_tiles" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,40 +19,21 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TableLayout
+    <include layout="@layout/common_choose_winning_tiles" />
+
+    <include layout="@layout/common_yaku" />
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="*" >
-
-        <TableRow
-            android:id="@+id/tableRowDisplaySelectWinningTiles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </TableRow>
-    </TableLayout>
-
-    <TableLayout
-        android:id="@+id/tableLayoutDisplayYaku"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:stretchColumns="*" >
-    </TableLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textViewFan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp" />
+        android:baselineAligned="false" >
 
         <include
             android:layout_weight="1"
-            layout="@layout/ac_make_ready_hands_display_score" />
+            layout="@layout/common_fan" />
+
+        <include
+            android:layout_weight="1"
+            layout="@layout/common_score" />
     </LinearLayout>
 
 </LinearLayout>

@@ -4,31 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right" >
+    <include layout="@layout/common_count_down_timer" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ac_make_ready_hands_text_to_go" />
+    <include layout="@layout/common_round" />
 
-        <TextView
-            android:id="@+id/textViewSecondToGo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFF0000"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ac_make_ready_hands_text_second" />
-    </LinearLayout>
-
-    <include layout="@layout/ac_make_ready_hands_display_dragon" />
+    <include layout="@layout/common_dragon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,14 +19,15 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TableLayout
-        android:id="@+id/tableLayoutDisplaySelectTiles"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="*" >
-    </TableLayout>
+    <include layout="@layout/common_choose_tiles" />
 
-    <include layout="@layout/ac_make_ready_hands_display_ready_hands" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/ac_make_ready_hands_text_ready_hands" />
+
+    <include layout="@layout/common_selected_tiles" />
 
     <LinearLayout
         android:layout_width="match_parent"

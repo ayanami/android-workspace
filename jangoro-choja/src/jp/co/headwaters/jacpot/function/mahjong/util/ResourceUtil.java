@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.headwaters.jacpot.R;
+import jp.co.headwaters.jacpot.function.mahjong.dto.CompleteHandsStatusDto;
 import android.content.res.TypedArray;
 import android.util.SparseIntArray;
 
@@ -63,6 +64,9 @@ public class ResourceUtil {
 
     /** あがり牌リソースIDリスト */
     public static List<Integer> winningResourceIds;
+
+    /** {@link CompleteHandsStatusDto} */
+    public static CompleteHandsStatusDto completeHandsStatusDto;
 
     /** 場配列 */
     private static final String[] ROUNDS = new String[]{"東", "南"};
@@ -126,6 +130,7 @@ public class ResourceUtil {
         grayscaleToNormal = new SparseIntArray();
         fiveToRedFive = new SparseIntArray();
         winningResourceIds = new ArrayList<Integer>();
+        completeHandsStatusDto = new CompleteHandsStatusDto();
 
         // ---------------------------------------------
         // (1) 局リストの生成
@@ -414,6 +419,88 @@ public class ResourceUtil {
         }
 
         return normalToGrayscale.get(resourceId);
+    }
+
+    /**
+     * 
+     * ドラを設定します。
+     * 
+     * @param resourceId リソースID
+     */
+    public static void setDragon(int resourceId) {
+        int dragon = resourceIdToIdx.get(resourceId) + 1;
+        switch (dragon) {
+            case 10:
+                dragon = 1;
+                break;
+            case 19:
+                dragon = 10;
+                break;
+            case 28:
+                dragon = 19;
+                break;
+            case 32:
+                dragon = 28;
+                break;
+            case 35:
+                dragon = 32;
+                break;
+            default:
+                break;
+        }
+        completeHandsStatusDto.dragon = idxToResourceId.get(dragon);
+    }
+
+    /**
+     * 
+     * 現在の局情報を設定します。
+     * 
+     * @param idx 局リストの添え字
+     */
+    public static void setCurrentRoundInfo(int idx) {
+
+        Object[] round = rounds.get(idx);
+
+        for (int i = 0; i < ROUNDS.length; i++) {
+            if (ROUNDS[i].equals(round[0])) {
+                completeHandsStatusDto.round = i;
+                break;
+            }
+        }
+
+        for (int i = 0; i < WINDS.length; i++) {
+            if (WINDS[i].equals(round[2])) {
+                completeHandsStatusDto.wind = i;
+                if (i == 0) {
+                    completeHandsStatusDto.isDealer = true;
+                }
+                break;
+            }
+        }
+    }
+    
+    /**
+     * 
+     * ドラ数を設定します。
+     * 
+     * @param resourceIds リソースIDリスト
+     */
+    public static void setDragonCnt(List<Integer> resourceIds) {
+        
+        int cnt = 0;
+        
+        for (Integer resourceId : resourceIds) {
+            
+            if (RED_FIVE_IDS.contains(resourceId)) {
+                cnt++;
+            }
+            
+            if (completeHandsStatusDto.dragon == resourceId) {
+                cnt++;
+            }
+        }
+        
+        completeHandsStatusDto.dragonCnt = cnt;
     }
 
 }

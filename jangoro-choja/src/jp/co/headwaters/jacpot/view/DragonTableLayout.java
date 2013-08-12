@@ -69,6 +69,7 @@ public class DragonTableLayout extends TableLayout {
 
         // 表ドラ表示牌
         this.dragonId = ResourceUtil.getRandomResourceId();
+        ResourceUtil.setDragon(dragonId);
 
         this.recycleTableRow = new TableRow(getContext());
         super.addView(this.recycleTableRow);

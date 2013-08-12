@@ -77,13 +77,13 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     private CountDownTimerLinearLayout countDownTimer;
 
     /** ドラ表示エリア{@link TableRow} */
-    private TableRow tableRowDoragon;
+    private TableRow dragonTableRow;
 
     /** {@link ChooseTilesTableLayout} */
     private ChooseTilesTableLayout chooseTilesTableLayout;
 
     /** 手牌エリア{@link TableRow} */
-    private TableRow tableRowSelectedTiles;
+    private TableRow selectedTilesTableRow;
 
     /** {@link ChooseWinningTilesTableLayout} */
     private ChooseWinningTilesTableLayout chooseWinningTilesTableLayout;
@@ -179,7 +179,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         DragonTableLayout dtl = (DragonTableLayout)findViewById(R.id.tableLayoutDragon);
         dtl.init();
-        this.tableRowDoragon = dtl.getRecycleTableRow();
+        this.dragonTableRow = dtl.getRecycleTableRow();
         // ---------------------------------------------
         // (4) 牌選択エリア設定
         // ---------------------------------------------
@@ -192,7 +192,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         SelectedTilesTableLayout sttl =
                         (SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles);
         sttl.init(this.chooseTilesTableLayout.getSelectedTilesImageViews());
-        this.tableRowSelectedTiles = sttl.getRecycleTableRow();
+        this.selectedTilesTableRow = sttl.getRecycleTableRow();
         // ---------------------------------------------
         // (6) 利用回数初期化
         // ---------------------------------------------
@@ -238,16 +238,18 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(this.tableRowDoragon);
+        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(this.dragonTableRow);
         // ---------------------------------------------
         // (4) 手牌エリア設定
         // ---------------------------------------------
         ((SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles))
-                        .resetView(this.tableRowSelectedTiles);
+                        .resetView(this.selectedTilesTableRow);
         // ---------------------------------------------
         // (5) あがり牌選択エリア設定
         // ---------------------------------------------
-        ((ChooseWinningTilesTableLayout)findViewById(R.id.tableLayoutChooseWinningTiles)).init();
+        this.chooseWinningTilesTableLayout =
+                        (ChooseWinningTilesTableLayout)findViewById(R.id.tableLayoutChooseWinningTiles);
+        this.chooseWinningTilesTableLayout.init();
     }
 
     /**
@@ -267,25 +269,12 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(tableRowDoragon);
+        ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(dragonTableRow);
         // ---------------------------------------------
         // (4) 得点設定
         // ---------------------------------------------
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(0);
 
-    }
-
-    /**
-     * 
-     * 終了レイアウトを設定します。
-     * 
-     */
-    private void setFinishLayout() {
-
-        setContentView(R.layout.ac_make_ready_hands_finish);
-        ((TextView)findViewById(R.id.textViewFinish)).setText(String.valueOf(totalScore));
-        ((Button)findViewById(R.id.btnMakeReadyHandsRestart))
-                        .setOnClickListener(restartClickListener);
     }
 
     /**
@@ -295,10 +284,10 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     public void callback(View v) {
         if (v instanceof CountDownTimerLinearLayout) {
             this.changeLayout();
-        } else
-            if (v instanceof ChooseWinningTilesTableLayout) {
-                this.analyzeCompleteHands();
-            }
+        }
+        if (v instanceof ChooseWinningTilesTableLayout) {
+            this.setYakuInfo();
+        }
     }
 
     /**
@@ -321,16 +310,59 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /**
      * 
-     * 手役を解析します。
+     * 役情報を設定します。
      * 
      */
-    private void analyzeCompleteHands() {
-        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(this.chooseTilesTableLayout
+    private void setYakuInfo() {
+        // ---------------------------------------------
+        // (1) あがりタイプ設定(ツモ固定)
+        // ---------------------------------------------
+        ResourceUtil.completeHandsStatusDto.isRon = false;
+        // ---------------------------------------------
+        // (2) 局情報設定
+        // ---------------------------------------------
+        ResourceUtil.setCurrentRoundInfo(currentStage - 1);
+        // ---------------------------------------------
+        // (3) あがり形解析
+        // ---------------------------------------------
+        HandsJudgmentUtil.analyzeCompleteHands(this.chooseTilesTableLayout
                         .getSelectedTilesResourceIds(), this.chooseWinningTilesTableLayout
                         .getWinningTileResourceId());
-        ((FanTextView)findViewById(R.id.textViewFan)).setFan(40, 3);
+
+        // ---------------------------------------------
+        // (4) 役設定
+        // ---------------------------------------------
+        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku))
+                        .setYaku(ResourceUtil.completeHandsStatusDto);
+
+        // ---------------------------------------------
+        // (5) 符、翻の設定
+        // ---------------------------------------------
+        if (ResourceUtil.completeHandsStatusDto.isGrandSlam) {
+            ((FanTextView)findViewById(R.id.textViewFan)).setGrandSlam();
+        } else {
+            ((FanTextView)findViewById(R.id.textViewFan))
+                            .setFan(ResourceUtil.completeHandsStatusDto.fu,
+                                    ResourceUtil.completeHandsStatusDto.fan);
+        }
+        // ---------------------------------------------
+        // (6) 点数設定
+        // ---------------------------------------------
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(12000);
         new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
+    }
+
+    /**
+     * 
+     * 終了レイアウトを設定します。
+     * 
+     */
+    private void setFinishLayout() {
+
+        setContentView(R.layout.ac_make_ready_hands_finish);
+        ((TextView)findViewById(R.id.textViewFinish)).setText(String.valueOf(totalScore));
+        ((Button)findViewById(R.id.btnMakeReadyHandsRestart))
+                        .setOnClickListener(restartClickListener);
     }
 
 }

@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import jp.co.headwaters.jacpot.function.mahjong.dto.CompleteHandsStatusDto;
+
 /**
  * <p>
  * 手牌判定ユーティリティクラスです。
@@ -72,7 +74,7 @@ public class HandsJudgmentUtil {
     /**
      * 聴牌形かを判定します。
      * 
-     * @param resourceIds リソースIDリスト
+     * @param resourceIds 手牌リソースIDリスト
      * @return 判定結果
      */
     public static boolean isReadyHands(List<Integer> resourceIds) {
@@ -81,12 +83,7 @@ public class HandsJudgmentUtil {
             return false;
         }
 
-        int[] hands = new int[COMPLETE_HANDS_CNTS];
-
-        // 聴牌形の牌インデックスを格納
-        for (int i = 0; i < resourceIds.size(); i++) {
-            hands[i] = ResourceUtil.resourceIdToIdx.get(resourceIds.get(i));
-        }
+        int[] hands = getHands(resourceIds);
 
         // あがり牌リソースIDリストを初期化
         ResourceUtil.winningResourceIds.clear();
@@ -110,6 +107,45 @@ public class HandsJudgmentUtil {
         Collections.shuffle(ResourceUtil.winningResourceIds);
 
         return true;
+    }
+
+    /**
+     * 
+     * あがり手牌を解析します。
+     * 
+     * @param resourceIds 聴牌リソースIDリスト
+     * @param resourceId あがり牌リソースID
+     */
+    public static void analyzeCompleteHands(List<Integer> resourceIds, int resourceId) {
+
+        // あがり牌の設定
+        ResourceUtil.completeHandsStatusDto.winningTile =
+                        ResourceUtil.resourceIdToIdx.get(resourceId);
+
+        // ドラ設定
+        resourceIds.add(resourceId);
+        ResourceUtil.setDragonCnt(resourceIds);
+        
+        
+        int[] hands = getHands(resourceIds);
+    }
+
+    /**
+     * 
+     * 牌インデックス配列を返却します。
+     * 
+     * @param resourceIds リソースIDリスト
+     * @return 牌インデックス配列
+     */
+    private static int[] getHands(List<Integer> resourceIds) {
+
+        int[] hands = new int[COMPLETE_HANDS_CNTS];
+
+        for (int i = 0; i < resourceIds.size(); i++) {
+            hands[i] = ResourceUtil.resourceIdToIdx.get(resourceIds.get(i));
+        }
+
+        return hands;
     }
 
     /**

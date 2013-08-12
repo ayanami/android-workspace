@@ -83,9 +83,6 @@ public class ChooseTilesTableLayout extends TableLayout {
             setSelectedTilesResourceIds(isReverse, currentId);
             setImageViews(selectedTilesImageViews, selectedTilesResourceIds);
 
-            // ---------------------------------------------
-            // (2) 牌選択エリアの設定
-            // ---------------------------------------------
             int nextId = ResourceUtil.getReversedResourceId(currentId);
             iv.setImageResource(nextId);
             iv.setTag(nextId);

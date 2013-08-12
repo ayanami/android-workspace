@@ -39,6 +39,8 @@ public class FanTextView extends TextView {
     /** 飜 */
     private static final String FAN = "{0}符{1}飜";
 
+    /** 役満 */
+    private static final String GRAND_SLAM = "役満";
     /**
      * コンストラクタです。
      * 
@@ -48,7 +50,7 @@ public class FanTextView extends TextView {
     public FanTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    
     /**
      * 
      * 符、翻を設定します。
@@ -58,6 +60,15 @@ public class FanTextView extends TextView {
      */
     public void setFan(int fu, int fan) {
         super.setText(MessageFormat.format(FAN, new Object[]{fu, fan}));
+    }
+
+    /**
+     * 
+     * 役満を設定します。
+     *
+     */
+    public void setGrandSlam() {
+        super.setText(GRAND_SLAM);
     }
 
 }

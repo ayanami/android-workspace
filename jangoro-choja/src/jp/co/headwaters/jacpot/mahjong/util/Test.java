@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.function.mahjong.util;
+package jp.co.headwaters.jacpot.mahjong.util;
 
 import java.util.ArrayList;
 import java.util.List;

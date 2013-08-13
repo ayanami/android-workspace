@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <jp.co.headwaters.jacpot.view.YakuTableLayout
+    <jp.co.headwaters.jacpot.mahjong.view.YakuTableLayout
         android:id="@+id/tableLayoutYaku"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:stretchColumns="*" >
-    </jp.co.headwaters.jacpot.view.YakuTableLayout>
+    </jp.co.headwaters.jacpot.mahjong.view.YakuTableLayout>
 
 </merge>

@@ -1,10 +1,10 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.view;
+package jp.co.headwaters.jacpot.mahjong.view;
 
 import jp.co.headwaters.jacpot.R;
-import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;

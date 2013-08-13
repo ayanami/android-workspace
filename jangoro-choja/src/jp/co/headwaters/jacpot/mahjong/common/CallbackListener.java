@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.common;
+package jp.co.headwaters.jacpot.mahjong.common;
 
 import android.view.View;
 

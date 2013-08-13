@@ -1,13 +1,14 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.function.mahjong.util;
+package jp.co.headwaters.jacpot.mahjong.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.headwaters.jacpot.R;
-import jp.co.headwaters.jacpot.function.mahjong.dto.CompleteHandsStatusDto;
+import jp.co.headwaters.jacpot.mahjong.constant.MahjongConst;
+import jp.co.headwaters.jacpot.mahjong.dto.CompleteHandsStatusDto;
 import android.content.res.TypedArray;
 import android.util.SparseIntArray;
 
@@ -478,7 +479,7 @@ public class ResourceUtil {
             }
         }
     }
-    
+
     /**
      * 
      * ドラ数を設定します。
@@ -486,21 +487,50 @@ public class ResourceUtil {
      * @param resourceIds リソースIDリスト
      */
     public static void setDragonCnt(List<Integer> resourceIds) {
-        
+
         int cnt = 0;
-        
+
         for (Integer resourceId : resourceIds) {
-            
+
             if (RED_FIVE_IDS.contains(resourceId)) {
                 cnt++;
             }
-            
+
             if (completeHandsStatusDto.dragon == resourceId) {
                 cnt++;
             }
         }
-        
+
         completeHandsStatusDto.dragonCnt = cnt;
+    }
+
+    /**
+     * 
+     * 役リストを生成します。
+     * 
+     * @return 役リスト
+     */
+    public static List<String> createYakus() {
+
+        List<String> yakus = new ArrayList<String>();
+
+        if (!completeHandsStatusDto.isRon) {
+            yakus.add(MahjongConst.SELF_DRAW);
+            completeHandsStatusDto.fan += 1;
+        }
+        if (completeHandsStatusDto.isAllRuns) {
+            yakus.add(MahjongConst.ALL_RUNS);
+            completeHandsStatusDto.fan += 1;
+        }
+        if (completeHandsStatusDto.valueTilesCnt > 0) {
+            yakus.add(MahjongConst.VALUE_TILES + " " + completeHandsStatusDto.valueTilesCnt);
+            completeHandsStatusDto.fan = completeHandsStatusDto.valueTilesCnt;
+        }
+        if (completeHandsStatusDto.dragonCnt > 0) {
+            yakus.add(MahjongConst.DRAGON + " " + completeHandsStatusDto.dragonCnt);
+            completeHandsStatusDto.fan += completeHandsStatusDto.dragonCnt;
+        }
+        return yakus;
     }
 
 }

@@ -1,12 +1,10 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.view;
+package jp.co.headwaters.jacpot.mahjong.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.headwaters.jacpot.function.mahjong.dto.CompleteHandsStatusDto;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
@@ -46,12 +44,6 @@ public class YakuTableLayout extends TableLayout {
     /** 役のテキストサイズ */
     private static final float TEXT_SIZE_YAKU = 20;
     
-    /** テキスト(門前自摸) */
-    private static final String SELF_DRAW = "門前自摸 1翻";
-    
-    /** テキスト(ドラ) */
-    private static final String DRAGON = "ドラ";
-
     /**
      * コンストラクタです。
      * 
@@ -66,11 +58,9 @@ public class YakuTableLayout extends TableLayout {
      * 
      * 役を設定します。
      * 
-     * @param dto {@link CompleteHandsStatusDto}
+     * @param yakus 役リスト
      */
-    public void setYaku(CompleteHandsStatusDto dto) {
-
-        List<String> yakus = this.createYakus(dto);
+    public void setYaku(List<String> yakus) {
 
         TableRow tr = null;
         for (int i = 0; i < yakus.size(); i++) {
@@ -86,28 +76,6 @@ public class YakuTableLayout extends TableLayout {
             tv.setTextSize(TEXT_SIZE_YAKU);
             tr.addView(tv);
         }
-    }
-
-    /**
-     * 
-     * 役リストを生成します。
-     * 
-     * @param dto {@link CompleteHandsStatusDto}
-     * @return 役リスト
-     */
-    private List<String> createYakus(CompleteHandsStatusDto dto) {
-
-        List<String> yakus = new ArrayList<String>();
-
-        if (!dto.isRon) {
-            yakus.add(SELF_DRAW);
-            dto.fan += 1;
-        }
-        if (dto.dragonCnt > 0) {
-            yakus.add(DRAGON + " " + dto.dragonCnt);
-            dto.fan += dto.dragonCnt;
-        }
-        return yakus;
     }
 
 }

@@ -1,13 +1,13 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.view;
+package jp.co.headwaters.jacpot.mahjong.view;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;

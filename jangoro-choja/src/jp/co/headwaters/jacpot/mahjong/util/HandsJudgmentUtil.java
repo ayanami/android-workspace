@@ -1,13 +1,12 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.function.mahjong.util;
+package jp.co.headwaters.jacpot.mahjong.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import jp.co.headwaters.jacpot.function.mahjong.dto.CompleteHandsStatusDto;
 
 /**
  * <p>
@@ -53,6 +52,7 @@ public class HandsJudgmentUtil {
 
     /** 国士無双利用牌配列 */
     private static Integer[] thirteenOrphans;
+
     /**
      * 定数を初期化します。
      */
@@ -124,10 +124,21 @@ public class HandsJudgmentUtil {
 
         // ドラ設定
         resourceIds.add(resourceId);
+        Collections.sort(resourceIds);
         ResourceUtil.setDragonCnt(resourceIds);
-        
-        
+
+        // 手牌情報の初期化
+        ResourceUtil.completeHandsStatusDto.clear();
+
+        // 手牌情報の抽出
         int[] hands = getHands(resourceIds);
+        isCompleteHands(hands);
+        
+        // 役牌の判定
+        analyzeValueTiles();
+        
+        // 平和の判定
+        analyzeAllRuns();
     }
 
     /**
@@ -161,10 +172,17 @@ public class HandsJudgmentUtil {
         for (int i : hands) {
             useCnts[i]++;
         }
+        
+        int head = 0;
+        List<Integer[]> chows = new ArrayList<Integer[]>();
+        List<Integer> pungs = new ArrayList<Integer>();
 
         // 全ての牌を判定する。
         // 雀頭、面子に利用した牌はマイナスし、cloneの要素が全て0になっていれば上がり形
         for (int i = 0; i < TILE_TYPES; i++) {
+
+            chows.clear();
+            pungs.clear();
 
             // 雀頭の判定
             if (useCnts[i] < 2) {
@@ -181,17 +199,18 @@ public class HandsJudgmentUtil {
 
                 // 雀頭分マイナス
                 clone[i] -= 2;
+                head = i;
 
                 switch (j) {
                     case 0:
                         // 刻子 -> 順子のパターン
-                        analyzePungParts(clone);
-                        analyzeChowParts(clone);
+                        analyzePungParts(clone, pungs);
+                        analyzeChowParts(clone, chows);
                         break;
                     case 1:
                         // 順子 -> 刻子のパターン
-                        analyzeChowParts(clone);
-                        analyzePungParts(clone);
+                        analyzeChowParts(clone, chows);
+                        analyzePungParts(clone, pungs);
                         break;
                     case 2:
                         // 七対子のパターン
@@ -206,6 +225,23 @@ public class HandsJudgmentUtil {
                 }
 
                 if (Arrays.equals(clone, USE_CNTS)) {
+                    switch (j) {
+                        case 0:
+                        case 1:
+                            ResourceUtil.completeHandsStatusDto.head = head;
+                            ResourceUtil.completeHandsStatusDto.chows = chows;
+                            ResourceUtil.completeHandsStatusDto.pungs = pungs;
+                            break;
+                        case 2:
+                            ResourceUtil.completeHandsStatusDto.isSevenPairs = true;
+                            break;
+                        case 3:
+                            ResourceUtil.completeHandsStatusDto.isThirtheenOrphans = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    ResourceUtil.completeHandsStatusDto.hands = useCnts;
                     return true;
                 }
             }
@@ -218,13 +254,15 @@ public class HandsJudgmentUtil {
      * 刻子部を解析します。
      * 
      * @param useCnts 利用数配列
+     * @param pungs 刻子リスト
      */
-    private static void analyzePungParts(int[] useCnts) {
+    private static void analyzePungParts(int[] useCnts, List<Integer> pungs) {
 
         for (int i = 0; i < TILE_TYPES; i++) {
 
             if (useCnts[i] >= 3) {
                 useCnts[i] -= 3;
+                pungs.add(i);
             }
         }
     }
@@ -233,8 +271,9 @@ public class HandsJudgmentUtil {
      * 順子部を解析します。
      * 
      * @param useCnts 利用数配列
+     * @param chows 順子リスト
      */
-    private static void analyzeChowParts(int[] useCnts) {
+    private static void analyzeChowParts(int[] useCnts, List<Integer[]> chows) {
 
         // 萬子 -> 筒子 -> 索子の順に判定
         for (int i = 0; i < 3; i++) {
@@ -245,16 +284,17 @@ public class HandsJudgmentUtil {
 
                 // 利用数配列の添え字
                 int idx = 9 * i + j;
-                Integer[] chows = new Integer[]{useCnts[idx], useCnts[idx + 1], useCnts[idx + 2]};
+                Integer[] selects = new Integer[]{useCnts[idx], useCnts[idx + 1], useCnts[idx + 2]};
 
-                if (Arrays.asList(chows).contains(0)) {
+                if (Arrays.asList(selects).contains(0)) {
                     // 利用回数が0の牌が含まれている場合
                     j++;
                 } else {
                     // 全ての牌が1回以上利用可能な場合
-                    for (int k = 0; k < 3; k++) {
-                        useCnts[idx++]--;
-                    }
+                    useCnts[idx]--;
+                    useCnts[idx + 1]--;
+                    useCnts[idx + 2]--;
+                    chows.add(new Integer[]{idx, idx + 1, idx + 2});
                 }
             }
         }
@@ -299,5 +339,124 @@ public class HandsJudgmentUtil {
                 useCnts[thirteenOrphans[i]]--;
             }
         }
+    }
+
+    /**
+     * 
+     * 役牌があるかを解析します。
+     * 
+     */
+    private static void analyzeValueTiles() {
+        
+        for (Integer pung : ResourceUtil.completeHandsStatusDto.pungs) {
+            if (isValueTile(pung)) {
+                ResourceUtil.completeHandsStatusDto.valueTilesCnt++;
+            }
+            if (isWindTile(pung)) {
+                ResourceUtil.completeHandsStatusDto.valueTilesCnt++;
+            }
+            if (isSelfWind(pung)) {
+                ResourceUtil.completeHandsStatusDto.valueTilesCnt++;
+            }
+        }
+    }
+
+    /**
+     * 
+     * 役牌かを判定します。
+     * 
+     * @param idx 牌インデックス
+     * @return 判定結果
+     */
+    private static boolean isValueTile(int idx) {
+
+        // 白、発、中
+        Integer[] dragons = new Integer[]{32, 33, 34};
+        if (Arrays.asList(dragons).contains(idx)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 
+     * 場風牌かを判定します。
+     * 
+     * @param idx 牌インデックス
+     * @return 判定結果
+     */
+    private static boolean isWindTile(int idx) {
+        
+        // 場風(初期値:東)
+        int wind = 28;
+        if (ResourceUtil.completeHandsStatusDto.round == 1) {
+            wind = 29;
+        }
+        
+        if (idx == wind) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * 自風牌かを判定します。
+     * 
+     * @param idx 牌インデックス
+     * @return 判定結果
+     */
+    private static boolean isSelfWind(int idx) {
+        
+        // 自風(初期値:東)
+        int selfWind = 28;
+        switch (ResourceUtil.completeHandsStatusDto.wind) {
+            case 1:
+                selfWind = 29;
+                break;
+            case 2:
+                selfWind = 30;
+                break;
+            case 3:
+                selfWind = 31;
+                break;
+            default:
+                break;
+        }
+        
+        if (idx == selfWind) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * 
+     * 平和かを解析します。
+     * 
+     */
+    private static void analyzeAllRuns() {
+        
+        // 全てが順子かを判定
+        if (!ResourceUtil.completeHandsStatusDto.pungs.isEmpty()) {
+            return;
+        }
+        
+        // 雀頭が役牌かを判定
+        int head = ResourceUtil.completeHandsStatusDto.head;
+        if (isValueTile(head) || isWindTile(head) || isSelfWind(head))  {
+            return;
+        }
+        
+        // 両面待ちかを判定
+        int win = ResourceUtil.completeHandsStatusDto.winningTile;
+        for (Integer[] chow : ResourceUtil.completeHandsStatusDto.chows) {
+            if (win == chow[0] || win == chow[2]) {
+                ResourceUtil.completeHandsStatusDto.isAllRuns = true;
+            }
+        }
+        
     }
 }

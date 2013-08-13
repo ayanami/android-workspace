@@ -1,11 +1,11 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.view;
+package jp.co.headwaters.jacpot.mahjong.view;
 
 import java.util.concurrent.TimeUnit;
 
-import jp.co.headwaters.jacpot.common.CallbackListener;
+import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;

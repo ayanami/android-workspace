@@ -1,11 +1,11 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.view;
+package jp.co.headwaters.jacpot.mahjong.view;
 
 import jp.co.headwaters.jacpot.R;
-import jp.co.headwaters.jacpot.common.CallbackListener;
-import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
+import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;

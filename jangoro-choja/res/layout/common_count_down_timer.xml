@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <jp.co.headwaters.jacpot.view.CountDownTimerLinearLayout
+    <jp.co.headwaters.jacpot.mahjong.view.CountDownTimerLinearLayout
         android:id="@+id/linearLayoutCountDownTimer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="right" >
-    </jp.co.headwaters.jacpot.view.CountDownTimerLinearLayout>
+    </jp.co.headwaters.jacpot.mahjong.view.CountDownTimerLinearLayout>
 
 </merge>

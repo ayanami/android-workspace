@@ -1,22 +1,21 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.function.apl;
+package jp.co.headwaters.jacpot.mahjong.activity;
 
-import jp.co.headwaters.jacpot.MainActivity;
 import jp.co.headwaters.jacpot.R;
-import jp.co.headwaters.jacpot.common.CallbackListener;
-import jp.co.headwaters.jacpot.function.mahjong.util.HandsJudgmentUtil;
-import jp.co.headwaters.jacpot.function.mahjong.util.ResourceUtil;
-import jp.co.headwaters.jacpot.view.ChooseTilesTableLayout;
-import jp.co.headwaters.jacpot.view.ChooseWinningTilesTableLayout;
-import jp.co.headwaters.jacpot.view.CountDownTimerLinearLayout;
-import jp.co.headwaters.jacpot.view.DragonTableLayout;
-import jp.co.headwaters.jacpot.view.FanTextView;
-import jp.co.headwaters.jacpot.view.RoundTextView;
-import jp.co.headwaters.jacpot.view.ScoreTextView;
-import jp.co.headwaters.jacpot.view.SelectedTilesTableLayout;
-import jp.co.headwaters.jacpot.view.YakuTableLayout;
+import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
+import jp.co.headwaters.jacpot.mahjong.util.HandsJudgmentUtil;
+import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.view.ChooseTilesTableLayout;
+import jp.co.headwaters.jacpot.mahjong.view.ChooseWinningTilesTableLayout;
+import jp.co.headwaters.jacpot.mahjong.view.CountDownTimerLinearLayout;
+import jp.co.headwaters.jacpot.mahjong.view.DragonTableLayout;
+import jp.co.headwaters.jacpot.mahjong.view.FanTextView;
+import jp.co.headwaters.jacpot.mahjong.view.RoundTextView;
+import jp.co.headwaters.jacpot.mahjong.view.ScoreTextView;
+import jp.co.headwaters.jacpot.mahjong.view.SelectedTilesTableLayout;
+import jp.co.headwaters.jacpot.mahjong.view.YakuTableLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -332,8 +331,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (4) 役設定
         // ---------------------------------------------
-        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku))
-                        .setYaku(ResourceUtil.completeHandsStatusDto);
+        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(ResourceUtil.createYakus());
 
         // ---------------------------------------------
         // (5) 符、翻の設定
@@ -348,7 +346,8 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (6) 点数設定
         // ---------------------------------------------
-        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(12000);
+        ((ScoreTextView)findViewById(R.id.textViewScore))
+                        .setScore(ResourceUtil.completeHandsStatusDto.score);
         new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
     }
 

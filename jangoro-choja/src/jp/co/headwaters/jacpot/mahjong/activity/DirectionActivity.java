@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.co.headwaters.jacpot.function.direction;
+package jp.co.headwaters.jacpot.mahjong.activity;
 
 import jp.co.headwaters.jacpot.R;
 import android.app.Activity;

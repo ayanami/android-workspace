@@ -431,20 +431,20 @@ public class ResourceUtil {
     public static void setDragon(int resourceId) {
         int dragon = resourceIdToIdx.get(resourceId) + 1;
         switch (dragon) {
-            case 10:
+            case 9:
                 dragon = 1;
                 break;
-            case 19:
-                dragon = 10;
-                break;
-            case 28:
+            case 18:
                 dragon = 19;
                 break;
-            case 32:
-                dragon = 28;
+            case 27:
+                dragon = 18;
                 break;
-            case 35:
-                dragon = 32;
+            case 31:
+                dragon = 27;
+                break;
+            case 34:
+                dragon = 31;
                 break;
             default:
                 break;
@@ -517,6 +517,14 @@ public class ResourceUtil {
         if (!completeHandsStatusDto.isRon) {
             yakus.add(MahjongConst.SELF_DRAW);
             completeHandsStatusDto.fan += 1;
+        }
+        if (completeHandsStatusDto.isAllSimples) {
+            yakus.add(MahjongConst.ALL_SIMPLES);
+            completeHandsStatusDto.fan += 1;
+        }
+        if (completeHandsStatusDto.isSevenPairs) {
+            yakus.add(MahjongConst.SEVEN_PAIRS);
+            completeHandsStatusDto.fan += 2;
         }
         if (completeHandsStatusDto.isAllRuns) {
             yakus.add(MahjongConst.ALL_RUNS);

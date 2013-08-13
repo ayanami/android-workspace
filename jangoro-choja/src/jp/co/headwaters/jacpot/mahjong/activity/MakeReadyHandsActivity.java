@@ -58,10 +58,10 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     private static final int STAGE_MAX_CNT = 3;
 
     /** レイアウト切替インターバル(ミリ秒) */
-    private static final long CHANGE_LAYOUT_INTERVAL = 2000;
+    private static final long CHANGE_LAYOUT_INTERVAL = 10000;
 
     /** 開始秒数配列(ミリ秒) */
-    private static final long[] MILLIS_IN_FUTURES = new long[]{30000, 20000, 10000};
+    private static final long[] MILLIS_IN_FUTURES = new long[]{30000, 30000, 30000};
 
     /** Warningメッセージ(手牌は13枚で構成してください。) */
     private static final String W_MSG_SPECIFIED_SIZE = "手牌は13枚で構成してください。";

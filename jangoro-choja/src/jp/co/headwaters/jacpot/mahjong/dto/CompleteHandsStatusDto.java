@@ -3,6 +3,7 @@
  */
 package jp.co.headwaters.jacpot.mahjong.dto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,72 +42,75 @@ public class CompleteHandsStatusDto {
 
     /** ドラ(リソースID) */
     public int dragon;
-    
+
     /** 親かを判定するフラグ */
     public boolean isDealer;
 
     /** ロンかを判定するフラグ */
     public boolean isRon;
-    
+
     /** あがり牌 */
     public int winningTile;
-    
+
     /** ドラ数 */
     public int dragonCnt;
-    
+
     /** 手牌(利用数) */
     public int[] hands;
-    
+
     /** 雀頭 */
     public int head;
-    
+
     /** 順子リスト */
-    public List<Integer[]> chows;
-    
+    public List<Integer[]> chows = new ArrayList<Integer[]>();
+
     /** 刻子リスト */
-    public List<Integer> pungs;
-    
+    public List<Integer> pungs = new ArrayList<Integer>();
+
     /** 七対子かを判定するフラグ */
     public boolean isSevenPairs;
-    
+
     /** 役満かを判定するフラグ */
     public boolean isGrandSlam;
-    
+
     /** 国士無双かを判定するフラグ */
     public boolean isThirtheenOrphans;
-    
-    /** 役牌数 */
+
+    /** 断ヤオかを判定するフラグ */
+    public boolean isAllSimples;
+
+    /** 翻牌数 */
     public int valueTilesCnt;
-    
+
     /** 平和かを判定するフラグ */
     public boolean isAllRuns;
-    
+
     /** 符 */
     public int fu;
-    
+
     /** 翻 */
     public int fan;
-    
+
     /** 点数 */
     public int score;
-    
+
     /**
      * 
      * 初期化処理です。
-     *
+     * 
      */
     public void clear() {
         Arrays.fill(hands, 0);
-        if (chows != null) {
-            chows.clear();
-        }
-        if (pungs != null) {
-            pungs.clear();
-        }
+        chows.clear();
+        pungs.clear();
         isSevenPairs = false;
         isGrandSlam = false;
         isThirtheenOrphans = false;
+        isAllSimples = false;
         valueTilesCnt = 0;
         isAllRuns = false;
+        fu = 0;
+        fan = 0;
+        score = 0;
     }
 }

@@ -34,14 +34,20 @@ public class MahjongConst {
     /** テキスト(門前自摸) */
     public static final String SELF_DRAW = "門前自摸 1翻";
     
+    /** テキスト(七対子) */
+    public static final String SEVEN_PAIRS = "七対子 2翻";
+    
+    /** テキスト(断ヤオ) */
+    public static final String ALL_SIMPLES = "断ヤオ 1翻";
+    
     /** テキスト(平和) */
     public static final String ALL_RUNS = "平和 1翻";
     
     /** テキスト(ドラ) */
     public static final String DRAGON = "ドラ";
 
-    /** テキスト(役牌) */
-    public static final String VALUE_TILES = "役牌";
+    /** テキスト(翻牌) */
+    public static final String VALUE_TILES = "翻牌";
 
     /**
      * 

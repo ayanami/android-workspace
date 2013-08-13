@@ -134,9 +134,12 @@ public class HandsJudgmentUtil {
         int[] hands = getHands(resourceIds);
         isCompleteHands(hands);
         
+        // 断ヤオの判定
+        analyzeAllSimples();
+
         // 役牌の判定
         analyzeValueTiles();
-        
+
         // 平和の判定
         analyzeAllRuns();
     }
@@ -172,7 +175,7 @@ public class HandsJudgmentUtil {
         for (int i : hands) {
             useCnts[i]++;
         }
-        
+
         int head = 0;
         List<Integer[]> chows = new ArrayList<Integer[]>();
         List<Integer> pungs = new ArrayList<Integer>();
@@ -234,6 +237,7 @@ public class HandsJudgmentUtil {
                             break;
                         case 2:
                             ResourceUtil.completeHandsStatusDto.isSevenPairs = true;
+                            ResourceUtil.completeHandsStatusDto.fu = 25;
                             break;
                         case 3:
                             ResourceUtil.completeHandsStatusDto.isThirtheenOrphans = true;
@@ -241,7 +245,7 @@ public class HandsJudgmentUtil {
                         default:
                             break;
                     }
-                    ResourceUtil.completeHandsStatusDto.hands = useCnts;
+                    ResourceUtil.completeHandsStatusDto.hands = hands;
                     return true;
                 }
             }
@@ -343,11 +347,26 @@ public class HandsJudgmentUtil {
 
     /**
      * 
-     * 役牌があるかを解析します。
+     * 断ヤオかを解析します。
+     * 
+     */
+    private static void analyzeAllSimples() {
+        
+        for (int hand : ResourceUtil.completeHandsStatusDto.hands) {
+            if (Arrays.asList(thirteenOrphans).contains(hand)) {
+                return;
+            }
+        }
+        ResourceUtil.completeHandsStatusDto.isAllSimples = true;
+    }
+
+    /**
+     * 
+     * 翻牌数を解析します。
      * 
      */
     private static void analyzeValueTiles() {
-        
+
         for (Integer pung : ResourceUtil.completeHandsStatusDto.pungs) {
             if (isValueTile(pung)) {
                 ResourceUtil.completeHandsStatusDto.valueTilesCnt++;
@@ -371,14 +390,14 @@ public class HandsJudgmentUtil {
     private static boolean isValueTile(int idx) {
 
         // 白、発、中
-        Integer[] dragons = new Integer[]{32, 33, 34};
+        Integer[] dragons = new Integer[]{31, 32, 33};
         if (Arrays.asList(dragons).contains(idx)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * 
      * 場風牌かを判定します。
@@ -387,19 +406,19 @@ public class HandsJudgmentUtil {
      * @return 判定結果
      */
     private static boolean isWindTile(int idx) {
-        
+
         // 場風(初期値:東)
-        int wind = 28;
+        int wind = 27;
         if (ResourceUtil.completeHandsStatusDto.round == 1) {
-            wind = 29;
+            wind = 28;
         }
-        
+
         if (idx == wind) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * 
      * 自風牌かを判定します。
@@ -408,27 +427,27 @@ public class HandsJudgmentUtil {
      * @return 判定結果
      */
     private static boolean isSelfWind(int idx) {
-        
+
         // 自風(初期値:東)
-        int selfWind = 28;
+        int selfWind = 27;
         switch (ResourceUtil.completeHandsStatusDto.wind) {
             case 1:
-                selfWind = 29;
+                selfWind = 28;
                 break;
             case 2:
-                selfWind = 30;
+                selfWind = 29;
                 break;
             case 3:
-                selfWind = 31;
+                selfWind = 30;
                 break;
             default:
                 break;
         }
-        
+
         if (idx == selfWind) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -438,25 +457,30 @@ public class HandsJudgmentUtil {
      * 
      */
     private static void analyzeAllRuns() {
-        
+
         // 全てが順子かを判定
         if (!ResourceUtil.completeHandsStatusDto.pungs.isEmpty()) {
             return;
         }
-        
-        // 雀頭が役牌かを判定
+
+        // 雀頭が翻牌かを判定
         int head = ResourceUtil.completeHandsStatusDto.head;
-        if (isValueTile(head) || isWindTile(head) || isSelfWind(head))  {
+        if (isValueTile(head) || isWindTile(head) || isSelfWind(head)) {
             return;
         }
-        
+
         // 両面待ちかを判定
         int win = ResourceUtil.completeHandsStatusDto.winningTile;
         for (Integer[] chow : ResourceUtil.completeHandsStatusDto.chows) {
             if (win == chow[0] || win == chow[2]) {
                 ResourceUtil.completeHandsStatusDto.isAllRuns = true;
+                if (ResourceUtil.completeHandsStatusDto.isRon) {
+                    ResourceUtil.completeHandsStatusDto.fu = 30;
+                } else {
+                    ResourceUtil.completeHandsStatusDto.fu = 20;
+                }
             }
         }
-        
+
     }
 }

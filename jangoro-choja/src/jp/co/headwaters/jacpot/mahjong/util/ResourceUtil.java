@@ -560,7 +560,7 @@ public class ResourceUtil {
                 cnt++;
             }
 
-            if (dto.dragon == resourceId) {
+            if (dto.dragon == resourceIdToIdx.get(resourceId)) {
                 cnt++;
             }
         }

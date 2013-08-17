@@ -159,6 +159,18 @@ public class HandsJudgmentUtil {
             // 役牌の判定
             HandUtil.analyzeValueTiles(dto);
 
+            // 混老頭の判定
+            HandUtil.analyzeAllTerminalsAndHonors(dto);
+
+            // 小三元の判定
+            HandUtil.analyzeLittleDragons(dto);
+
+            // 混一色の判定
+            HandUtil.analyzeHalfFlash(dto);
+
+            // 清一色の判定
+            HandUtil.analyzeFullFlash(dto);
+
             // 平和の判定
             HandUtil.analyzeAllRuns(dto);
 
@@ -169,7 +181,7 @@ public class HandsJudgmentUtil {
             HandUtil.analyzeTwoDoubleRuns(dto);
 
             // 符の計算
-            calculateFu(dto);
+            ScoreUtil.calculateFu(dto);
         }
     }
 
@@ -321,29 +333,6 @@ public class HandsJudgmentUtil {
                     chows.add(new Integer[]{idx, idx + 1, idx + 2});
                 }
             }
-        }
-    }
-
-    /**
-     * 
-     * 符を計算します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void calculateFu(HandsStatusDto dto) {
-
-        if (dto.isSevenPairs) {
-            dto.fu = 25;
-            return;
-        }
-
-        if (dto.isAllRuns) {
-            if (dto.isRon) {
-                dto.fu = 30;
-            } else {
-                dto.fu = 20;
-            }
-            return;
         }
     }
 

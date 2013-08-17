@@ -55,6 +55,18 @@ public class HandUtil {
     /** 清老頭配列 */
     private static Integer[] terminals;
 
+    /** 萬子配列 */
+    private static Integer[] characters;
+
+    /** 筒子配列 */
+    private static Integer[] circles;
+
+    /** 索子配列 */
+    private static Integer[] bamboos;
+
+    /** 数牌リスト */
+    private static List<Integer[]> suits = new ArrayList<Integer[]>();
+
     /**
      * クラス変数を初期化します。
      */
@@ -86,6 +98,24 @@ public class HandUtil {
                         new Integer[]{MahjongConst.SOU2, MahjongConst.SOU3, MahjongConst.SOU4,
                                       MahjongConst.SOU6, MahjongConst.SOU8, MahjongConst.GREEN};
 
+        characters =
+                        new Integer[]{MahjongConst.MAN1, MahjongConst.MAN2, MahjongConst.MAN3,
+                                      MahjongConst.MAN4, MahjongConst.MAN5, MahjongConst.MAN6,
+                                      MahjongConst.MAN7, MahjongConst.MAN8, MahjongConst.MAN9};
+
+        circles =
+                        new Integer[]{MahjongConst.PIN1, MahjongConst.PIN2, MahjongConst.PIN3,
+                                      MahjongConst.PIN4, MahjongConst.PIN5, MahjongConst.PIN6,
+                                      MahjongConst.PIN7, MahjongConst.PIN8, MahjongConst.PIN9};
+
+        bamboos =
+                        new Integer[]{MahjongConst.SOU1, MahjongConst.SOU2, MahjongConst.SOU3,
+                                      MahjongConst.SOU4, MahjongConst.SOU5, MahjongConst.SOU6,
+                                      MahjongConst.SOU7, MahjongConst.SOU8, MahjongConst.SOU9};
+
+        suits.add(characters);
+        suits.add(circles);
+        suits.add(bamboos);
     }
 
     /**
@@ -141,7 +171,6 @@ public class HandUtil {
      * 
      * @param dto {@link HandsStatusDto}
      */
-    @SuppressWarnings("serial")
     public static void analyzeNineTresures(HandsStatusDto dto) {
 
         // 面前かを判定
@@ -149,34 +178,28 @@ public class HandUtil {
             return;
         }
 
-        List<int[]> params = new ArrayList<int[]>() {
-
-            {
-                add(new int[]{MahjongConst.MAN1, MahjongConst.MAN2, MahjongConst.MAN8,
-                              MahjongConst.MAN9});
-                add(new int[]{MahjongConst.PIN1, MahjongConst.PIN2, MahjongConst.PIN8,
-                              MahjongConst.PIN9});
-                add(new int[]{MahjongConst.SOU1, MahjongConst.SOU2, MahjongConst.SOU8,
-                              MahjongConst.SOU9});
-            }
-        };
-
-        for (int[] param : params) {
+        // 数牌を判定
+        for (Integer[] suit : suits) {
 
             // 1,9が3枚以上あるかを判定
-            if (dto.useCnts[param[0]] < 3 || dto.useCnts[param[3]] < 3) {
+            if (dto.useCnts[suit[0]] < 3 || dto.useCnts[suit[8]] < 3) {
                 continue;
             }
 
             // 2~8が最低1枚ずつあるかを判定
-            for (int i = param[1]; i <= param[2]; i++) {
+            boolean contains = true;
+            for (int i = suit[1]; i <= suit[7]; i++) {
                 if (!Arrays.asList(dto.hands).contains(i)) {
-                    continue;
+                    contains = false;
+                    break;
                 }
             }
 
-            dto.isNineTreasures = true;
-            dto.grandSlamCounter++;
+            if (contains) {
+                dto.isNineTreasures = true;
+                dto.grandSlamCounter++;
+                return;
+            }
         }
 
     }
@@ -243,7 +266,13 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeBigFourWinds(HandsStatusDto dto) {
+        
+        // 全て刻子かを判定
+        if (!dto.chows.isEmpty()) {
+            return;
+        }
 
+        // 全ての刻子が風牌で構成されているかを判定
         for (Integer pung : dto.pungs) {
             if (!Arrays.asList(winds).contains(pung)) {
                 return;
@@ -267,19 +296,19 @@ public class HandUtil {
         }
 
         // 風牌の刻子数をカウント
-        int counter = 0;
+        int cnt = 0;
         for (Integer pung : dto.pungs) {
             if (Arrays.asList(winds).contains(pung)) {
-                counter++;
+                cnt++;
             }
         }
 
-        if (counter == 3) {
+        if (cnt == 3) {
             dto.isSmallFourWinds = true;
             dto.grandSlamCounter++;
         }
     }
-    
+
     /**
      * 
      * 緑一色かを解析します。
@@ -287,18 +316,18 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeAllGreen(HandsStatusDto dto) {
-        
-        // 索2,索3,索4,索6,索8,発のみで構成されているかを判定
+
+        // 2索,3索,4索,6索,8索,発のみで構成されているかを判定
         for (int hand : dto.hands) {
             if (!Arrays.asList(allGreen).contains(hand)) {
                 return;
             }
         }
-        
+
         dto.isAllGreen = true;
         dto.grandSlamCounter++;
     }
-    
+
     /**
      * 
      * 大三元かを解析します。
@@ -306,21 +335,21 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeBigDragons(HandsStatusDto dto) {
-        
+
         // 三元牌をカウント
-        int counter = 0;
+        int cnt = 0;
         for (Integer pung : dto.pungs) {
             if (Arrays.asList(dragons).contains(pung)) {
-                counter++;
+                cnt++;
             }
         }
 
-        if (counter == 3) {
+        if (cnt == 3) {
             dto.isBigDragons = true;
             dto.grandSlamCounter++;
         }
     }
-    
+
     /**
      * 
      * 清老頭かを解析します。
@@ -328,14 +357,14 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeTerminals(HandsStatusDto dto) {
-        
-        // 萬1,萬9,筒1,筒9,索1,索9のみで構成されているかを判定
+
+        // 1萬,9萬,1筒,9筒,1索,9索のみで構成されているかを判定
         for (int hand : dto.hands) {
             if (!Arrays.asList(terminals).contains(hand)) {
                 return;
             }
         }
-        
+
         dto.isTerminals = true;
         dto.grandSlamCounter++;
     }
@@ -474,6 +503,122 @@ public class HandUtil {
         }
 
         return false;
+    }
+
+    /**
+     * 
+     * 混老頭かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeAllTerminalsAndHonors(HandsStatusDto dto) {
+
+        // 全て刻子かを判定
+        if (!dto.chows.isEmpty()) {
+            return;
+        }
+
+        // 字牌が含まれているかを判定
+        for (int hand : dto.hands) {
+            if (!Arrays.asList(honors).contains(hand)) {
+                return;
+            }
+        }
+
+        // ヤオ九牌で構成されているかを判定
+        for (int hand : dto.hands) {
+            if (!Arrays.asList(thirteenOrphans).contains(hand)) {
+                return;
+            }
+        }
+
+        dto.isAllTerminalsAndHonors = true;
+    }
+
+    /**
+     * 小三元かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeLittleDragons(HandsStatusDto dto) {
+
+        // 雀頭が三元牌かを判定
+        if (!Arrays.asList(dragons).contains(dto.eyes)) {
+            return;
+        }
+
+        // 三元牌の刻子数をカウント
+        int cnt = 0;
+        for (Integer pung : dto.pungs) {
+            if (Arrays.asList(dragons).contains(pung)) {
+                cnt++;
+            }
+        }
+
+        if (cnt == 3) {
+            dto.isLittleDragons = true;
+        }
+    }
+
+    /**
+     * 
+     * 混一色かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeHalfFlash(HandsStatusDto dto) {
+
+        // 字牌が含まれているかを判定
+        for (int hand : dto.hands) {
+            if (!Arrays.asList(honors).contains(hand)) {
+                return;
+            }
+        }
+
+        // 数牌を判定
+        for (Integer[] suit : suits) {
+
+            boolean contains = true;
+            for (int hand : dto.hands) {
+                if (!Arrays.asList(suit).contains(hand)) {
+                    if (!Arrays.asList(honors).contains(hand)) {
+                        contains = false;
+                        break;
+                    }
+                }
+            }
+
+            if (contains) {
+                dto.isHalfFlash = true;
+                return;
+            }
+        }
+    }
+
+    /**
+     * 
+     * 清一色かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeFullFlash(HandsStatusDto dto) {
+
+        // 数牌を判定
+        for (Integer[] suit : suits) {
+
+            boolean contains = true;
+            for (int hand : dto.hands) {
+                if (!Arrays.asList(suit).contains(hand)) {
+                    contains = false;
+                    break;
+                }
+            }
+
+            if (contains) {
+                dto.isFullFlash = true;
+                return;
+            }
+        }
     }
 
     /**
@@ -649,31 +794,63 @@ public class HandUtil {
             return hands;
         }
         if (!dto.isRon) {
-            hands.add(MahjongConst.SELF_DRAW);
-            dto.fan += 1;
-        }
-        if (dto.isAllSimples) {
-            hands.add(MahjongConst.ALL_SIMPLES);
+            hands.add(MahjongConst.SELF_DRAW + MahjongConst.FAN1);
             dto.fan += 1;
         }
         if (dto.isSevenPairs) {
-            hands.add(MahjongConst.SEVEN_PAIRS);
+            hands.add(MahjongConst.SEVEN_PAIRS + MahjongConst.FAN2);
+            dto.fan += 2;
+        }
+        if (dto.isAllSimples) {
+            hands.add(MahjongConst.ALL_SIMPLES + MahjongConst.FAN1);
+            dto.fan += 1;
+        }
+        if (dto.isAllTerminalsAndHonors) {
+            hands.add(MahjongConst.ALL_TERMINALS_AND_HONORS + MahjongConst.FAN2);
+            dto.fan += 2;
+        }
+        if (dto.isLittleDragons) {
+            hands.add(MahjongConst.LITTLE_DRAGONS + MahjongConst.FAN2);
+            dto.fan += 2;
+        }
+        if (dto.isHalfFlash) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.HALF_FLASH + MahjongConst.FAN3);
+                dto.fan += 3;
+            } else {
+                hands.add(MahjongConst.HALF_FLASH + MahjongConst.FAN2);
+                dto.fan += 2;
+            }
+
+        }
+        if (dto.isFullFlash) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.FULL_FLASH + MahjongConst.FAN6);
+                dto.fan += 6;
+            } else {
+                hands.add(MahjongConst.FULL_FLASH + MahjongConst.FAN5);
+                dto.fan += 5;
+            }
+
+        }
+        if (dto.isLittleDragons) {
+            hands.add(MahjongConst.LITTLE_DRAGONS + MahjongConst.FAN2);
             dto.fan += 2;
         }
         if (dto.isAllRuns) {
-            hands.add(MahjongConst.ALL_RUNS);
+            hands.add(MahjongConst.ALL_RUNS + MahjongConst.FAN1);
             dto.fan += 1;
         }
         if (dto.isDoubleRun) {
-            hands.add(MahjongConst.DOUBLE_RUN);
+            hands.add(MahjongConst.DOUBLE_RUN + MahjongConst.FAN1);
             dto.fan += 1;
         }
         if (dto.isAllTriples) {
-            hands.add(MahjongConst.ALL_TRIPLES);
+            hands.add(MahjongConst.ALL_TRIPLES + MahjongConst.FAN2);
             dto.fan += 2;
         }
         if (dto.isTwoDoubleRuns) {
-            hands.add(MahjongConst.TWO_DOUBLE_RUNS);
+            hands.add(MahjongConst.TWO_DOUBLE_RUNS + MahjongConst.FAN3);
             dto.fan += 3;
         }
         if (dto.valueTilesCnt > 0) {

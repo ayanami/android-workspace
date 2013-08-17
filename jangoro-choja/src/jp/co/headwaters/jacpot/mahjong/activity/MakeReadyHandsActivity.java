@@ -18,7 +18,7 @@ import jp.co.headwaters.jacpot.mahjong.view.FanTextView;
 import jp.co.headwaters.jacpot.mahjong.view.RoundTextView;
 import jp.co.headwaters.jacpot.mahjong.view.ScoreTextView;
 import jp.co.headwaters.jacpot.mahjong.view.SelectedTilesTableLayout;
-import jp.co.headwaters.jacpot.mahjong.view.YakuTableLayout;
+import jp.co.headwaters.jacpot.mahjong.view.HandTableLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -338,7 +338,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (4) 役設定
         // ---------------------------------------------
-        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(HandUtil.createHands(dto));
+        ((HandTableLayout)findViewById(R.id.tableLayoutYaku)).setHands(HandUtil.createHands(dto));
 
         // ---------------------------------------------
         // (5) 符、翻の設定

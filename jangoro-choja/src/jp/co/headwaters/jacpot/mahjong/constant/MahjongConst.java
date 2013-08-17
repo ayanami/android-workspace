@@ -31,6 +31,21 @@ package jp.co.headwaters.jacpot.mahjong.constant;
  */
 public class MahjongConst {
     
+    /** テキスト(1翻) */
+    public static final String FAN1 = " 1翻";
+    
+    /** テキスト(2翻) */
+    public static final String FAN2 = " 2翻";
+    
+    /** テキスト(3翻) */
+    public static final String FAN3 = " 3翻";
+    
+    /** テキスト(5翻) */
+    public static final String FAN5 = " 5翻";
+    
+    /** テキスト(6翻) */
+    public static final String FAN6 = " 6翻";
+    
     /** テキスト(国士無双) */
     public static final String THIRTEEN_ORPHANS = "国士無双";
     
@@ -59,25 +74,37 @@ public class MahjongConst {
     public static final String TERMINALS = "清老頭";
     
     /** テキスト(門前自摸) */
-    public static final String SELF_DRAW = "門前自摸 1翻";
+    public static final String SELF_DRAW = "門前自摸";
     
     /** テキスト(七対子) */
-    public static final String SEVEN_PAIRS = "七対子 2翻";
+    public static final String SEVEN_PAIRS = "七対子";
     
     /** テキスト(断ヤオ) */
-    public static final String ALL_SIMPLES = "断ヤオ 1翻";
+    public static final String ALL_SIMPLES = "断ヤオ";
+    
+    /** テキスト(混老頭) */
+    public static final String ALL_TERMINALS_AND_HONORS = "混老頭";
+    
+    /** テキスト(小三元) */
+    public static final String LITTLE_DRAGONS = "小三元";
+    
+    /** テキスト(混一色) */
+    public static final String HALF_FLASH = "混一色";
+    
+    /** テキスト(清一色) */
+    public static final String FULL_FLASH = "清一色";
     
     /** テキスト(平和) */
-    public static final String ALL_RUNS = "平和 1翻";
+    public static final String ALL_RUNS = "平和";
     
     /** テキスト(一盃口) */
-    public static final String DOUBLE_RUN = "一盃口 1翻";
+    public static final String DOUBLE_RUN = "一盃口";
     
     /** テキスト(対々和) */
-    public static final String ALL_TRIPLES = "対々和 2翻";
+    public static final String ALL_TRIPLES = "対々和";
     
     /** テキスト(二盃口) */
-    public static final String TWO_DOUBLE_RUNS = "二盃口 3翻";
+    public static final String TWO_DOUBLE_RUNS = "二盃口";
     
     /** テキスト(ドラ) */
     public static final String DRAGON = "ドラ";

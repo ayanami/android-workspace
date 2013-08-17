@@ -112,13 +112,13 @@ public final class R {
         public static final int tableLayoutChooseTiles=0x7f090006;
         public static final int tableLayoutChooseWinningTiles=0x7f090007;
         public static final int tableLayoutDragon=0x7f090009;
-        public static final int tableLayoutSelectedTiles=0x7f09000d;
-        public static final int tableLayoutYaku=0x7f09000e;
+        public static final int tableLayoutSelectedTiles=0x7f09000e;
+        public static final int tableLayoutYaku=0x7f09000b;
         public static final int textViewDirection=0x7f090000;
         public static final int textViewFan=0x7f09000a;
         public static final int textViewFinish=0x7f090002;
-        public static final int textViewRound=0x7f09000b;
-        public static final int textViewScore=0x7f09000c;
+        public static final int textViewRound=0x7f09000c;
+        public static final int textViewScore=0x7f09000d;
     }
     public static final class layout {
         public static final int ac_direction=0x7f030000;
@@ -132,10 +132,10 @@ public final class R {
         public static final int common_count_down_timer=0x7f030008;
         public static final int common_dragon=0x7f030009;
         public static final int common_fan=0x7f03000a;
-        public static final int common_round=0x7f03000b;
-        public static final int common_score=0x7f03000c;
-        public static final int common_selected_tiles=0x7f03000d;
-        public static final int common_yaku=0x7f03000e;
+        public static final int common_hand=0x7f03000b;
+        public static final int common_round=0x7f03000c;
+        public static final int common_score=0x7f03000d;
+        public static final int common_selected_tiles=0x7f03000e;
     }
     public static final class menu {
         public static final int main=0x7f080000;

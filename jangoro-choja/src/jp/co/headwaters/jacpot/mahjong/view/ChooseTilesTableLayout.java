@@ -111,7 +111,7 @@ public class ChooseTilesTableLayout extends TableLayout {
 //         Test.getJustAsWellResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
 
         this.chooseTilesResourceIds =
-                        ResourceUtil.getFourConcealedTriplesResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
+                        ResourceUtil.getNineTreasuresResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
 
         TableRow tr = null;
         for (int i = 0; i < this.chooseTilesResourceIds.size(); i++) {

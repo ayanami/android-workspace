@@ -21,7 +21,7 @@
 
     <include layout="@layout/common_choose_winning_tiles" />
 
-    <include layout="@layout/common_yaku" />
+    <include layout="@layout/common_hand" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

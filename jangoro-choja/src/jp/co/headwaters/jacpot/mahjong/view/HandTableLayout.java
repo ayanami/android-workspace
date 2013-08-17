@@ -36,13 +36,13 @@ import android.widget.TextView;
  * 
  * @author HWS 鈴木
  */
-public class YakuTableLayout extends TableLayout {
+public class HandTableLayout extends TableLayout {
 
     /** 役表示エリア{@link TextView}上限 */
-    private static final int DISPLAY_YAKU_AREA_TEXT_VIEW_LIMIT = 2;
+    private static final int DISPLAY_HAND_AREA_TEXT_VIEW_LIMIT = 2;
 
     /** 役のテキストサイズ */
-    private static final float TEXT_SIZE_YAKU = 20;
+    private static final float TEXT_SIZE_HAND = 20;
     
     /**
      * コンストラクタです。
@@ -50,7 +50,7 @@ public class YakuTableLayout extends TableLayout {
      * @param context {@link Context}
      * @param attrs {@link AttributeSet}
      */
-    public YakuTableLayout(Context context, AttributeSet attrs) {
+    public HandTableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -58,22 +58,22 @@ public class YakuTableLayout extends TableLayout {
      * 
      * 役を設定します。
      * 
-     * @param yakus 役リスト
+     * @param hands 役リスト
      */
-    public void setYaku(List<String> yakus) {
+    public void setHands(List<String> hands) {
 
         TableRow tr = null;
-        for (int i = 0; i < yakus.size(); i++) {
+        for (int i = 0; i < hands.size(); i++) {
 
             // TableRowに設定するTextViewの個数を判定
-            if (i % DISPLAY_YAKU_AREA_TEXT_VIEW_LIMIT == 0) {
+            if (i % DISPLAY_HAND_AREA_TEXT_VIEW_LIMIT == 0) {
                 tr = new TableRow(getContext());
                 super.addView(tr);
             }
 
             TextView tv = new TextView(getContext());
-            tv.setText(yakus.get(i));
-            tv.setTextSize(TEXT_SIZE_YAKU);
+            tv.setText(hands.get(i));
+            tv.setTextSize(TEXT_SIZE_HAND);
             tr.addView(tv);
         }
     }

@@ -92,6 +92,29 @@ public class ScoreUtil {
 
     /**
      * 
+     * 符を計算します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void calculateFu(HandsStatusDto dto) {
+
+        if (dto.isSevenPairs) {
+            dto.fu = 25;
+            return;
+        }
+
+        if (dto.isAllRuns) {
+            if (dto.isRon) {
+                dto.fu = 30;
+            } else {
+                dto.fu = 20;
+            }
+            return;
+        }
+    }
+
+    /**
+     * 
      * 点数を設定します。
      * 
      * @param dto {@link HandsStatusDto}

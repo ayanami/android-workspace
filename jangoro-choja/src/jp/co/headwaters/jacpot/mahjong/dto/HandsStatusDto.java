@@ -112,6 +112,18 @@ public class HandsStatusDto {
     /** 翻牌数 */
     public int valueTilesCnt;
 
+    /** 混老頭かを判定するフラグ */
+    public boolean isAllTerminalsAndHonors;
+
+    /** 小三元かを判定するフラグ */
+    public boolean isLittleDragons;
+
+    /** 混一色かを判定するフラグ */
+    public boolean isHalfFlash;
+
+    /** 清一色かを判定するフラグ */
+    public boolean isFullFlash;
+
     /** 平和かを判定するフラグ */
     public boolean isAllRuns;
     
@@ -156,6 +168,10 @@ public class HandsStatusDto {
         isTerminals = false;
         isAllSimples = false;
         valueTilesCnt = 0;
+        isAllTerminalsAndHonors = false;
+        isLittleDragons = false;
+        isHalfFlash = false;
+        isFullFlash = false;
         isAllRuns = false;
         isAllTriples = false;
         isDoubleRun = false;

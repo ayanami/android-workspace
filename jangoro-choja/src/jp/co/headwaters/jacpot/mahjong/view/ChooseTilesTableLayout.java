@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.util.Test;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -103,8 +104,14 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 初期化処理です。
      */
     public void init() {
+        // this.chooseTilesResourceIds =
+        // ResourceUtil.getRandomResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
+
+        // this.chooseTilesResourceIds =
+        // Test.getJustAsWellResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
+
         this.chooseTilesResourceIds =
-                        ResourceUtil.getRandomResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
+                        ResourceUtil.getNineTreasuresResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
 
         TableRow tr = null;
         for (int i = 0; i < this.chooseTilesResourceIds.size(); i++) {

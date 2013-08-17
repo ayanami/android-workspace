@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <p>
- * あがり手牌ステータス<code>Dto</code>クラスです。
+ * 手牌ステータス<code>Dto</code>クラスです。
  * </p>
  * 
  * 作成日：2013/08/12<br>
@@ -32,7 +32,7 @@ import java.util.List;
  * 
  * @author HWS 鈴木
  */
-public class CompleteHandsStatusDto {
+public class HandsStatusDto {
 
     /** 場 {0:東, 1:南} */
     public int round;
@@ -55,26 +55,41 @@ public class CompleteHandsStatusDto {
     /** ドラ数 */
     public int dragonCnt;
 
-    /** 手牌(利用数) */
-    public int[] hands;
+    /** 手牌(インデックス) */
+    public Integer[] hands;
+
+    /** 手牌(利用回数) */
+    public int[] useCnts;
 
     /** 雀頭 */
-    public int head;
+    public int eyes;
 
     /** 順子リスト */
     public List<Integer[]> chows = new ArrayList<Integer[]>();
 
     /** 刻子リスト */
     public List<Integer> pungs = new ArrayList<Integer>();
+    
+    /** 面前かを判定するフラグ */
+    public boolean conceal;
 
     /** 七対子かを判定するフラグ */
     public boolean isSevenPairs;
 
-    /** 役満かを判定するフラグ */
-    public boolean isGrandSlam;
+    /** 役満カウンター */
+    public int grandSlamCounter;
 
     /** 国士無双かを判定するフラグ */
     public boolean isThirtheenOrphans;
+    
+    /** 九蓮宝燈かを判定するフラグ */
+    public boolean isNineTreasures;
+    
+    /** 大四喜かを判定するフラグ */
+    public boolean isBigFourWinds;
+
+    /** 小四喜かを判定するフラグ */
+    public boolean isSmallFourWinds;
 
     /** 断ヤオかを判定するフラグ */
     public boolean isAllSimples;
@@ -84,6 +99,12 @@ public class CompleteHandsStatusDto {
 
     /** 平和かを判定するフラグ */
     public boolean isAllRuns;
+    
+    /** 一盃口かを判定するフラグ */
+    public boolean isDoubleRun;
+
+    /** 二盃口かを判定するフラグ */
+    public boolean isTwoDoubleRuns;
 
     /** 符 */
     public int fu;
@@ -101,14 +122,20 @@ public class CompleteHandsStatusDto {
      */
     public void clear() {
         Arrays.fill(hands, 0);
+        Arrays.fill(useCnts, 0);
         chows.clear();
         pungs.clear();
+        conceal = true;
         isSevenPairs = false;
-        isGrandSlam = false;
+        grandSlamCounter = 0;
         isThirtheenOrphans = false;
+        isNineTreasures = false;
+        isBigFourWinds = false;
+        isSmallFourWinds = false;
         isAllSimples = false;
         valueTilesCnt = 0;
         isAllRuns = false;
+        isDoubleRun = false;
         fu = 0;
         fan = 0;
         score = 0;

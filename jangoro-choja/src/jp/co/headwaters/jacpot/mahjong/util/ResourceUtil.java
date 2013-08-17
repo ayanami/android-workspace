@@ -4,11 +4,13 @@
 package jp.co.headwaters.jacpot.mahjong.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.co.headwaters.jacpot.R;
 import jp.co.headwaters.jacpot.mahjong.constant.MahjongConst;
-import jp.co.headwaters.jacpot.mahjong.dto.CompleteHandsStatusDto;
+import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
 import android.content.res.TypedArray;
 import android.util.SparseIntArray;
 
@@ -66,9 +68,6 @@ public class ResourceUtil {
     /** あがり牌リソースIDリスト */
     public static List<Integer> winningResourceIds;
 
-    /** {@link CompleteHandsStatusDto} */
-    public static CompleteHandsStatusDto completeHandsStatusDto;
-
     /** 場配列 */
     private static final String[] ROUNDS = new String[]{"東", "南"};
 
@@ -93,6 +92,9 @@ public class ResourceUtil {
     /** リソースIDリスト(赤5) */
     private static final List<Integer> RED_FIVE_IDS = new ArrayList<Integer>();
 
+    /** 点数マップ(子) */
+    private static final Map<String, int[]> SCORES = new HashMap<String, int[]>();
+
     /**
      * ユーティリティクラスのため、コンストラクタをプロテクトします。
      */
@@ -101,7 +103,7 @@ public class ResourceUtil {
     }
 
     /**
-     * リソースIDリストを生成します。
+     * リソースIDリスト、点数マップを生成します。
      */
     static {
 
@@ -112,6 +114,43 @@ public class ResourceUtil {
         RED_FIVE_IDS.add(R.drawable.a_ms5_1_red);
         RED_FIVE_IDS.add(R.drawable.b_ps5_1_red);
         RED_FIVE_IDS.add(R.drawable.c_ss5_1_red);
+
+        SCORES.put("20|2", new int[]{1300, 2000});
+        SCORES.put("20|3", new int[]{2600, 3900});
+        SCORES.put("20|4", new int[]{5200, 7700});
+        SCORES.put("25|2", new int[]{1600, 2400});
+        SCORES.put("25|3", new int[]{3200, 4800});
+        SCORES.put("25|4", new int[]{6400, 9600});
+        SCORES.put("30|1", new int[]{1000, 1500});
+        SCORES.put("30|2", new int[]{2000, 2900});
+        SCORES.put("30|3", new int[]{3900, 5800});
+        SCORES.put("40|1", new int[]{1300, 2000});
+        SCORES.put("40|2", new int[]{2600, 3900});
+        SCORES.put("40|3", new int[]{5200, 7700});
+        SCORES.put("50|1", new int[]{1600, 2400});
+        SCORES.put("50|2", new int[]{3200, 4800});
+        SCORES.put("50|3", new int[]{6400, 9600});
+        SCORES.put("60|1", new int[]{2000, 2900});
+        SCORES.put("60|2", new int[]{3900, 5800});
+        SCORES.put("70|1", new int[]{2300, 3400});
+        SCORES.put("70|2", new int[]{4500, 6800});
+        SCORES.put("80|1", new int[]{2600, 3900});
+        SCORES.put("80|2", new int[]{5200, 7700});
+        SCORES.put("90|1", new int[]{2900, 4400});
+        SCORES.put("90|2", new int[]{5800, 8700});
+        SCORES.put("100|1", new int[]{3200, 4800});
+        SCORES.put("100|2", new int[]{6400, 9600});
+        SCORES.put("110|2", new int[]{7100, 10600});
+        SCORES.put("4", new int[]{8000, 12000});
+        SCORES.put("5", new int[]{8000, 12000});
+        SCORES.put("6", new int[]{12000, 18000});
+        SCORES.put("7", new int[]{12000, 18000});
+        SCORES.put("8", new int[]{16000, 24000});
+        SCORES.put("9", new int[]{16000, 24000});
+        SCORES.put("10", new int[]{16000, 24000});
+        SCORES.put("11", new int[]{24000, 36000});
+        SCORES.put("12", new int[]{24000, 36000});
+        SCORES.put("13", new int[]{32000, 48000});
     }
 
     /**
@@ -131,7 +170,6 @@ public class ResourceUtil {
         grayscaleToNormal = new SparseIntArray();
         fiveToRedFive = new SparseIntArray();
         winningResourceIds = new ArrayList<Integer>();
-        completeHandsStatusDto = new CompleteHandsStatusDto();
 
         // ---------------------------------------------
         // (1) 局リストの生成
@@ -307,23 +345,54 @@ public class ResourceUtil {
         List<Integer> thirteenOrphans = new ArrayList<Integer>() {
 
             {
-                add(R.drawable.a_ms1_1);
-                add(R.drawable.a_ms9_1);
-                add(R.drawable.b_ps1_1);
-                add(R.drawable.b_ps9_1);
-                add(R.drawable.c_ss1_1);
-                add(R.drawable.c_ss9_1);
-                add(R.drawable.d_ji_e_1);
-                add(R.drawable.e_ji_s_1);
-                add(R.drawable.f_ji_w_1);
-                add(R.drawable.g_ji_n_1);
-                add(R.drawable.h_no_1);
-                add(R.drawable.i_ji_h_1);
-                add(R.drawable.j_ji_c_1);
+                add(idxToResourceId.get(MahjongConst.MAN1));
+                add(idxToResourceId.get(MahjongConst.MAN9));
+                add(idxToResourceId.get(MahjongConst.PIN1));
+                add(idxToResourceId.get(MahjongConst.PIN9));
+                add(idxToResourceId.get(MahjongConst.SOU1));
+                add(idxToResourceId.get(MahjongConst.SOU9));
+                add(idxToResourceId.get(MahjongConst.EAST));
+                add(idxToResourceId.get(MahjongConst.SOUTH));
+                add(idxToResourceId.get(MahjongConst.WEST));
+                add(idxToResourceId.get(MahjongConst.NORTH));
+                add(idxToResourceId.get(MahjongConst.WHITE));
+                add(idxToResourceId.get(MahjongConst.GREEN));
+                add(idxToResourceId.get(MahjongConst.RED));
             }
         };
 
         return getSpecifiedResourceIds(thirteenOrphans, size);
+    }
+
+    /**
+     * 九蓮宝燈のリソースIDを含むリソースIDリストを返却します。
+     * 
+     * @param size リソースIDリストのサイズ
+     * @return リソースIDリスト
+     */
+    @SuppressWarnings("serial")
+    public static List<Integer> getNineTreasuresResourceIds(int size) {
+
+        List<Integer> nineTreasures = new ArrayList<Integer>() {
+
+            {
+                add(idxToResourceId.get(MahjongConst.MAN1));
+                add(idxToResourceId.get(MahjongConst.MAN1));
+                add(idxToResourceId.get(MahjongConst.MAN1));
+                add(idxToResourceId.get(MahjongConst.MAN2));
+                add(idxToResourceId.get(MahjongConst.MAN3));
+                add(idxToResourceId.get(MahjongConst.MAN4));
+                add(idxToResourceId.get(MahjongConst.MAN5));
+                add(idxToResourceId.get(MahjongConst.MAN6));
+                add(idxToResourceId.get(MahjongConst.MAN7));
+                add(idxToResourceId.get(MahjongConst.MAN8));
+                add(idxToResourceId.get(MahjongConst.MAN9));
+                add(idxToResourceId.get(MahjongConst.MAN9));
+                add(idxToResourceId.get(MahjongConst.MAN9));
+            }
+        };
+
+        return getSpecifiedResourceIds(nineTreasures, size);
     }
 
     /**
@@ -426,30 +495,33 @@ public class ResourceUtil {
      * 
      * ドラを設定します。
      * 
-     * @param resourceId リソースID
+     * @param idx ドラ表示牌添え字
+     * @param dto {@link HandsStatusDto}
      */
-    public static void setDragon(int resourceId) {
-        int dragon = resourceIdToIdx.get(resourceId) + 1;
-        switch (dragon) {
-            case 9:
-                dragon = 1;
+    public static void setDragon(int idx, HandsStatusDto dto) {
+        
+        int dragon = idx;
+        switch (idx) {
+            case MahjongConst.MAN9:
+                dragon = MahjongConst.MAN1;
                 break;
-            case 18:
-                dragon = 19;
+            case MahjongConst.PIN9:
+                dragon = MahjongConst.PIN1;
                 break;
-            case 27:
-                dragon = 18;
+            case MahjongConst.SOU9:
+                dragon = MahjongConst.SOU1;
                 break;
-            case 31:
-                dragon = 27;
+            case MahjongConst.NORTH:
+                dragon = MahjongConst.EAST;
                 break;
-            case 34:
-                dragon = 31;
+            case MahjongConst.RED:
+                dragon = MahjongConst.WHITE;
                 break;
             default:
+                dragon = idx + 1;
                 break;
         }
-        completeHandsStatusDto.dragon = idxToResourceId.get(dragon);
+        dto.dragon = dragon;
     }
 
     /**
@@ -457,23 +529,26 @@ public class ResourceUtil {
      * 現在の局情報を設定します。
      * 
      * @param idx 局リストの添え字
+     * @param dto {@link HandsStatusDto}
      */
-    public static void setCurrentRoundInfo(int idx) {
+    public static void setCurrentRoundInfo(int idx, HandsStatusDto dto) {
 
         Object[] round = rounds.get(idx);
 
         for (int i = 0; i < ROUNDS.length; i++) {
             if (ROUNDS[i].equals(round[0])) {
-                completeHandsStatusDto.round = i;
+                dto.round = i;
                 break;
             }
         }
 
         for (int i = 0; i < WINDS.length; i++) {
             if (WINDS[i].equals(round[2])) {
-                completeHandsStatusDto.wind = i;
+                dto.wind = i;
                 if (i == 0) {
-                    completeHandsStatusDto.isDealer = true;
+                    dto.isDealer = true;
+                } else {
+                    dto.isDealer = false;
                 }
                 break;
             }
@@ -485,8 +560,9 @@ public class ResourceUtil {
      * ドラ数を設定します。
      * 
      * @param resourceIds リソースIDリスト
+     * @param dto {@link HandsStatusDto}
      */
-    public static void setDragonCnt(List<Integer> resourceIds) {
+    public static void setDragonCnt(List<Integer> resourceIds, HandsStatusDto dto) {
 
         int cnt = 0;
 
@@ -496,49 +572,106 @@ public class ResourceUtil {
                 cnt++;
             }
 
-            if (completeHandsStatusDto.dragon == resourceId) {
+            if (dto.dragon == resourceId) {
                 cnt++;
             }
         }
 
-        completeHandsStatusDto.dragonCnt = cnt;
+        dto.dragonCnt = cnt;
     }
 
     /**
      * 
      * 役リストを生成します。
      * 
+     * @param dto {@link HandsStatusDto}
      * @return 役リスト
      */
-    public static List<String> createYakus() {
+    public static List<String> createYakus(HandsStatusDto dto) {
 
         List<String> yakus = new ArrayList<String>();
 
-        if (!completeHandsStatusDto.isRon) {
+        if (dto.isThirtheenOrphans) {
+            yakus.add(MahjongConst.THIRTEEN_ORPHANS);
+            return yakus;
+        }
+        if (dto.isNineTreasures) {
+            yakus.add(MahjongConst.NINE_TRESURES);
+            return yakus;
+        }
+        if (dto.isBigFourWinds) {
+            yakus.add(MahjongConst.BIG_FOUR_WINDS);
+        }
+        if (dto.isSmallFourWinds) {
+            yakus.add(MahjongConst.SMALL_FOUR_WINDS);
+        }
+        if (!dto.isRon) {
             yakus.add(MahjongConst.SELF_DRAW);
-            completeHandsStatusDto.fan += 1;
+            dto.fan += 1;
         }
-        if (completeHandsStatusDto.isAllSimples) {
+        if (dto.isAllSimples) {
             yakus.add(MahjongConst.ALL_SIMPLES);
-            completeHandsStatusDto.fan += 1;
+            dto.fan += 1;
         }
-        if (completeHandsStatusDto.isSevenPairs) {
+        if (dto.isSevenPairs) {
             yakus.add(MahjongConst.SEVEN_PAIRS);
-            completeHandsStatusDto.fan += 2;
+            dto.fan += 2;
         }
-        if (completeHandsStatusDto.isAllRuns) {
+        if (dto.isAllRuns) {
             yakus.add(MahjongConst.ALL_RUNS);
-            completeHandsStatusDto.fan += 1;
+            dto.fan += 1;
         }
-        if (completeHandsStatusDto.valueTilesCnt > 0) {
-            yakus.add(MahjongConst.VALUE_TILES + " " + completeHandsStatusDto.valueTilesCnt);
-            completeHandsStatusDto.fan = completeHandsStatusDto.valueTilesCnt;
+        if (dto.isDoubleRun) {
+            yakus.add(MahjongConst.DOUBLE_RUN);
+            dto.fan += 1;
         }
-        if (completeHandsStatusDto.dragonCnt > 0) {
-            yakus.add(MahjongConst.DRAGON + " " + completeHandsStatusDto.dragonCnt);
-            completeHandsStatusDto.fan += completeHandsStatusDto.dragonCnt;
+        if (dto.isTwoDoubleRuns) {
+            yakus.add(MahjongConst.TWO_DOUBLE_RUNS);
+            dto.fan += 3;
         }
+        if (dto.valueTilesCnt > 0) {
+            yakus.add(MahjongConst.VALUE_TILES + " " + dto.valueTilesCnt);
+            dto.fan = dto.valueTilesCnt;
+        }
+        if (dto.dragonCnt > 0) {
+            yakus.add(MahjongConst.DRAGON + " " + dto.dragonCnt);
+            dto.fan += dto.dragonCnt;
+        }
+
+        setScore(dto);
         return yakus;
     }
 
+    /**
+     * 
+     * 点数を設定します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    private static void setScore(HandsStatusDto dto) {
+
+        // 点数マップ値の添え字
+        int idx = 0;
+        if (dto.isDealer) {
+            idx = 1;
+        }
+
+        // 役満
+        if (dto.grandSlamCounter > 0) {
+            dto.score = SCORES.get("13")[idx] * dto.grandSlamCounter;
+            return;
+        }
+
+        String fan = String.valueOf(dto.fan);
+        String key = String.valueOf(dto.fu) + "|" + fan;
+
+        if (SCORES.containsKey(key)) {
+            dto.score = SCORES.get(key)[idx];
+            return;
+        }
+
+        if (SCORES.containsKey(fan)) {
+            dto.score = SCORES.get(fan)[idx];
+        }
+    }
 }

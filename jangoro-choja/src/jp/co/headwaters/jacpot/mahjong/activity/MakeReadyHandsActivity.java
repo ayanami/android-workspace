@@ -5,6 +5,7 @@ package jp.co.headwaters.jacpot.mahjong.activity;
 
 import jp.co.headwaters.jacpot.R;
 import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
+import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
 import jp.co.headwaters.jacpot.mahjong.util.HandsJudgmentUtil;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import jp.co.headwaters.jacpot.mahjong.view.ChooseTilesTableLayout;
@@ -58,7 +59,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     private static final int STAGE_MAX_CNT = 3;
 
     /** レイアウト切替インターバル(ミリ秒) */
-    private static final long CHANGE_LAYOUT_INTERVAL = 10000;
+    private static final long CHANGE_LAYOUT_INTERVAL = 3000;
 
     /** 開始秒数配列(ミリ秒) */
     private static final long[] MILLIS_IN_FUTURES = new long[]{30000, 30000, 30000};
@@ -74,6 +75,9 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /** {@link CountDownTimerLinearLayout} */
     private CountDownTimerLinearLayout countDownTimer;
+    
+    /** {@link DragonTableLayout} */
+    private DragonTableLayout dragonTableLayout;
 
     /** ドラ表示エリア{@link TableRow} */
     private TableRow dragonTableRow;
@@ -140,7 +144,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
         @Override
         public void run() {
-            if (currentStage <= STAGE_MAX_CNT) {
+            if (currentStage < STAGE_MAX_CNT) {
                 setMainLayout();
             } else {
                 setFinishLayout();
@@ -154,7 +158,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentStage = 1;
+        currentStage = 0;
         totalScore = 0;
         this.setMainLayout();
     }
@@ -165,6 +169,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
      */
     private void setMainLayout() {
 
+        currentStage++;
         // ---------------------------------------------
         // (1) レイアウトの設定
         // ---------------------------------------------
@@ -176,9 +181,9 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (3) ドラ表示エリア設定
         // ---------------------------------------------
-        DragonTableLayout dtl = (DragonTableLayout)findViewById(R.id.tableLayoutDragon);
-        dtl.init();
-        this.dragonTableRow = dtl.getRecycleTableRow();
+        dragonTableLayout = (DragonTableLayout)findViewById(R.id.tableLayoutDragon);
+        dragonTableLayout.init();
+        this.dragonTableRow = dragonTableLayout.getRecycleTableRow();
         // ---------------------------------------------
         // (4) 牌選択エリア設定
         // ---------------------------------------------
@@ -303,8 +308,6 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
             this.setResultFailureLayout();
             new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
         }
-
-        currentStage++;
     }
 
     /**
@@ -313,41 +316,41 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
      * 
      */
     private void setYakuInfo() {
+        HandsStatusDto dto = new HandsStatusDto();
         // ---------------------------------------------
         // (1) あがりタイプ設定(ツモ固定)
         // ---------------------------------------------
-        ResourceUtil.completeHandsStatusDto.isRon = false;
+        dto.isRon = false;
         // ---------------------------------------------
         // (2) 局情報設定
         // ---------------------------------------------
-        ResourceUtil.setCurrentRoundInfo(currentStage - 1);
+        ResourceUtil.setDragon(dragonTableLayout.getDragonId(), dto);
+        ResourceUtil.setCurrentRoundInfo(currentStage - 1, dto);
         // ---------------------------------------------
         // (3) あがり形解析
         // ---------------------------------------------
         HandsJudgmentUtil.analyzeCompleteHands(this.chooseTilesTableLayout
                         .getSelectedTilesResourceIds(), this.chooseWinningTilesTableLayout
-                        .getWinningTileResourceId());
+                        .getWinningTileResourceId(), dto);
 
         // ---------------------------------------------
         // (4) 役設定
         // ---------------------------------------------
-        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(ResourceUtil.createYakus());
+        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(ResourceUtil.createYakus(dto));
 
         // ---------------------------------------------
         // (5) 符、翻の設定
         // ---------------------------------------------
-        if (ResourceUtil.completeHandsStatusDto.isGrandSlam) {
+        if (dto.grandSlamCounter > 0) {
             ((FanTextView)findViewById(R.id.textViewFan)).setGrandSlam();
         } else {
-            ((FanTextView)findViewById(R.id.textViewFan))
-                            .setFan(ResourceUtil.completeHandsStatusDto.fu,
-                                    ResourceUtil.completeHandsStatusDto.fan);
+            ((FanTextView)findViewById(R.id.textViewFan)).setFan(dto.fu, dto.fan);
         }
         // ---------------------------------------------
         // (6) 点数設定
         // ---------------------------------------------
-        ((ScoreTextView)findViewById(R.id.textViewScore))
-                        .setScore(ResourceUtil.completeHandsStatusDto.score);
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(dto.score);
+        totalScore += dto.score;
         new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
     }
 

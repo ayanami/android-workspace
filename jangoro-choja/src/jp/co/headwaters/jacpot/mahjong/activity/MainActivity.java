@@ -4,11 +4,6 @@
 package jp.co.headwaters.jacpot.mahjong.activity;
 
 import jp.co.headwaters.jacpot.R;
-import jp.co.headwaters.jacpot.R.array;
-import jp.co.headwaters.jacpot.R.drawable;
-import jp.co.headwaters.jacpot.R.id;
-import jp.co.headwaters.jacpot.R.layout;
-import jp.co.headwaters.jacpot.R.menu;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.app.Activity;
 import android.content.Intent;

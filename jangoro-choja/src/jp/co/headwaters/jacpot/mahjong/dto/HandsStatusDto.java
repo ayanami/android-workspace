@@ -59,7 +59,7 @@ public class HandsStatusDto {
     public Integer[] hands;
 
     /** 手牌(利用回数) */
-    public int[] useCnts;
+    public int[] useCnts = new int[34];
 
     /** 雀頭 */
     public int eyes;
@@ -71,7 +71,7 @@ public class HandsStatusDto {
     public List<Integer> pungs = new ArrayList<Integer>();
     
     /** 面前かを判定するフラグ */
-    public boolean conceal;
+    public boolean conceal = true;
 
     /** 七対子かを判定するフラグ */
     public boolean isSevenPairs;
@@ -85,12 +85,27 @@ public class HandsStatusDto {
     /** 九蓮宝燈かを判定するフラグ */
     public boolean isNineTreasures;
     
+    /** 四暗刻かを判定するフラグ */
+    public boolean isFourConcealedTriples;
+
+    /** 字一色かを判定するフラグ */
+    public boolean isAllHonors;
+
     /** 大四喜かを判定するフラグ */
     public boolean isBigFourWinds;
 
     /** 小四喜かを判定するフラグ */
     public boolean isSmallFourWinds;
-
+    
+    /** 緑一色かを判定するフラグ */
+    public boolean isAllGreen;
+    
+    /** 大三元かを判定するフラグ */
+    public boolean isBigDragons;
+    
+    /** 清老頭かを判定するフラグ */
+    public boolean isTerminals;
+    
     /** 断ヤオかを判定するフラグ */
     public boolean isAllSimples;
 
@@ -102,6 +117,9 @@ public class HandsStatusDto {
     
     /** 一盃口かを判定するフラグ */
     public boolean isDoubleRun;
+
+    /** 対々和かを判定するフラグ */
+    public boolean isAllTriples;
 
     /** 二盃口かを判定するフラグ */
     public boolean isTwoDoubleRuns;
@@ -121,7 +139,6 @@ public class HandsStatusDto {
      * 
      */
     public void clear() {
-        Arrays.fill(hands, 0);
         Arrays.fill(useCnts, 0);
         chows.clear();
         pungs.clear();
@@ -130,11 +147,17 @@ public class HandsStatusDto {
         grandSlamCounter = 0;
         isThirtheenOrphans = false;
         isNineTreasures = false;
+        isFourConcealedTriples = false;
+        isAllHonors = false;
         isBigFourWinds = false;
         isSmallFourWinds = false;
+        isAllGreen = false;
+        isBigDragons = false;
+        isTerminals = false;
         isAllSimples = false;
         valueTilesCnt = 0;
         isAllRuns = false;
+        isAllTriples = false;
         isDoubleRun = false;
         fu = 0;
         fan = 0;

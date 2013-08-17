@@ -3,7 +3,6 @@
  */
 package jp.co.headwaters.jacpot.mahjong.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,9 +37,6 @@ import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
  */
 public class HandsJudgmentUtil {
 
-    /** 麻雀牌種類 */
-    private static final int TILE_TYPES = 34;
-
     /** 聴牌形手牌枚数 */
     private static final int READY_HANDS_CNTS = 13;
 
@@ -51,23 +47,12 @@ public class HandsJudgmentUtil {
     private static final int COMPLETE_HANDS_MAX_IDX = 13;
 
     /** 利用数配列 */
-    private static final int[] USE_CNTS = new int[TILE_TYPES];
-
-    /** 国士無双利用牌配列 */
-    private static Integer[] thirteenOrphans;
+    private static final int[] USE_CNTS = new int[MahjongConst.TILE_TYPES];
 
     /**
      * 定数を初期化します。
      */
     static {
-        // 1萬, 9萬, 1筒, 9筒, 1索, 9索, 東, 南, 西, 北, 白, 発, 中の添え字
-        thirteenOrphans =
-                        new Integer[]{MahjongConst.MAN1, MahjongConst.MAN9, MahjongConst.PIN1,
-                                      MahjongConst.PIN9, MahjongConst.SOU1, MahjongConst.SOU9,
-                                      MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
-                                      MahjongConst.NORTH, MahjongConst.WHITE, MahjongConst.GREEN,
-                                      MahjongConst.RED};
-
         // 全要素を0で初期化
         Arrays.fill(USE_CNTS, 0);
     }
@@ -97,7 +82,7 @@ public class HandsJudgmentUtil {
         ResourceUtil.winningResourceIds.clear();
 
         // 1萬から順に判定
-        for (int i = 0; i < TILE_TYPES; i++) {
+        for (int i = 0; i < MahjongConst.TILE_TYPES; i++) {
 
             hands[COMPLETE_HANDS_MAX_IDX] = i;
 
@@ -125,7 +110,8 @@ public class HandsJudgmentUtil {
      * @param resourceId あがり牌リソースID
      * @param dto {@link HandsStatusDto}
      */
-    public static void analyzeCompleteHands(List<Integer> resourceIds, int resourceId, HandsStatusDto dto) {
+    public static void analyzeCompleteHands(List<Integer> resourceIds, int resourceId,
+                    HandsStatusDto dto) {
 
         // あがり牌の設定
         dto.winningTile = ResourceUtil.resourceIdToIdx.get(resourceId);
@@ -143,36 +129,49 @@ public class HandsJudgmentUtil {
         isCompleteHands(dto);
 
         // 九蓮宝燈の判定
-        analyzeNineTresures(dto);
+        HandUtil.analyzeNineTresures(dto);
+
+        // 四暗刻の判定
+        HandUtil.analyzeFourConcealedTriples(dto);
+
+        // 字一色の判定
+        HandUtil.analyzeAllHonors(dto);
 
         // 大四喜の判定
-        analyzeBigFourWinds(dto);
+        HandUtil.analyzeBigFourWinds(dto);
 
         // 小四喜の判定
-        analyzeSmallFourWinds(dto);
+        HandUtil.analyzeSmallFourWinds(dto);
+
+        // 緑一色の判定
+        HandUtil.analyzeAllGreen(dto);
+
+        // 大三元の判定
+        HandUtil.analyzeBigDragons(dto);
+
+        // 清老頭の判定
+        HandUtil.analyzeTerminals(dto);
 
         if (dto.grandSlamCounter == 0) {
             // 断ヤオの判定
-            analyzeAllSimples(dto);
+            HandUtil.analyzeAllSimples(dto);
 
             // 役牌の判定
-            analyzeValueTiles(dto);
+            HandUtil.analyzeValueTiles(dto);
 
             // 平和の判定
-            analyzeAllRuns(dto);
+            HandUtil.analyzeAllRuns(dto);
 
             // 一盃口の判定
-            analyzeDoubleRun(dto);
+            HandUtil.analyzeDoubleRun(dto);
 
             // 二盃口の判定
-            analyzeTwoDoubleRuns(dto);
+            HandUtil.analyzeTwoDoubleRuns(dto);
 
             // 符の計算
             calculateFu(dto);
         }
     }
-    
-
 
     /**
      * 
@@ -220,7 +219,7 @@ public class HandsJudgmentUtil {
 
         // 全ての牌を判定する。
         // 雀頭、面子に利用した牌はマイナスし、cloneの要素が全て0になっていれば上がり形
-        for (int i = 0; i < TILE_TYPES; i++) {
+        for (int i = 0; i < MahjongConst.TILE_TYPES; i++) {
 
             // 雀頭の判定
             if (dto.useCnts[i] < 2) {
@@ -255,11 +254,11 @@ public class HandsJudgmentUtil {
                         break;
                     case 2:
                         // 七対子のパターン
-                        analyzeSevenPairs(dto);
+                        HandUtil.analyzeSevenPairs(dto);
                         break;
                     case 3:
                         // 国士無双のパターン
-                        analyzeThirteenOrphans(dto);
+                        HandUtil.analyzeThirteenOrphans(dto);
                         break;
                     default:
                         break;
@@ -283,7 +282,7 @@ public class HandsJudgmentUtil {
      */
     private static void analyzePungParts(int[] useCnts, List<Integer> pungs) {
 
-        for (int i = 0; i < TILE_TYPES; i++) {
+        for (int i = 0; i < MahjongConst.TILE_TYPES; i++) {
 
             if (useCnts[i] >= 3) {
                 useCnts[i] -= 3;
@@ -322,343 +321,6 @@ public class HandsJudgmentUtil {
                     chows.add(new Integer[]{idx, idx + 1, idx + 2});
                 }
             }
-        }
-    }
-
-    /**
-     * 七対子かを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeSevenPairs(HandsStatusDto dto) {
-
-        int[] clone = dto.useCnts.clone();
-
-        // 既に面子が確定している場合は処理を抜ける。
-        if (Arrays.equals(clone, USE_CNTS)) {
-            return;
-        }
-
-        for (int i = dto.eyes + 1; i < TILE_TYPES; i++) {
-            if (clone[i] >= 2) {
-                clone[i] -= 2;
-            }
-        }
-
-        if (Arrays.equals(clone, USE_CNTS)) {
-            dto.isSevenPairs = true;
-        }
-    }
-
-    /**
-     * 国士無双かを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeThirteenOrphans(HandsStatusDto dto) {
-
-        int[] clone = dto.useCnts.clone();
-
-        if (!Arrays.asList(thirteenOrphans).contains(dto.eyes)) {
-            // 雀頭が中張牌(2~8)の場合は処理を抜ける
-            return;
-        }
-
-        for (int i = 0; i < thirteenOrphans.length; i++) {
-
-            // 雀頭は除外
-            if (thirteenOrphans[i] == dto.eyes) {
-                continue;
-            }
-
-            if (clone[thirteenOrphans[i]] >= 1) {
-                clone[thirteenOrphans[i]]--;
-            }
-        }
-
-        if (Arrays.equals(clone, USE_CNTS)) {
-            dto.isThirtheenOrphans = true;
-            dto.grandSlamCounter++;
-        }
-    }
-
-    /**
-     * 
-     * 九蓮宝燈かを判定します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    @SuppressWarnings("serial")
-    private static void analyzeNineTresures(HandsStatusDto dto) {
-
-        List<int[]> params = new ArrayList<int[]>() {
-
-            {
-                add(new int[]{MahjongConst.MAN1, MahjongConst.MAN2, MahjongConst.MAN8,
-                              MahjongConst.MAN9});
-                add(new int[]{MahjongConst.PIN1, MahjongConst.PIN2, MahjongConst.PIN8,
-                              MahjongConst.PIN9});
-                add(new int[]{MahjongConst.SOU1, MahjongConst.SOU2, MahjongConst.SOU8,
-                              MahjongConst.SOU9});
-            }
-        };
-
-        for (int[] param : params) {
-
-            // 1,9が3枚以上あるかを判定
-            if (dto.useCnts[param[0]] < 3 || dto.useCnts[param[3]] < 3) {
-                continue;
-            }
-
-            // 2~8が最低1枚ずつあるかを判定
-            for (int i = param[1]; i <= param[2]; i++) {
-                if (!Arrays.asList(dto.hands).contains(i)) {
-                    continue;
-                }
-            }
-
-            dto.isNineTreasures = true;
-            dto.grandSlamCounter++;
-        }
-
-    }
-
-    /**
-     * 大四喜かを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeBigFourWinds(HandsStatusDto dto) {
-
-        for (int i = MahjongConst.EAST; i <= MahjongConst.NORTH; i++) {
-            if (dto.useCnts[i] < 3) {
-                return;
-            }
-        }
-        dto.isBigFourWinds = true;
-        dto.grandSlamCounter++;
-    }
-
-    /**
-     * 小四喜かを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeSmallFourWinds(HandsStatusDto dto) {
-
-        Integer[] winds =
-                        new Integer[]{MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
-                                      MahjongConst.NORTH};
-
-        if (!Arrays.asList(winds).contains(dto.eyes)) {
-            return;
-        }
-
-        for (Integer pung : dto.pungs) {
-            if (!Arrays.asList(winds).contains(pung)) {
-                return;
-            }
-        }
-
-        dto.isSmallFourWinds = true;
-        dto.grandSlamCounter++;
-    }
-
-    /**
-     * 
-     * 断ヤオかを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeAllSimples(HandsStatusDto dto) {
-
-        for (int hand : dto.hands) {
-            if (Arrays.asList(thirteenOrphans).contains(hand)) {
-                return;
-            }
-        }
-        dto.isAllSimples = true;
-    }
-
-    /**
-     * 
-     * 翻牌数を解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeValueTiles(HandsStatusDto dto) {
-
-        for (Integer pung : dto.pungs) {
-            if (isValueTile(pung)) {
-                dto.valueTilesCnt++;
-            }
-            if (isWindTile(pung, dto)) {
-                dto.valueTilesCnt++;
-            }
-            if (isSelfWind(pung, dto)) {
-                dto.valueTilesCnt++;
-            }
-        }
-    }
-
-    /**
-     * 
-     * 役牌かを判定します。
-     * 
-     * @param idx 牌インデックス
-     * @return 判定結果
-     */
-    private static boolean isValueTile(int idx) {
-
-        // 白、発、中
-        Integer[] dragons = new Integer[]{MahjongConst.WHITE, MahjongConst.GREEN, MahjongConst.RED};
-        if (Arrays.asList(dragons).contains(idx)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 
-     * 場風牌かを判定します。
-     * 
-     * @param idx 牌インデックス
-     * @param dto {@link HandsStatusDto}
-     * @return 判定結果
-     */
-    private static boolean isWindTile(int idx, HandsStatusDto dto) {
-
-        // 場風(初期値:東)
-        int wind = MahjongConst.EAST;
-        if (dto.round == 1) {
-            wind = MahjongConst.SOUTH;
-        }
-
-        if (idx == wind) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 
-     * 自風牌かを判定します。
-     * 
-     * @param idx 牌インデックス
-     * @param dto {@link HandsStatusDto}
-     * @return 判定結果
-     */
-    private static boolean isSelfWind(int idx, HandsStatusDto dto) {
-
-        // 自風(初期値:東)
-        int selfWind = MahjongConst.EAST;
-        switch (dto.wind) {
-            case 1:
-                selfWind = MahjongConst.SOUTH;
-                break;
-            case 2:
-                selfWind = MahjongConst.WEST;
-                break;
-            case 3:
-                selfWind = MahjongConst.NORTH;
-                break;
-            default:
-                break;
-        }
-
-        if (idx == selfWind) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 
-     * 平和かを解析します。
-     * 
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeAllRuns(HandsStatusDto dto) {
-
-        // 面前かを判定
-        if (!dto.conceal) {
-            return;
-        }
-
-        // 全てが順子かを判定
-        if (!dto.pungs.isEmpty()) {
-            return;
-        }
-
-        // 雀頭が翻牌かを判定
-        int eyes = dto.eyes;
-        if (isValueTile(eyes) || isWindTile(eyes, dto) || isSelfWind(eyes, dto)) {
-            return;
-        }
-
-        // 両面待ちかを判定
-        int win = dto.winningTile;
-        for (Integer[] chow : dto.chows) {
-            if (win == chow[0] || win == chow[2]) {
-                dto.isAllRuns = true;
-            }
-        }
-
-    }
-
-    /**
-     * 一盃口かを解析します。
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeDoubleRun(HandsStatusDto dto) {
-
-        // 面前かを判定
-        if (!dto.conceal) {
-            return;
-        }
-
-        // 同一の順子があるかを判定
-        List<Integer[]> chows = dto.chows;
-        for (int i = 0; i < chows.size(); i++) {
-
-            Integer[] source = chows.get(i);
-
-            for (int j = i + 1; j < chows.size(); j++) {
-
-                if (Arrays.equals(source, chows.get(j))) {
-                    dto.isDoubleRun = true;
-                    return;
-                }
-            }
-        }
-    }
-
-    /**
-     * 二盃口かを解析します。
-     * @param dto {@link HandsStatusDto}
-     */
-    private static void analyzeTwoDoubleRuns(HandsStatusDto dto) {
-
-        // 面前かを判定
-        if (!dto.conceal) {
-            return;
-        }
-
-        // 順子の有無を判定
-        if (dto.chows.isEmpty()) {
-            return;
-        }
-
-        // 七対子の形かを判定(槓子も考慮し、2回呼出す。)
-        analyzeSevenPairs(dto);
-        analyzeSevenPairs(dto);
-
-        if (dto.isSevenPairs) {
-            dto.isTwoDoubleRuns = true;
-            dto.isSevenPairs = false;
-            dto.isDoubleRun = false;
         }
     }
 

@@ -6,8 +6,10 @@ package jp.co.headwaters.jacpot.mahjong.activity;
 import jp.co.headwaters.jacpot.R;
 import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
 import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
+import jp.co.headwaters.jacpot.mahjong.util.HandUtil;
 import jp.co.headwaters.jacpot.mahjong.util.HandsJudgmentUtil;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
+import jp.co.headwaters.jacpot.mahjong.util.ScoreUtil;
 import jp.co.headwaters.jacpot.mahjong.view.ChooseTilesTableLayout;
 import jp.co.headwaters.jacpot.mahjong.view.ChooseWinningTilesTableLayout;
 import jp.co.headwaters.jacpot.mahjong.view.CountDownTimerLinearLayout;
@@ -336,7 +338,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (4) 役設定
         // ---------------------------------------------
-        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(ResourceUtil.createYakus(dto));
+        ((YakuTableLayout)findViewById(R.id.tableLayoutYaku)).setYaku(HandUtil.createHands(dto));
 
         // ---------------------------------------------
         // (5) 符、翻の設定
@@ -349,6 +351,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (6) 点数設定
         // ---------------------------------------------
+        ScoreUtil.setScore(dto);
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(dto.score);
         totalScore += dto.score;
         new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);

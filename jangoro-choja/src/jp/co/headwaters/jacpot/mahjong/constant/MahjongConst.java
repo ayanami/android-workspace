@@ -37,12 +37,27 @@ public class MahjongConst {
     /** テキスト(九蓮宝燈) */
     public static final String NINE_TRESURES = "九蓮宝燈";
 
+    /** テキスト(四暗刻) */
+    public static final String FOUR_CONCEALED_TRIPLES = "四暗刻";
+    
+    /** テキスト(字一色) */
+    public static final String ALL_HONORS = "字一色";
+    
     /** テキスト(大四喜) */
     public static final String BIG_FOUR_WINDS = "大四喜";
 
     /** テキスト(小四喜) */
     public static final String SMALL_FOUR_WINDS = "小四喜";
 
+    /** テキスト(緑一色) */
+    public static final String ALL_GREEN = "緑一色";
+    
+    /** テキスト(大三元) */
+    public static final String BIG_DRAGONS = "大三元";
+    
+    /** テキスト(清老頭) */
+    public static final String TERMINALS = "清老頭";
+    
     /** テキスト(門前自摸) */
     public static final String SELF_DRAW = "門前自摸 1翻";
     
@@ -57,6 +72,9 @@ public class MahjongConst {
     
     /** テキスト(一盃口) */
     public static final String DOUBLE_RUN = "一盃口 1翻";
+    
+    /** テキスト(対々和) */
+    public static final String ALL_TRIPLES = "対々和 2翻";
     
     /** テキスト(二盃口) */
     public static final String TWO_DOUBLE_RUNS = "二盃口 3翻";
@@ -169,8 +187,8 @@ public class MahjongConst {
     /** 中 */ 
     public static final int RED = 33;
 
-    /** ダミー */ 
-    public static final int DUMMY = 34;
+    /** 麻雀牌種類数 */ 
+    public static final int TILE_TYPES = 34;
 
     /**
      * 

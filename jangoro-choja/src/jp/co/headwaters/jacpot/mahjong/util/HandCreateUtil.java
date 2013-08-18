@@ -135,6 +135,40 @@ public class HandCreateUtil {
     }
 
     /**
+     * 七対子のリソースIDを含むリソースIDリストを返却します。
+     * 
+     * @param size リソースIDリストのサイズ
+     * @return リソースIDリスト
+     */
+    @SuppressWarnings("serial")
+    public static List<Integer> getSevenPairsResourceIds(int size) {
+
+        List<Integer> resourceIds = new ArrayList<Integer>() {
+
+            {
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.EAST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.EAST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.EAST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.EAST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.SOUTH));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.SOUTH));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.WEST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.WEST));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.NORTH));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.NORTH));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.WHITE));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.WHITE));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.GREEN));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.GREEN));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.RED));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.RED));
+            }
+        };
+
+        return ResourceUtil.getSpecifiedResourceIds(resourceIds, size);
+    }
+    
+    /**
      * 三色同順のリソースIDを含むリソースIDリストを返却します。
      * 
      * @param size リソースIDリストのサイズ

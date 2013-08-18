@@ -160,7 +160,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     /**
      * 
      * 初期化処理です。
-     *
+     * 
      */
     private void init() {
         currentStage = 0;
@@ -178,7 +178,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (1) 利用回数初期化
         // ---------------------------------------------
-        ResourceUtil.initResourceIdIncRedToUseCnt();
+        ResourceUtil.init();
         // ---------------------------------------------
         // (2) レイアウトの設定
         // ---------------------------------------------
@@ -263,8 +263,9 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (6) 次へボタン設定
         // ---------------------------------------------
-        ((Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext))
-                        .setOnClickListener(nextClickListener);
+        Button btn = (Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext);
+        btn.setOnClickListener(nextClickListener);
+        btn.setEnabled(false);
     }
 
     /**
@@ -286,11 +287,16 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         ((DragonTableLayout)findViewById(R.id.tableLayoutDragon)).resetView(dragonTableRow);
         // ---------------------------------------------
-        // (4) 得点設定
+        // (4) 手牌エリア設定
+        // ---------------------------------------------
+        ((SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles))
+                        .resetView(this.selectedTilesTableRow);
+        // ---------------------------------------------
+        // (5) 得点設定
         // ---------------------------------------------
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(0);
         // ---------------------------------------------
-        // (5) 次へボタン設定
+        // (6) 次へボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsResultFailureNext))
                         .setOnClickListener(nextClickListener);
@@ -367,6 +373,10 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         ScoreUtil.setScore(dto);
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(dto.score);
         totalScore += dto.score;
+        // ---------------------------------------------
+        // (7) 次へボタン設定
+        // ---------------------------------------------
+        ((Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext)).setEnabled(true);
     }
 
     /**

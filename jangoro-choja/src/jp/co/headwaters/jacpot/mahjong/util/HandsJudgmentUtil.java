@@ -82,17 +82,22 @@ public class HandsJudgmentUtil {
         ResourceUtil.winningResourceIds.clear();
 
         // 1萬から順に判定
+        boolean isReady = false;
         for (int i = 0; i < MahjongConst.TILE_TYPES; i++) {
 
             hands[COMPLETE_HANDS_MAX_IDX] = i;
 
             // あがり成立の場合は、あがり牌リソースIDリストに格納
             if (isCompleteHands(hands)) {
+                isReady = true;
                 ResourceUtil.winningResourceIds.addAll(ResourceUtil.getAvailableResourceIds(i));
             }
         }
 
         if (ResourceUtil.winningResourceIds.isEmpty()) {
+            if (isReady) {
+                ResourceUtil.isEmptyWinningTiles = true;
+            }
             return false;
         }
 

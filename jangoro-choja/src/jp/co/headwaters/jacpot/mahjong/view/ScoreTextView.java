@@ -6,6 +6,8 @@ package jp.co.headwaters.jacpot.mahjong.view;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -40,6 +42,9 @@ public class ScoreTextView extends TextView {
     /** 得点 */
     private static final String SCORE = "{0}点";
 
+    /** 純カラの場合のテキスト */
+    private static final String EMPTY = "(純カラ)";
+
     /**
      * コンストラクタです。
      * 
@@ -58,8 +63,12 @@ public class ScoreTextView extends TextView {
      */
     public void setScore(int score) {
 
-        String editScore = NumberFormat.getInstance().format(score);
-        super.setText(MessageFormat.format(SCORE, new Object[] {editScore}));
+        String formatScore =
+            MessageFormat.format(SCORE, new Object[] {NumberFormat.getInstance().format(score)});
+        if (ResourceUtil.isEmptyWinningTiles) {
+            formatScore += EMPTY;
+        }
+        super.setText(formatScore);
     }
 
 }

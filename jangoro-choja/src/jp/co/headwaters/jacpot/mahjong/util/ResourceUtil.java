@@ -65,6 +65,9 @@ public class ResourceUtil {
 
     /** あがり牌リソースIDリスト */
     public static List<Integer> winningResourceIds;
+    
+    /** 純カラを判定するフラグ */
+    public static boolean isEmptyWinningTiles;
 
     /** 場配列 */
     private static final String[] ROUNDS = new String[] {"東", "南"};
@@ -178,10 +181,10 @@ public class ResourceUtil {
 
     /**
      * 
-     * 利用回数ハッシュを初期化します。
+     * 初期化処理です。
      * 
      */
-    public static void initResourceIdIncRedToUseCnt() {
+    public static void init() {
 
         for (int i = 0; i < resourceIdIncRedToUseCnt.size(); i++) {
 
@@ -197,6 +200,8 @@ public class ResourceUtil {
                 resourceIdIncRedToUseCnt.put(resourceId, USE_CNT_DEFAULT_FOR_RED_5);
             }
         }
+        
+        isEmptyWinningTiles = false;
     }
 
     /**

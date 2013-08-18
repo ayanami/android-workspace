@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.co.headwaters.jacpot.mahjong.util.HandCreateUtil;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.content.Context;
 import android.util.AttributeSet;

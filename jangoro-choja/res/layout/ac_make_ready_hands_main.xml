@@ -35,14 +35,14 @@
         android:gravity="bottom" >
 
         <Button
-            android:id="@+id/btnMakeReadyHandsClear"
+            android:id="@+id/btnMakeReadyHandsMainClear"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/ac_make_ready_hands_btn_caption_clear" />
 
         <Button
-            android:id="@+id/btnMakeReadyHandsOk"
+            android:id="@+id/btnMakeReadyHandsMainOk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -37,85 +37,91 @@ import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
  */
 public class HandUtil {
 
-    /** 国士無双配列 */
-    private static Integer[] thirteenOrphans;
+    /** ヤオ九牌配列 */
+    public static final Integer[] TERMINALS_AND_HONORS;
 
     /** 三元牌配列 */
-    private static Integer[] dragons;
+    public static final Integer[] DRAGONS;
 
     /** 風牌配列 */
-    private static Integer[] winds;
+    public static final Integer[] WINDS;
 
     /** 字牌配列 */
-    private static Integer[] honors;
+    public static final Integer[] HONORS;
 
     /** 緑一色配列 */
-    private static Integer[] allGreen;
+    public static final Integer[] ALL_GREENS;
 
-    /** 清老頭配列 */
-    private static Integer[] terminals;
+    /** 一九牌配列 */
+    public static final Integer[] TERMINALS;
 
     /** 萬子配列 */
-    private static Integer[] characters;
+    public static final Integer[] CHARACTERS;
 
     /** 筒子配列 */
-    private static Integer[] circles;
+    public static final Integer[] CIRCLES;
 
     /** 索子配列 */
-    private static Integer[] bamboos;
+    public static final Integer[] BAMBOOS;
 
     /** 数牌リスト */
-    private static List<Integer[]> suits = new ArrayList<Integer[]>();
+    public static final List<Integer[]> SUITS = new ArrayList<Integer[]>();
+
+    /** 利用数配列 */
+    private static final int[] USE_CNTS = new int[MahjongConst.TILE_TYPES];
 
     /**
-     * クラス変数を初期化します。
+     * 定数を初期化します。
      */
     static {
 
-        thirteenOrphans =
-                        new Integer[]{MahjongConst.MAN1, MahjongConst.MAN9, MahjongConst.PIN1,
-                                      MahjongConst.PIN9, MahjongConst.SOU1, MahjongConst.SOU9,
-                                      MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
-                                      MahjongConst.NORTH, MahjongConst.WHITE, MahjongConst.GREEN,
-                                      MahjongConst.RED};
+        TERMINALS_AND_HONORS =
+            new Integer[] {MahjongConst.MAN1, MahjongConst.MAN9, MahjongConst.PIN1,
+                           MahjongConst.PIN9, MahjongConst.SOU1, MahjongConst.SOU9,
+                           MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
+                           MahjongConst.NORTH, MahjongConst.WHITE, MahjongConst.GREEN,
+                           MahjongConst.RED};
 
-        dragons = new Integer[]{MahjongConst.WHITE, MahjongConst.GREEN, MahjongConst.RED};
+        DRAGONS = new Integer[] {MahjongConst.WHITE, MahjongConst.GREEN, MahjongConst.RED};
 
-        winds =
-                        new Integer[]{MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
-                                      MahjongConst.NORTH};
+        WINDS =
+            new Integer[] {MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
+                           MahjongConst.NORTH};
 
-        honors =
-                        new Integer[]{MahjongConst.WHITE, MahjongConst.GREEN, MahjongConst.RED,
-                                      MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
-                                      MahjongConst.NORTH};
+        HONORS =
+            new Integer[] {MahjongConst.WHITE, MahjongConst.GREEN, MahjongConst.RED,
+                           MahjongConst.EAST, MahjongConst.SOUTH, MahjongConst.WEST,
+                           MahjongConst.NORTH};
 
-        terminals =
-                        new Integer[]{MahjongConst.MAN1, MahjongConst.MAN9, MahjongConst.PIN1,
-                                      MahjongConst.PIN9, MahjongConst.SOU1, MahjongConst.SOU9};
+        TERMINALS =
+            new Integer[] {MahjongConst.MAN1, MahjongConst.MAN9, MahjongConst.PIN1,
+                           MahjongConst.PIN9, MahjongConst.SOU1, MahjongConst.SOU9};
 
-        allGreen =
-                        new Integer[]{MahjongConst.SOU2, MahjongConst.SOU3, MahjongConst.SOU4,
-                                      MahjongConst.SOU6, MahjongConst.SOU8, MahjongConst.GREEN};
+        ALL_GREENS =
+            new Integer[] {MahjongConst.SOU2, MahjongConst.SOU3, MahjongConst.SOU4,
+                           MahjongConst.SOU6, MahjongConst.SOU8, MahjongConst.GREEN};
 
-        characters =
-                        new Integer[]{MahjongConst.MAN1, MahjongConst.MAN2, MahjongConst.MAN3,
-                                      MahjongConst.MAN4, MahjongConst.MAN5, MahjongConst.MAN6,
-                                      MahjongConst.MAN7, MahjongConst.MAN8, MahjongConst.MAN9};
+        CHARACTERS =
+            new Integer[] {MahjongConst.MAN1, MahjongConst.MAN2, MahjongConst.MAN3,
+                           MahjongConst.MAN4, MahjongConst.MAN5, MahjongConst.MAN6,
+                           MahjongConst.MAN7, MahjongConst.MAN8, MahjongConst.MAN9};
 
-        circles =
-                        new Integer[]{MahjongConst.PIN1, MahjongConst.PIN2, MahjongConst.PIN3,
-                                      MahjongConst.PIN4, MahjongConst.PIN5, MahjongConst.PIN6,
-                                      MahjongConst.PIN7, MahjongConst.PIN8, MahjongConst.PIN9};
+        CIRCLES =
+            new Integer[] {MahjongConst.PIN1, MahjongConst.PIN2, MahjongConst.PIN3,
+                           MahjongConst.PIN4, MahjongConst.PIN5, MahjongConst.PIN6,
+                           MahjongConst.PIN7, MahjongConst.PIN8, MahjongConst.PIN9};
 
-        bamboos =
-                        new Integer[]{MahjongConst.SOU1, MahjongConst.SOU2, MahjongConst.SOU3,
-                                      MahjongConst.SOU4, MahjongConst.SOU5, MahjongConst.SOU6,
-                                      MahjongConst.SOU7, MahjongConst.SOU8, MahjongConst.SOU9};
+        BAMBOOS =
+            new Integer[] {MahjongConst.SOU1, MahjongConst.SOU2, MahjongConst.SOU3,
+                           MahjongConst.SOU4, MahjongConst.SOU5, MahjongConst.SOU6,
+                           MahjongConst.SOU7, MahjongConst.SOU8, MahjongConst.SOU9};
 
-        suits.add(characters);
-        suits.add(circles);
-        suits.add(bamboos);
+        SUITS.add(CHARACTERS);
+        SUITS.add(CIRCLES);
+        SUITS.add(BAMBOOS);
+
+        Arrays.fill(USE_CNTS, 0);
+
     }
 
     /**
@@ -132,9 +138,6 @@ public class HandUtil {
      */
     public static void analyzeThirteenOrphans(HandsStatusDto dto) {
 
-        int[] zero = new int[MahjongConst.TILE_TYPES];
-        Arrays.fill(zero, 0);
-
         // 面前かを判定
         if (!dto.conceal) {
             return;
@@ -142,24 +145,24 @@ public class HandUtil {
 
         int[] clone = dto.useCnts.clone();
 
-        if (!Arrays.asList(thirteenOrphans).contains(dto.eyes)) {
+        if (!Arrays.asList(TERMINALS_AND_HONORS).contains(dto.eyes)) {
             // 雀頭が中張牌(2~8)の場合は処理を抜ける
             return;
         }
 
-        for (int i = 0; i < thirteenOrphans.length; i++) {
+        for (int i = 0; i < TERMINALS_AND_HONORS.length; i++) {
 
             // 雀頭は除外
-            if (thirteenOrphans[i] == dto.eyes) {
+            if (TERMINALS_AND_HONORS[i] == dto.eyes) {
                 continue;
             }
 
-            if (clone[thirteenOrphans[i]] >= 1) {
-                clone[thirteenOrphans[i]]--;
+            if (clone[TERMINALS_AND_HONORS[i]] >= 1) {
+                clone[TERMINALS_AND_HONORS[i]]--;
             }
         }
 
-        if (Arrays.equals(clone, zero)) {
+        if (Arrays.equals(clone, USE_CNTS)) {
             dto.isThirtheenOrphans = true;
             dto.grandSlamCounter++;
         }
@@ -179,7 +182,7 @@ public class HandUtil {
         }
 
         // 数牌を判定
-        for (Integer[] suit : suits) {
+        for (Integer[] suit : SUITS) {
 
             // 1,9が3枚以上あるかを判定
             if (dto.useCnts[suit[0]] < 3 || dto.useCnts[suit[8]] < 3) {
@@ -251,7 +254,7 @@ public class HandUtil {
 
         // 全て字牌かを判定
         for (Integer pung : dto.pungs) {
-            if (!Arrays.asList(honors).contains(pung)) {
+            if (!Arrays.asList(HONORS).contains(pung)) {
                 return;
             }
         }
@@ -266,7 +269,7 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeBigFourWinds(HandsStatusDto dto) {
-        
+
         // 全て刻子かを判定
         if (!dto.chows.isEmpty()) {
             return;
@@ -274,7 +277,7 @@ public class HandUtil {
 
         // 全ての刻子が風牌で構成されているかを判定
         for (Integer pung : dto.pungs) {
-            if (!Arrays.asList(winds).contains(pung)) {
+            if (!Arrays.asList(WINDS).contains(pung)) {
                 return;
             }
         }
@@ -291,14 +294,14 @@ public class HandUtil {
     public static void analyzeSmallFourWinds(HandsStatusDto dto) {
 
         // 雀頭が風牌かを判定
-        if (!Arrays.asList(winds).contains(dto.eyes)) {
+        if (!Arrays.asList(WINDS).contains(dto.eyes)) {
             return;
         }
 
         // 風牌の刻子数をカウント
         int cnt = 0;
         for (Integer pung : dto.pungs) {
-            if (Arrays.asList(winds).contains(pung)) {
+            if (Arrays.asList(WINDS).contains(pung)) {
                 cnt++;
             }
         }
@@ -319,7 +322,7 @@ public class HandUtil {
 
         // 2索,3索,4索,6索,8索,発のみで構成されているかを判定
         for (int hand : dto.hands) {
-            if (!Arrays.asList(allGreen).contains(hand)) {
+            if (!Arrays.asList(ALL_GREENS).contains(hand)) {
                 return;
             }
         }
@@ -339,7 +342,7 @@ public class HandUtil {
         // 三元牌をカウント
         int cnt = 0;
         for (Integer pung : dto.pungs) {
-            if (Arrays.asList(dragons).contains(pung)) {
+            if (Arrays.asList(DRAGONS).contains(pung)) {
                 cnt++;
             }
         }
@@ -360,7 +363,7 @@ public class HandUtil {
 
         // 1萬,9萬,1筒,9筒,1索,9索のみで構成されているかを判定
         for (int hand : dto.hands) {
-            if (!Arrays.asList(terminals).contains(hand)) {
+            if (!Arrays.asList(TERMINALS).contains(hand)) {
                 return;
             }
         }
@@ -376,9 +379,6 @@ public class HandUtil {
      */
     public static void analyzeSevenPairs(HandsStatusDto dto) {
 
-        int[] zero = new int[MahjongConst.TILE_TYPES];
-        Arrays.fill(zero, 0);
-
         if (!dto.conceal) {
             return;
         }
@@ -391,7 +391,7 @@ public class HandUtil {
             }
         }
 
-        if (Arrays.equals(clone, zero)) {
+        if (Arrays.equals(clone, USE_CNTS)) {
             dto.isSevenPairs = true;
         }
     }
@@ -405,7 +405,7 @@ public class HandUtil {
     public static void analyzeAllSimples(HandsStatusDto dto) {
 
         for (int hand : dto.hands) {
-            if (Arrays.asList(thirteenOrphans).contains(hand)) {
+            if (Arrays.asList(TERMINALS_AND_HONORS).contains(hand)) {
                 return;
             }
         }
@@ -427,7 +427,7 @@ public class HandUtil {
             if (isWindTile(pung, dto)) {
                 dto.valueTilesCnt++;
             }
-            if (isSelfWind(pung, dto)) {
+            if (isSelfWindTile(pung, dto)) {
                 dto.valueTilesCnt++;
             }
         }
@@ -443,7 +443,7 @@ public class HandUtil {
     public static boolean isValueTile(int idx) {
 
         // 白、発、中
-        if (Arrays.asList(dragons).contains(idx)) {
+        if (Arrays.asList(DRAGONS).contains(idx)) {
             return true;
         }
 
@@ -480,7 +480,7 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      * @return 判定結果
      */
-    public static boolean isSelfWind(int idx, HandsStatusDto dto) {
+    public static boolean isSelfWindTile(int idx, HandsStatusDto dto) {
 
         // 自風(初期値:東)
         int selfWind = MahjongConst.EAST;
@@ -519,15 +519,20 @@ public class HandUtil {
         }
 
         // 字牌が含まれているかを判定
+        boolean containsHonor = false;
         for (int hand : dto.hands) {
-            if (!Arrays.asList(honors).contains(hand)) {
-                return;
+            if (Arrays.asList(HONORS).contains(hand)) {
+                containsHonor = true;
             }
+        }
+
+        if (!containsHonor) {
+            return;
         }
 
         // ヤオ九牌で構成されているかを判定
         for (int hand : dto.hands) {
-            if (!Arrays.asList(thirteenOrphans).contains(hand)) {
+            if (!Arrays.asList(TERMINALS_AND_HONORS).contains(hand)) {
                 return;
             }
         }
@@ -543,14 +548,14 @@ public class HandUtil {
     public static void analyzeLittleDragons(HandsStatusDto dto) {
 
         // 雀頭が三元牌かを判定
-        if (!Arrays.asList(dragons).contains(dto.eyes)) {
+        if (!Arrays.asList(DRAGONS).contains(dto.eyes)) {
             return;
         }
 
         // 三元牌の刻子数をカウント
         int cnt = 0;
         for (Integer pung : dto.pungs) {
-            if (Arrays.asList(dragons).contains(pung)) {
+            if (Arrays.asList(DRAGONS).contains(pung)) {
                 cnt++;
             }
         }
@@ -569,22 +574,25 @@ public class HandUtil {
     public static void analyzeHalfFlash(HandsStatusDto dto) {
 
         // 字牌が含まれているかを判定
+        boolean containsHonor = false;
         for (int hand : dto.hands) {
-            if (!Arrays.asList(honors).contains(hand)) {
-                return;
+            if (Arrays.asList(HONORS).contains(hand)) {
+                containsHonor = true;
             }
         }
 
+        if (!containsHonor) {
+            return;
+        }
+
         // 数牌を判定
-        for (Integer[] suit : suits) {
+        for (Integer[] suit : SUITS) {
 
             boolean contains = true;
             for (int hand : dto.hands) {
-                if (!Arrays.asList(suit).contains(hand)) {
-                    if (!Arrays.asList(honors).contains(hand)) {
-                        contains = false;
-                        break;
-                    }
+                if (!Arrays.asList(suit).contains(hand) && !Arrays.asList(HONORS).contains(hand)) {
+                    contains = false;
+                    break;
                 }
             }
 
@@ -604,7 +612,7 @@ public class HandUtil {
     public static void analyzeFullFlash(HandsStatusDto dto) {
 
         // 数牌を判定
-        for (Integer[] suit : suits) {
+        for (Integer[] suit : SUITS) {
 
             boolean contains = true;
             for (int hand : dto.hands) {
@@ -640,12 +648,12 @@ public class HandUtil {
         }
 
         // 雀頭が翻牌かを判定
-        if (isValueTile(dto.eyes) || isWindTile(dto.eyes, dto) || isSelfWind(dto.eyes, dto)) {
+        if (isValueTile(dto.eyes) || isWindTile(dto.eyes, dto) || isSelfWindTile(dto.eyes, dto)) {
             return;
         }
 
         // 両面待ちかを判定
-        if (isBothSides(dto)) {
+        if (dto.isBothSides) {
             dto.isAllRuns = true;
         }
     }
@@ -665,16 +673,113 @@ public class HandUtil {
         // 同一の順子があるかを判定
         for (int i = 0; i < dto.chows.size(); i++) {
 
-            Integer[] source = dto.chows.get(i);
-
             for (int j = i + 1; j < dto.chows.size(); j++) {
 
-                if (Arrays.equals(source, dto.chows.get(j))) {
+                if (Arrays.equals(dto.chows.get(i), dto.chows.get(j))) {
                     dto.isDoubleRun = true;
                     return;
                 }
             }
         }
+    }
+
+    /**
+     * 
+     * 全帯かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeMixedOutsideHand(HandsStatusDto dto) {
+
+        // 字牌が含まれているかを判定
+        boolean containsHonor = false;
+        for (int hand : dto.hands) {
+            if (Arrays.asList(HONORS).contains(hand)) {
+                containsHonor = true;
+            }
+        }
+
+        if (!containsHonor) {
+            return;
+        }
+
+        // 雀頭がヤオ九牌で構成されているかを判定
+        if (!Arrays.asList(TERMINALS_AND_HONORS).contains(dto.eyes)) {
+            return;
+        }
+
+        // 刻子がヤオ九牌で構成されているかを判定
+        for (Integer pung : dto.pungs) {
+            if (!Arrays.asList(TERMINALS_AND_HONORS).contains(pung)) {
+                return;
+            }
+        }
+
+        // 順子が123、または789かを判定
+        for (Integer[] chow : dto.chows) {
+            if (!Arrays.asList(TERMINALS).contains(chow[0])
+                && !Arrays.asList(TERMINALS).contains(chow[2])) {
+                return;
+            }
+        }
+        dto.isMixedOutsideHand = true;
+
+    }
+
+    /**
+     * 
+     * 三色同順かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeThreeColorRuns(HandsStatusDto dto) {
+
+        // 順子が3組以上あるかを判定
+        if (dto.chows.size() < 3) {
+            return;
+        }
+
+        // 順子の先頭牌を取得
+        int[] clone = USE_CNTS.clone();
+        for (Integer[] chow : dto.chows) {
+            clone[chow[0]]++;
+        }
+
+        // 別色の同数牌があるかを判定
+        for (int i = MahjongConst.MAN1; i <= MahjongConst.MAN7; i++) {
+            if (clone[i] > 0 && clone[i + 9] > 0 && clone[i + 18] > 0) {
+                dto.isThreeColorRuns = true;
+            }
+        }
+
+    }
+
+    /**
+     * 
+     * 一気通貫かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeFullStraight(HandsStatusDto dto) {
+
+        // 順子が3組以上あるかを判定
+        if (dto.chows.size() < 3) {
+            return;
+        }
+
+        // 順子の先頭牌を取得
+        int[] clone = USE_CNTS.clone();
+        for (Integer[] chow : dto.chows) {
+            clone[chow[0]]++;
+        }
+
+        // 同色の123,456,789があるかを判定
+        for (int i = MahjongConst.MAN1; i <= MahjongConst.SOU9; i += 9) {
+            if (clone[i] > 0 && clone[i + 3] > 0 && clone[i + 6] > 0) {
+                dto.isFullStraight = true;
+            }
+        }
+
     }
 
     /**
@@ -696,6 +801,34 @@ public class HandUtil {
     }
 
     /**
+     * 
+     * 三色同刻かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeThreeColorTriples(HandsStatusDto dto) {
+
+        // 刻子が3組以上あるかを判定
+        if (dto.pungs.size() < 3) {
+            return;
+        }
+
+        // 刻子を取得
+        int[] clone = USE_CNTS.clone();
+        for (Integer pung : dto.pungs) {
+            clone[pung]++;
+        }
+
+        // 別色の同数牌があるかを判定
+        for (int i = MahjongConst.MAN1; i <= MahjongConst.MAN7; i++) {
+            if (clone[i] > 0 && clone[i + 9] > 0 && clone[i + 18] > 0) {
+                dto.isThreeColorTriples = true;
+            }
+        }
+
+    }
+
+    /**
      * 二盃口かを解析します。
      * 
      * @param dto {@link HandsStatusDto}
@@ -712,9 +845,6 @@ public class HandUtil {
             return;
         }
 
-        int[] zero = new int[MahjongConst.TILE_TYPES];
-        Arrays.fill(zero, 0);
-
         int[] clone = dto.useCnts.clone();
 
         for (int i = 0; i < 2; i++) {
@@ -725,7 +855,7 @@ public class HandUtil {
             }
         }
 
-        if (Arrays.equals(clone, zero)) {
+        if (Arrays.equals(clone, USE_CNTS)) {
             dto.isTwoDoubleRuns = true;
             dto.isDoubleRun = false;
         }
@@ -733,19 +863,75 @@ public class HandUtil {
 
     /**
      * 
-     * 両面待ちかを判定します。
+     * 純全帯かを解析します。
      * 
      * @param dto {@link HandsStatusDto}
-     * @return 判定結果
      */
-    private static boolean isBothSides(HandsStatusDto dto) {
+    public static void analyzePureOutsideHand(HandsStatusDto dto) {
 
-        for (Integer[] chow : dto.chows) {
-            if (dto.winningTile == chow[0] || dto.winningTile == chow[2]) {
-                return true;
+        // 雀頭が一九牌で構成されているかを判定
+        if (!Arrays.asList(TERMINALS).contains(dto.eyes)) {
+            return;
+        }
+
+        // 刻子が一九牌で構成されているかを判定
+        for (Integer pung : dto.pungs) {
+            if (!Arrays.asList(TERMINALS).contains(pung)) {
+                return;
             }
         }
-        return false;
+
+        // 順子が123、または789かを判定
+        for (Integer[] chow : dto.chows) {
+            if (!Arrays.asList(TERMINALS).contains(chow[0])
+                && !Arrays.asList(TERMINALS).contains(chow[2])) {
+                return;
+            }
+        }
+        dto.isPureOutsideHand = true;
+
+    }
+
+    /**
+     * 
+     * 三暗刻かを解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    public static void analyzeThreeConcealedTriples(HandsStatusDto dto) {
+
+        // 四暗刻の場合、処理を抜ける。
+        if (dto.isFourConcealedTriples) {
+            return;
+        }
+
+        // 刻子が3組以上あるかを判定
+        if (dto.pungs.size() < 3) {
+            return;
+        }
+
+        // あがり牌が順子に含まれているかを判定
+        boolean contains = false;
+        for (Integer[] chow : dto.chows) {
+            if (Arrays.asList(chow).contains(dto.winningTile)) {
+                contains = true;
+            }
+        }
+
+        // 刻子を判定
+        for (Integer pung : dto.pungs) {
+            if (!dto.isRon) {
+                dto.isThreeConcealedTriples = true;
+            } else {
+                if (dto.winningTile == pung) {
+                    if (contains) {
+                        dto.isThreeConcealedTriples = true;
+                    }
+                } else {
+                    dto.isThreeConcealedTriples = true;
+                }
+            }
+        }
     }
 
     /**
@@ -761,11 +947,9 @@ public class HandUtil {
 
         if (dto.isThirtheenOrphans) {
             hands.add(MahjongConst.THIRTEEN_ORPHANS);
-            return hands;
         }
         if (dto.isNineTreasures) {
             hands.add(MahjongConst.NINE_TRESURES);
-            return hands;
         }
         if (dto.isFourConcealedTriples) {
             hands.add(MahjongConst.FOUR_CONCEALED_TRIPLES);
@@ -775,25 +959,23 @@ public class HandUtil {
         }
         if (dto.isBigFourWinds) {
             hands.add(MahjongConst.BIG_FOUR_WINDS);
-            return hands;
         }
         if (dto.isSmallFourWinds) {
             hands.add(MahjongConst.SMALL_FOUR_WINDS);
-            return hands;
         }
         if (dto.isAllGreen) {
             hands.add(MahjongConst.ALL_GREEN);
-            return hands;
         }
         if (dto.isBigDragons) {
             hands.add(MahjongConst.BIG_DRAGONS);
-            return hands;
         }
         if (dto.isTerminals) {
             hands.add(MahjongConst.TERMINALS);
+        }
+        if (dto.grandSlamCounter > 0) {
             return hands;
         }
-        if (!dto.isRon) {
+        if (!dto.isRon && dto.conceal) {
             hands.add(MahjongConst.SELF_DRAW + MahjongConst.FAN1);
             dto.fan += 1;
         }
@@ -821,7 +1003,6 @@ public class HandUtil {
                 hands.add(MahjongConst.HALF_FLASH + MahjongConst.FAN2);
                 dto.fan += 2;
             }
-
         }
         if (dto.isFullFlash) {
             if (dto.conceal) {
@@ -831,7 +1012,6 @@ public class HandUtil {
                 hands.add(MahjongConst.FULL_FLASH + MahjongConst.FAN5);
                 dto.fan += 5;
             }
-
         }
         if (dto.isLittleDragons) {
             hands.add(MahjongConst.LITTLE_DRAGONS + MahjongConst.FAN2);
@@ -845,13 +1025,57 @@ public class HandUtil {
             hands.add(MahjongConst.DOUBLE_RUN + MahjongConst.FAN1);
             dto.fan += 1;
         }
+        if (dto.isMixedOutsideHand) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.MIXED_OUTSIDE_HAND + MahjongConst.FAN2);
+                dto.fan += 2;
+            } else {
+                hands.add(MahjongConst.MIXED_OUTSIDE_HAND + MahjongConst.FAN1);
+                dto.fan += 1;
+            }
+        }
+        if (dto.isThreeColorRuns) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.THREE_COLOR_RUNS + MahjongConst.FAN2);
+                dto.fan += 2;
+            } else {
+                hands.add(MahjongConst.THREE_COLOR_RUNS + MahjongConst.FAN1);
+                dto.fan += 1;
+            }
+        }
+        if (dto.isFullStraight) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.FULL_STRAIGHT + MahjongConst.FAN2);
+                dto.fan += 2;
+            } else {
+                hands.add(MahjongConst.FULL_STRAIGHT + MahjongConst.FAN1);
+                dto.fan += 1;
+            }
+        }
         if (dto.isAllTriples) {
             hands.add(MahjongConst.ALL_TRIPLES + MahjongConst.FAN2);
+            dto.fan += 2;
+        }
+        if (dto.isThreeColorTriples) {
+            hands.add(MahjongConst.THREE_COLOR_TRIPLES + MahjongConst.FAN2);
             dto.fan += 2;
         }
         if (dto.isTwoDoubleRuns) {
             hands.add(MahjongConst.TWO_DOUBLE_RUNS + MahjongConst.FAN3);
             dto.fan += 3;
+        }
+        if (dto.isPureOutsideHand) {
+            if (dto.conceal) {
+                hands.add(MahjongConst.PURE_OUTSIDE_HAND + MahjongConst.FAN3);
+                dto.fan += 3;
+            } else {
+                hands.add(MahjongConst.PURE_OUTSIDE_HAND + MahjongConst.FAN2);
+                dto.fan += 2;
+            }
+        }
+        if (dto.isThreeConcealedTriples) {
+            hands.add(MahjongConst.THREE_CONCEALED_TRIPLES + MahjongConst.FAN2);
+            dto.fan += 2;
         }
         if (dto.valueTilesCnt > 0) {
             hands.add(MahjongConst.VALUE_TILES + " " + dto.valueTilesCnt);

@@ -5,7 +5,6 @@ package jp.co.headwaters.jacpot.mahjong.common;
 
 import android.view.View;
 
-
 /**
  * <p>
  * コールバックリスナーを実装するためのインターフェースです。
@@ -36,6 +35,7 @@ public interface CallbackListener {
     /**
      * 
      * コールバックメソッドです。
+     * 
      * @param v 呼出し元{@link View}クラス
      */
     void callback(View v);

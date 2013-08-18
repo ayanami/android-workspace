@@ -128,6 +128,9 @@ public class HandsJudgmentUtil {
         dto.hands = getHands(resourceIds);
         isCompleteHands(dto);
 
+        // 待ちの判定
+        analyzeWaitPattern(dto);
+
         // 九蓮宝燈の判定
         HandUtil.analyzeNineTresures(dto);
 
@@ -177,8 +180,29 @@ public class HandsJudgmentUtil {
             // 一盃口の判定
             HandUtil.analyzeDoubleRun(dto);
 
+            // 全帯の判定
+            HandUtil.analyzeMixedOutsideHand(dto);
+
+            // 三色同順の判定
+            HandUtil.analyzeThreeColorRuns(dto);
+
+            // 一気通貫の判定
+            HandUtil.analyzeFullStraight(dto);
+
+            // 対々和の判定
+            HandUtil.analyzeAllTriples(dto);
+
+            // 三色同刻の判定
+            HandUtil.analyzeThreeColorTriples(dto);
+
             // 二盃口の判定
             HandUtil.analyzeTwoDoubleRuns(dto);
+
+            // 純全帯の判定
+            HandUtil.analyzePureOutsideHand(dto);
+
+            // 三暗刻の判定
+            HandUtil.analyzeThreeConcealedTriples(dto);
 
             // 符の計算
             ScoreUtil.calculateFu(dto);
@@ -258,6 +282,12 @@ public class HandsJudgmentUtil {
                         // 刻子 -> 順子のパターン
                         analyzePungParts(clone, dto.pungs);
                         analyzeChowParts(clone, dto.chows);
+
+                        // 全帯+一盃口、または純全帯+一盃口の場合は再ループ
+                        if (isOutsideHandWithDoubleRun(dto)) {
+                            continue;
+                        }
+
                         break;
                     case 1:
                         // 順子 -> 刻子のパターン
@@ -320,7 +350,8 @@ public class HandsJudgmentUtil {
 
                 // 利用数配列の添え字
                 int idx = 9 * i + j;
-                Integer[] selects = new Integer[]{useCnts[idx], useCnts[idx + 1], useCnts[idx + 2]};
+                Integer[] selects =
+                    new Integer[] {useCnts[idx], useCnts[idx + 1], useCnts[idx + 2]};
 
                 if (Arrays.asList(selects).contains(0)) {
                     // 利用回数が0の牌が含まれている場合
@@ -330,8 +361,104 @@ public class HandsJudgmentUtil {
                     useCnts[idx]--;
                     useCnts[idx + 1]--;
                     useCnts[idx + 2]--;
-                    chows.add(new Integer[]{idx, idx + 1, idx + 2});
+                    chows.add(new Integer[] {idx, idx + 1, idx + 2});
                 }
+            }
+        }
+    }
+
+    /**
+     * 
+     * 全帯+一盃口、または純全帯+一盃口かを判定します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     * @return 判定結果
+     */
+    private static boolean isOutsideHandWithDoubleRun(HandsStatusDto dto) {
+
+        // 雀頭がヤオ九牌で構成されているかを判定
+        if (!Arrays.asList(HandUtil.TERMINALS_AND_HONORS).contains(dto.eyes)) {
+            return false;
+        }
+
+        // 順子が123、または789かを判定
+        for (Integer[] chow : dto.chows) {
+            if (!Arrays.asList(HandUtil.TERMINALS).contains(chow[0])
+                && !Arrays.asList(HandUtil.TERMINALS).contains(chow[2])) {
+                return false;
+            }
+        }
+
+        // 刻子が3組以上あるかを判定
+        if (dto.pungs.size() < 3) {
+            return false;
+        }
+
+        // 刻子を取得
+        int[] clone = USE_CNTS.clone();
+        for (Integer pung : dto.pungs) {
+            clone[pung]++;
+        }
+
+        // 同色の123,789があるかを判定
+        for (int i = MahjongConst.MAN1; i <= MahjongConst.SOU9; i += 9) {
+            if (clone[i] > 0 && clone[i + 1] > 0 && clone[i + 2] > 0) {
+                for (int j = 0; j < 3; j++) {
+                    clone[j]--;
+                }
+                if (clone[i + 8] > 0) {
+                    clone[i + 8]--;
+                }
+            }
+            if (clone[i + 6] > 0 && clone[i + 7] > 0 && clone[i + 8] > 0) {
+                for (int j = 6; j < 9; j++) {
+                    clone[j]--;
+                }
+                if (clone[i] > 0) {
+                    clone[i]--;
+                }
+            }
+        }
+
+        if (Arrays.equals(clone, USE_CNTS)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * 待ちの形を解析します。
+     * 
+     * @param dto {@link HandsStatusDto}
+     */
+    private static void analyzeWaitPattern(HandsStatusDto dto) {
+
+        // 単騎待ちを判定
+        if (dto.winningTile == dto.eyes) {
+            dto.isSingle = true;
+        }
+
+        // 両面、辺張、間張を判定
+        for (Integer[] chow : dto.chows) {
+
+            // 両面を判定
+            if ((dto.winningTile == chow[0] && !Arrays.asList(HandUtil.TERMINALS).contains(chow[2]))
+                || (dto.winningTile == chow[2] && !Arrays.asList(HandUtil.TERMINALS)
+                                .contains(chow[0]))) {
+                dto.isBothSides = true;
+            }
+
+            // 辺張を判定
+            if ((dto.winningTile == chow[0] && Arrays.asList(HandUtil.TERMINALS).contains(chow[2]))
+                || (dto.winningTile == chow[2] && Arrays.asList(HandUtil.TERMINALS)
+                                .contains(chow[0]))) {
+                dto.isSingleSide = true;
+            }
+
+            // 間張を判定
+            if (dto.winningTile == chow[1]) {
+                dto.isSpace = true;
             }
         }
     }

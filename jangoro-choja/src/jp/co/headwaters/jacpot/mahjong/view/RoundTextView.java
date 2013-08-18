@@ -49,12 +49,12 @@ public class RoundTextView extends TextView {
     public RoundTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-    
+
     /**
      * 
      * 編集後の場を設定します。
      * 
-     * @param idx 局リストの添え字 
+     * @param idx 局リストの添え字
      */
     public void setRound(int idx) {
         super.setText(MessageFormat.format(ROUND, ResourceUtil.rounds.get(idx)));

@@ -99,7 +99,7 @@ public class ChooseWinningTilesTableLayout extends TableLayout {
             tr.addView(iv);
         }
     }
-    
+
     /**
      * 
      * あがり牌リソースIDを返却します。

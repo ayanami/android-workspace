@@ -15,19 +15,16 @@ import jp.co.headwaters.jacpot.mahjong.view.ChooseWinningTilesTableLayout;
 import jp.co.headwaters.jacpot.mahjong.view.CountDownTimerLinearLayout;
 import jp.co.headwaters.jacpot.mahjong.view.DragonTableLayout;
 import jp.co.headwaters.jacpot.mahjong.view.FanTextView;
+import jp.co.headwaters.jacpot.mahjong.view.HandTableLayout;
 import jp.co.headwaters.jacpot.mahjong.view.RoundTextView;
 import jp.co.headwaters.jacpot.mahjong.view.ScoreTextView;
 import jp.co.headwaters.jacpot.mahjong.view.SelectedTilesTableLayout;
-import jp.co.headwaters.jacpot.mahjong.view.HandTableLayout;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -60,11 +57,8 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     /** 最大ステージカウント */
     private static final int STAGE_MAX_CNT = 3;
 
-    /** レイアウト切替インターバル(ミリ秒) */
-    private static final long CHANGE_LAYOUT_INTERVAL = 3000;
-
     /** 開始秒数配列(ミリ秒) */
-    private static final long[] MILLIS_IN_FUTURES = new long[]{30000, 30000, 30000};
+    private static final long[] MILLIS_IN_FUTURES = new long[] {40000, 30000, 20000};
 
     /** Warningメッセージ(手牌は13枚で構成してください。) */
     private static final String W_MSG_SPECIFIED_SIZE = "手牌は13枚で構成してください。";
@@ -77,7 +71,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /** {@link CountDownTimerLinearLayout} */
     private CountDownTimerLinearLayout countDownTimer;
-    
+
     /** {@link DragonTableLayout} */
     private DragonTableLayout dragonTableLayout;
 
@@ -94,7 +88,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     private ChooseWinningTilesTableLayout chooseWinningTilesTableLayout;
 
     /**
-     * +@id/btnMakeReadyHandsClearの{@link OnClickListener}匿名クラスです。
+     * +@id/btnMakeReadyHandsMainClearの{@link OnClickListener}匿名クラスです。
      */
     private OnClickListener clearClickListener = new OnClickListener() {
 
@@ -107,7 +101,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     };
 
     /**
-     * +@id/btnMakeReadyHandsOkの{@link OnClickListener}匿名クラスです。
+     * +@id/btnMakeReadyHandsMainOkの{@link OnClickListener}匿名クラスです。
      */
     private OnClickListener okClickListener = new OnClickListener() {
 
@@ -123,29 +117,18 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
             // タイマーのキャンセル
             countDownTimer.cancel();
 
-            // レイアウト変更
-            changeLayout();
+            // 結果表示
+            displayResult();
         }
     };
 
     /**
-     * +@id/btnMakeReadyHandsRestartの{@link OnClickListener}匿名クラスです。
+     * +@id/btnMakeReadyHandsResultXxxNextの{@link OnClickListener}匿名クラスです。
      */
-    private OnClickListener restartClickListener = new OnClickListener() {
+    private OnClickListener nextClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(MakeReadyHandsActivity.this, MainActivity.class));
-        }
-    };
-
-    /**
-     * 一定時間後にレイアウトを切り替えるための{@link Runnable}匿名クラスです。
-     */
-    private Runnable autoChangeLayout = new Runnable() {
-
-        @Override
-        public void run() {
             if (currentStage < STAGE_MAX_CNT) {
                 setMainLayout();
             } else {
@@ -155,11 +138,31 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     };
 
     /**
+     * +@id/btnMakeReadyHandsFinishRestartの{@link OnClickListener}匿名クラスです。
+     */
+    private OnClickListener restartClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            init();
+        }
+    };
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.init();
+    }
+
+    /**
+     * 
+     * 初期化処理です。
+     *
+     */
+    private void init() {
         currentStage = 0;
         totalScore = 0;
         this.setMainLayout();
@@ -173,49 +176,50 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
         currentStage++;
         // ---------------------------------------------
-        // (1) レイアウトの設定
+        // (1) 利用回数初期化
+        // ---------------------------------------------
+        ResourceUtil.initResourceIdIncRedToUseCnt();
+        // ---------------------------------------------
+        // (2) レイアウトの設定
         // ---------------------------------------------
         setContentView(R.layout.ac_make_ready_hands_main);
         // ---------------------------------------------
-        // (2) 場の設定
+        // (3) 場の設定
         // ---------------------------------------------
         this.setRound();
         // ---------------------------------------------
-        // (3) ドラ表示エリア設定
+        // (4) ドラ表示エリア設定
         // ---------------------------------------------
         dragonTableLayout = (DragonTableLayout)findViewById(R.id.tableLayoutDragon);
         dragonTableLayout.init();
         this.dragonTableRow = dragonTableLayout.getRecycleTableRow();
         // ---------------------------------------------
-        // (4) 牌選択エリア設定
+        // (5) 牌選択エリア設定
         // ---------------------------------------------
         this.chooseTilesTableLayout =
-                        (ChooseTilesTableLayout)findViewById(R.id.tableLayoutChooseTiles);
+            (ChooseTilesTableLayout)findViewById(R.id.tableLayoutChooseTiles);
         this.chooseTilesTableLayout.init();
         // ---------------------------------------------
-        // (5) 手牌エリア設定
+        // (6) 手牌エリア設定
         // ---------------------------------------------
         SelectedTilesTableLayout sttl =
-                        (SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles);
+            (SelectedTilesTableLayout)findViewById(R.id.tableLayoutSelectedTiles);
         sttl.init(this.chooseTilesTableLayout.getSelectedTilesImageViews());
         this.selectedTilesTableRow = sttl.getRecycleTableRow();
         // ---------------------------------------------
-        // (6) 利用回数初期化
-        // ---------------------------------------------
-        ResourceUtil.initResourceIdIncRedToUseCnt();
-        // ---------------------------------------------
         // (7) クリアボタン設定
         // ---------------------------------------------
-        ((Button)findViewById(R.id.btnMakeReadyHandsClear)).setOnClickListener(clearClickListener);
+        ((Button)findViewById(R.id.btnMakeReadyHandsMainClear))
+                        .setOnClickListener(clearClickListener);
         // ---------------------------------------------
         // (8) OKボタン設定
         // ---------------------------------------------
-        ((Button)findViewById(R.id.btnMakeReadyHandsOk)).setOnClickListener(okClickListener);
+        ((Button)findViewById(R.id.btnMakeReadyHandsMainOk)).setOnClickListener(okClickListener);
         // ---------------------------------------------
         // (9) カウントダウン開始
         // ---------------------------------------------
         this.countDownTimer =
-                        (CountDownTimerLinearLayout)findViewById(R.id.linearLayoutCountDownTimer);
+            (CountDownTimerLinearLayout)findViewById(R.id.linearLayoutCountDownTimer);
         this.countDownTimer.start(MILLIS_IN_FUTURES[currentStage - 1]);
     }
 
@@ -254,8 +258,13 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // (5) あがり牌選択エリア設定
         // ---------------------------------------------
         this.chooseWinningTilesTableLayout =
-                        (ChooseWinningTilesTableLayout)findViewById(R.id.tableLayoutChooseWinningTiles);
+            (ChooseWinningTilesTableLayout)findViewById(R.id.tableLayoutChooseWinningTiles);
         this.chooseWinningTilesTableLayout.init();
+        // ---------------------------------------------
+        // (6) 次へボタン設定
+        // ---------------------------------------------
+        ((Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext))
+                        .setOnClickListener(nextClickListener);
     }
 
     /**
@@ -280,7 +289,11 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // (4) 得点設定
         // ---------------------------------------------
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(0);
-
+        // ---------------------------------------------
+        // (5) 次へボタン設定
+        // ---------------------------------------------
+        ((Button)findViewById(R.id.btnMakeReadyHandsResultFailureNext))
+                        .setOnClickListener(nextClickListener);
     }
 
     /**
@@ -289,7 +302,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     @Override
     public void callback(View v) {
         if (v instanceof CountDownTimerLinearLayout) {
-            this.changeLayout();
+            this.displayResult();
         }
         if (v instanceof ChooseWinningTilesTableLayout) {
             this.setYakuInfo();
@@ -298,17 +311,16 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /**
      * 
-     * レイアウトを変更します。
+     * 結果レイアウトを表示します。
      * 
      */
-    private void changeLayout() {
+    private void displayResult() {
 
         if (HandsJudgmentUtil.isReadyHands(this.chooseTilesTableLayout
                         .getSelectedTilesResourceIds())) {
             this.setResultSuccessLayout();
         } else {
             this.setResultFailureLayout();
-            new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
         }
     }
 
@@ -326,7 +338,8 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (2) 局情報設定
         // ---------------------------------------------
-        ResourceUtil.setDragon(dragonTableLayout.getDragonId(), dto);
+        ResourceUtil.setDragon(ResourceUtil.resourceIdToIdx.get(dragonTableLayout.getDragonId()),
+                               dto);
         ResourceUtil.setCurrentRoundInfo(currentStage - 1, dto);
         // ---------------------------------------------
         // (3) あがり形解析
@@ -354,7 +367,6 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         ScoreUtil.setScore(dto);
         ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(dto.score);
         totalScore += dto.score;
-        new Handler().postDelayed(autoChangeLayout, CHANGE_LAYOUT_INTERVAL);
     }
 
     /**
@@ -365,8 +377,14 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     private void setFinishLayout() {
 
         setContentView(R.layout.ac_make_ready_hands_finish);
-        ((TextView)findViewById(R.id.textViewFinish)).setText(String.valueOf(totalScore));
-        ((Button)findViewById(R.id.btnMakeReadyHandsRestart))
+        // ---------------------------------------------
+        // (1) 総得点点設定
+        // ---------------------------------------------
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(totalScore);
+        // ---------------------------------------------
+        // (2) 次へボタン設定
+        // ---------------------------------------------
+        ((Button)findViewById(R.id.btnMakeReadyHandsFinishRestart))
                         .setOnClickListener(restartClickListener);
     }
 

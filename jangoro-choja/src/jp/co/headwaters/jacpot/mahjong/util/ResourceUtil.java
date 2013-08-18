@@ -67,10 +67,10 @@ public class ResourceUtil {
     public static List<Integer> winningResourceIds;
 
     /** 場配列 */
-    private static final String[] ROUNDS = new String[]{"東", "南"};
+    private static final String[] ROUNDS = new String[] {"東", "南"};
 
     /** 風配列 */
-    private static final String[] WINDS = new String[]{"東", "南", "西", "北"};
+    private static final String[] WINDS = new String[] {"東", "南", "西", "北"};
 
     /** 利用回数デフォルト */
     private static final int USE_CNT_DEFAULT = 0;
@@ -174,10 +174,6 @@ public class ResourceUtil {
         for (int i = 0; i < FIVE_IDS.size(); i++) {
             fiveToRedFive.put(FIVE_IDS.get(i), RED_FIVE_IDS.get(i));
         }
-        // ---------------------------------------------
-        // (8) 麻雀牌ステータスハッシュの初期化
-        // ---------------------------------------------
-        initResourceIdIncRedToUseCnt();
     }
 
     /**
@@ -219,7 +215,7 @@ public class ResourceUtil {
                 }
                 wind++;
 
-                rounds.add(new Object[]{ROUNDS[i], j + 1, WINDS[wind - 1]});
+                rounds.add(new Object[] {ROUNDS[i], j + 1, WINDS[wind - 1]});
             }
         }
     }
@@ -273,8 +269,7 @@ public class ResourceUtil {
      * @param size リソースIDリストのサイズ
      * @return リソースIDリスト
      */
-    public static List<Integer>
-                    getSpecifiedResourceIds(List<Integer> specifiedResourceIds, int size) {
+    public static List<Integer> getSpecifiedResourceIds(List<Integer> specifiedResourceIds, int size) {
 
         List<Integer> resourceIds = new ArrayList<Integer>();
 
@@ -291,98 +286,6 @@ public class ResourceUtil {
         return resourceIds;
     }
 
-    /**
-     * 国士無双のリソースIDを含むリソースIDリストを返却します。
-     * 
-     * @param size リソースIDリストのサイズ
-     * @return リソースIDリスト
-     */
-    @SuppressWarnings("serial")
-    public static List<Integer> getThirteenOrphansResourceIds(int size) {
-
-        List<Integer> thirteenOrphans = new ArrayList<Integer>() {
-
-            {
-                add(idxToResourceId.get(MahjongConst.MAN1));
-                add(idxToResourceId.get(MahjongConst.MAN9));
-                add(idxToResourceId.get(MahjongConst.PIN1));
-                add(idxToResourceId.get(MahjongConst.PIN9));
-                add(idxToResourceId.get(MahjongConst.SOU1));
-                add(idxToResourceId.get(MahjongConst.SOU9));
-                add(idxToResourceId.get(MahjongConst.EAST));
-                add(idxToResourceId.get(MahjongConst.SOUTH));
-                add(idxToResourceId.get(MahjongConst.WEST));
-                add(idxToResourceId.get(MahjongConst.NORTH));
-                add(idxToResourceId.get(MahjongConst.WHITE));
-                add(idxToResourceId.get(MahjongConst.GREEN));
-                add(idxToResourceId.get(MahjongConst.RED));
-            }
-        };
-
-        return getSpecifiedResourceIds(thirteenOrphans, size);
-    }
-
-    /**
-     * 九蓮宝燈のリソースIDを含むリソースIDリストを返却します。
-     * 
-     * @param size リソースIDリストのサイズ
-     * @return リソースIDリスト
-     */
-    @SuppressWarnings("serial")
-    public static List<Integer> getNineTreasuresResourceIds(int size) {
-
-        List<Integer> nineTreasures = new ArrayList<Integer>() {
-
-            {
-                add(idxToResourceId.get(MahjongConst.SOU1));
-                add(idxToResourceId.get(MahjongConst.SOU1));
-                add(idxToResourceId.get(MahjongConst.SOU1));
-                add(idxToResourceId.get(MahjongConst.SOU2));
-                add(idxToResourceId.get(MahjongConst.SOU3));
-                add(idxToResourceId.get(MahjongConst.SOU4));
-                add(idxToResourceId.get(MahjongConst.SOU5));
-                add(idxToResourceId.get(MahjongConst.SOU6));
-                add(idxToResourceId.get(MahjongConst.SOU7));
-                add(idxToResourceId.get(MahjongConst.SOU8));
-                add(idxToResourceId.get(MahjongConst.SOU9));
-                add(idxToResourceId.get(MahjongConst.SOU9));
-                add(idxToResourceId.get(MahjongConst.SOU9));
-            }
-        };
-
-        return getSpecifiedResourceIds(nineTreasures, size);
-    }
-
-    /**
-     * 四暗刻のリソースIDを含むリソースIDリストを返却します。
-     * 
-     * @param size リソースIDリストのサイズ
-     * @return リソースIDリスト
-     */
-    @SuppressWarnings("serial")
-    public static List<Integer> getFourConcealedTriplesResourceIds(int size) {
-
-        List<Integer> nineTreasures = new ArrayList<Integer>() {
-
-            {
-                add(idxToResourceId.get(MahjongConst.EAST));
-                add(idxToResourceId.get(MahjongConst.EAST));
-                add(idxToResourceId.get(MahjongConst.EAST));
-                add(idxToResourceId.get(MahjongConst.SOUTH));
-                add(idxToResourceId.get(MahjongConst.SOUTH));
-                add(idxToResourceId.get(MahjongConst.SOUTH));
-                add(idxToResourceId.get(MahjongConst.WEST));
-                add(idxToResourceId.get(MahjongConst.WEST));
-                add(idxToResourceId.get(MahjongConst.WEST));
-                add(idxToResourceId.get(MahjongConst.NORTH));
-                add(idxToResourceId.get(MahjongConst.NORTH));
-                add(idxToResourceId.get(MahjongConst.NORTH));
-            }
-        };
-
-        return getSpecifiedResourceIds(nineTreasures, size);
-    }
-    
     /**
      * 利用可能なリソースIDを返却します。
      * 
@@ -487,7 +390,7 @@ public class ResourceUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void setDragon(int idx, HandsStatusDto dto) {
-        
+
         int dragon = idx;
         switch (idx) {
             case MahjongConst.MAN9:

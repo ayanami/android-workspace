@@ -59,7 +59,7 @@ public class ScoreTextView extends TextView {
     public void setScore(int score) {
 
         String editScore = NumberFormat.getInstance().format(score);
-        super.setText(MessageFormat.format(SCORE, new Object[]{editScore}));
+        super.setText(MessageFormat.format(SCORE, new Object[] {editScore}));
     }
 
 }

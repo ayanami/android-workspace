@@ -24,4 +24,15 @@
         <include layout="@layout/common_score" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom" >
+
+        <Button
+            android:id="@+id/btnMakeReadyHandsResultFailureNext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ac_make_ready_hands_btn_caption_next" />
+    </LinearLayout>
 </LinearLayout>

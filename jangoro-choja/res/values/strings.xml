@@ -16,8 +16,10 @@
     <string name="ac_make_ready_hands_text_second">秒</string>
     <string name="ac_make_ready_hands_text_select_tiles">時間内に聴牌形を完成させろ！！</string>
     <string name="ac_make_ready_hands_text_ready_hands">聴牌形</string>
+    <string name="ac_make_ready_hands_text_total_score">総得点</string>
     <string name="ac_make_ready_hands_btn_caption_clear">クリア</string>
     <string name="ac_make_ready_hands_btn_caption_ok">OK</string>
+    <string name="ac_make_ready_hands_btn_caption_next">次へ</string>
     <string name="ac_make_ready_hands_btn_caption_restart">もう一回</string>
     <string name="ac_make_ready_hands_text_select_winning_tiles">あがり牌を選択しろ！！</string>
 

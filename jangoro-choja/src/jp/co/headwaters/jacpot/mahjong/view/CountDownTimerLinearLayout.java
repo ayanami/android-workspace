@@ -41,13 +41,13 @@ import android.widget.TextView;
  * @author HWS 鈴木
  */
 public class CountDownTimerLinearLayout extends LinearLayout {
-    
+
     /** テキスト(残り) */
     private static final String TEXT_TO_GO = "残り";
 
     /** テキスト(秒) */
     private static final String TEXT_SECOND = "秒";
-    
+
     /** <code>secondToGo</code>のテキストサイズ */
     private static final float TEXT_SIZE_SECOND_TO_GO = 20;
 
@@ -59,7 +59,7 @@ public class CountDownTimerLinearLayout extends LinearLayout {
 
     /** {@link CountDownTimer} */
     private CountDownTimer countDownTimer;
-    
+
     /** 対象の{@link Activity} */
     private Activity target;
 
@@ -74,7 +74,7 @@ public class CountDownTimerLinearLayout extends LinearLayout {
         this.init(context);
         this.target = (Activity)context;
     }
-    
+
     /**
      * 
      * 初期化処理です。
@@ -85,13 +85,13 @@ public class CountDownTimerLinearLayout extends LinearLayout {
         TextView tv = new TextView(context);
         tv.setText(TEXT_TO_GO);
         this.addView(tv);
-        
+
         this.secondToGo = new TextView(context);
         this.secondToGo.setTextColor(Color.RED);
         this.secondToGo.setTextSize(TEXT_SIZE_SECOND_TO_GO);
         this.secondToGo.setTypeface(Typeface.DEFAULT_BOLD);
         this.addView(this.secondToGo);
-        
+
         tv = new TextView(context);
         tv.setText(TEXT_SECOND);
         this.addView(tv);

@@ -32,7 +32,7 @@ import android.os.Bundle;
  * 
  * @author HWS 鈴木
  */
-public class DirectionActivity extends Activity { 
+public class DirectionActivity extends Activity {
 
     /**
      * {@inheritDoc}
@@ -40,7 +40,7 @@ public class DirectionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.ac_direction);
     }
 }

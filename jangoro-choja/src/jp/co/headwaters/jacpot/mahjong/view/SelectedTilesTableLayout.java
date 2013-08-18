@@ -81,7 +81,7 @@ public class SelectedTilesTableLayout extends TableLayout {
     public TableRow getRecycleTableRow() {
         return this.recycleTableRow;
     }
-    
+
     /**
      * 
      * {@link TableRow}を再設定します。

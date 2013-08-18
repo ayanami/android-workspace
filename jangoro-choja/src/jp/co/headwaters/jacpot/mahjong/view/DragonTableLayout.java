@@ -47,7 +47,7 @@ public class DragonTableLayout extends TableLayout {
 
     /** 再利用するための{@link TableRow} */
     private TableRow recycleTableRow;
-    
+
     /** 表ドラ表示牌リソースID */
     private int dragonId;
 
@@ -81,11 +81,11 @@ public class DragonTableLayout extends TableLayout {
             } else {
                 iv.setImageResource(R.drawable.p_bk_1);
             }
-            
+
             this.recycleTableRow.addView(iv);
         }
     }
-    
+
     /**
      * 
      * ドラ表示牌リソースIDを返却します。
@@ -95,7 +95,7 @@ public class DragonTableLayout extends TableLayout {
     public int getDragonId() {
         return this.dragonId;
     }
-    
+
     /**
      * 
      * 再利用するための{@link TableRow}を返却します。
@@ -105,7 +105,7 @@ public class DragonTableLayout extends TableLayout {
     public TableRow getRecycleTableRow() {
         return this.recycleTableRow;
     }
-    
+
     /**
      * 
      * {@link TableRow}を再設定します。

@@ -40,7 +40,7 @@ public class HandsStatusDto {
     /** 風{0:東, 1:南, 2:西, 3:北} */
     public int wind;
 
-    /** ドラ(リソースID) */
+    /** ドラ */
     public int dragon;
 
     /** 親かを判定するフラグ */
@@ -69,9 +69,21 @@ public class HandsStatusDto {
 
     /** 刻子リスト */
     public List<Integer> pungs = new ArrayList<Integer>();
-    
+
     /** 面前かを判定するフラグ */
     public boolean conceal = true;
+
+    /** 両面待ちかを判定するフラグ */
+    public boolean isBothSides;
+
+    /** 辺張待ちかを判定するフラグ */
+    public boolean isSingleSide;
+
+    /** 間張待ちかを判定するフラグ */
+    public boolean isSpace;
+
+    /** 単騎待ちかを判定するフラグ */
+    public boolean isSingle;
 
     /** 七対子かを判定するフラグ */
     public boolean isSevenPairs;
@@ -81,10 +93,10 @@ public class HandsStatusDto {
 
     /** 国士無双かを判定するフラグ */
     public boolean isThirtheenOrphans;
-    
+
     /** 九蓮宝燈かを判定するフラグ */
     public boolean isNineTreasures;
-    
+
     /** 四暗刻かを判定するフラグ */
     public boolean isFourConcealedTriples;
 
@@ -96,16 +108,16 @@ public class HandsStatusDto {
 
     /** 小四喜かを判定するフラグ */
     public boolean isSmallFourWinds;
-    
+
     /** 緑一色かを判定するフラグ */
     public boolean isAllGreen;
-    
+
     /** 大三元かを判定するフラグ */
     public boolean isBigDragons;
-    
+
     /** 清老頭かを判定するフラグ */
     public boolean isTerminals;
-    
+
     /** 断ヤオかを判定するフラグ */
     public boolean isAllSimples;
 
@@ -126,15 +138,33 @@ public class HandsStatusDto {
 
     /** 平和かを判定するフラグ */
     public boolean isAllRuns;
-    
+
     /** 一盃口かを判定するフラグ */
     public boolean isDoubleRun;
+
+    /** 全帯かを判定するフラグ */
+    public boolean isMixedOutsideHand;
+
+    /** 三色同順かを判定するフラグ */
+    public boolean isThreeColorRuns;
+
+    /** 一気通貫かを判定するフラグ */
+    public boolean isFullStraight;
 
     /** 対々和かを判定するフラグ */
     public boolean isAllTriples;
 
+    /** 三色同刻かを判定するフラグ */
+    public boolean isThreeColorTriples;
+
     /** 二盃口かを判定するフラグ */
     public boolean isTwoDoubleRuns;
+
+    /** 純全帯かを判定するフラグ */
+    public boolean isPureOutsideHand;
+
+    /** 三暗刻かを判定するフラグ */
+    public boolean isThreeConcealedTriples;
 
     /** 符 */
     public int fu;
@@ -155,7 +185,10 @@ public class HandsStatusDto {
         chows.clear();
         pungs.clear();
         conceal = true;
-        isSevenPairs = false;
+        isBothSides = false;
+        isSingleSide = false;
+        isSpace = false;
+        isSingle = false;
         grandSlamCounter = 0;
         isThirtheenOrphans = false;
         isNineTreasures = false;
@@ -166,6 +199,7 @@ public class HandsStatusDto {
         isAllGreen = false;
         isBigDragons = false;
         isTerminals = false;
+        isSevenPairs = false;
         isAllSimples = false;
         valueTilesCnt = 0;
         isAllTerminalsAndHonors = false;
@@ -173,8 +207,15 @@ public class HandsStatusDto {
         isHalfFlash = false;
         isFullFlash = false;
         isAllRuns = false;
-        isAllTriples = false;
         isDoubleRun = false;
+        isMixedOutsideHand = false;
+        isThreeColorRuns = false;
+        isFullStraight = false;
+        isAllTriples = false;
+        isThreeColorTriples = false;
+        isTwoDoubleRuns = false;
+        isPureOutsideHand = false;
+        isThreeConcealedTriples = false;
         fu = 0;
         fan = 0;
         score = 0;

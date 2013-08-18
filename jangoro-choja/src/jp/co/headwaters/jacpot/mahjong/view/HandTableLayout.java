@@ -43,7 +43,7 @@ public class HandTableLayout extends TableLayout {
 
     /** 役のテキストサイズ */
     private static final float TEXT_SIZE_HAND = 20;
-    
+
     /**
      * コンストラクタです。
      * 

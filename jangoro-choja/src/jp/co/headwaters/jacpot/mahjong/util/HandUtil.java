@@ -221,7 +221,7 @@ public class HandUtil {
         }
 
         // 全て刻子かを判定
-        if (!dto.chows.isEmpty()) {
+        if (dto.pungs.size() < 4) {
             return;
         }
 
@@ -248,7 +248,7 @@ public class HandUtil {
     public static void analyzeAllHonors(HandsStatusDto dto) {
 
         // 全て刻子かを判定
-        if (!dto.chows.isEmpty()) {
+        if (dto.pungs.size() < 4) {
             return;
         }
 
@@ -271,7 +271,7 @@ public class HandUtil {
     public static void analyzeBigFourWinds(HandsStatusDto dto) {
 
         // 全て刻子かを判定
-        if (!dto.chows.isEmpty()) {
+        if (dto.pungs.size() < 4) {
             return;
         }
 
@@ -378,10 +378,6 @@ public class HandUtil {
      * @param dto {@link HandsStatusDto}
      */
     public static void analyzeSevenPairs(HandsStatusDto dto) {
-
-        if (!dto.conceal) {
-            return;
-        }
 
         int[] clone = dto.useCnts.clone();
 
@@ -513,7 +509,7 @@ public class HandUtil {
      */
     public static void analyzeAllTerminalsAndHonors(HandsStatusDto dto) {
 
-        // 全て刻子かを判定
+        // 順子が無いことを判定
         if (!dto.chows.isEmpty()) {
             return;
         }
@@ -643,7 +639,7 @@ public class HandUtil {
         }
 
         // 全てが順子かを判定
-        if (!dto.pungs.isEmpty()) {
+        if (dto.chows.size() < 4) {
             return;
         }
 

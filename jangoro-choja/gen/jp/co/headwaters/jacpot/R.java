@@ -97,10 +97,11 @@ public final class R {
         public static final int h_no_1_g=0x7f020045;
         public static final int i_ji_h_1=0x7f020046;
         public static final int i_ji_h_1_g=0x7f020047;
-        public static final int j_ji_c_1=0x7f020048;
-        public static final int j_ji_c_1_g=0x7f020049;
-        public static final int logo=0x7f02004a;
-        public static final int p_bk_1=0x7f02004b;
+        public static final int ic_launcher=0x7f020048;
+        public static final int j_ji_c_1=0x7f020049;
+        public static final int j_ji_c_1_g=0x7f02004a;
+        public static final int logo=0x7f02004b;
+        public static final int p_bk_1=0x7f02004c;
     }
     public static final class id {
         public static final int btnMainStart=0x7f090001;
@@ -144,23 +145,24 @@ public final class R {
     public static final class string {
         /**  DirectionActivity ac_direction 
          */
-        public static final int ac_direction_text_direction=0x7f060003;
+        public static final int ac_direction_text_direction=0x7f060004;
         /**  MainActivity ac_main 
          */
         public static final int ac_main_btn_caption_start=0x7f060001;
-        public static final int ac_main_menu_caption_direction=0x7f060002;
-        public static final int ac_make_ready_hands_btn_caption_clear=0x7f060009;
-        public static final int ac_make_ready_hands_btn_caption_next=0x7f06000b;
-        public static final int ac_make_ready_hands_btn_caption_ok=0x7f06000a;
-        public static final int ac_make_ready_hands_btn_caption_restart=0x7f06000c;
-        public static final int ac_make_ready_hands_text_ready_hands=0x7f060007;
-        public static final int ac_make_ready_hands_text_second=0x7f060005;
-        public static final int ac_make_ready_hands_text_select_tiles=0x7f060006;
-        public static final int ac_make_ready_hands_text_select_winning_tiles=0x7f06000d;
+        public static final int ac_main_image_view_desc_logo=0x7f060002;
+        public static final int ac_main_menu_caption_direction=0x7f060003;
+        public static final int ac_make_ready_hands_btn_caption_clear=0x7f06000a;
+        public static final int ac_make_ready_hands_btn_caption_next=0x7f06000c;
+        public static final int ac_make_ready_hands_btn_caption_ok=0x7f06000b;
+        public static final int ac_make_ready_hands_btn_caption_restart=0x7f06000d;
+        public static final int ac_make_ready_hands_text_ready_hands=0x7f060008;
+        public static final int ac_make_ready_hands_text_second=0x7f060006;
+        public static final int ac_make_ready_hands_text_select_tiles=0x7f060007;
+        public static final int ac_make_ready_hands_text_select_winning_tiles=0x7f06000e;
         /**  MakeReadyHandsActivity ac_make_ready_hands 
          */
-        public static final int ac_make_ready_hands_text_to_go=0x7f060004;
-        public static final int ac_make_ready_hands_text_total_score=0x7f060008;
+        public static final int ac_make_ready_hands_text_to_go=0x7f060005;
+        public static final int ac_make_ready_hands_text_total_score=0x7f060009;
         /**  common 
          */
         public static final int app_name=0x7f060000;

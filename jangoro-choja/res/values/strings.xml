@@ -5,7 +5,8 @@
     <string name="app_name">雀ゴロ長者</string>
 
     <!-- MainActivity ac_main -->
-    <string name="ac_main_btn_caption_start">Start</string>
+    <string name="ac_main_btn_caption_start">ゲームスタート</string>
+    <string name="ac_main_image_view_desc_logo">ゲームスタート</string>
     <string name="ac_main_menu_caption_direction">ゲームの説明</string>
 
     <!-- DirectionActivity ac_direction -->

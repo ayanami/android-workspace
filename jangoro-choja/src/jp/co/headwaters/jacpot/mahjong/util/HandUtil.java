@@ -1075,7 +1075,7 @@ public class HandUtil {
         }
         if (dto.valueTilesCnt > 0) {
             hands.add(MahjongConst.VALUE_TILES + " " + dto.valueTilesCnt);
-            dto.fan = dto.valueTilesCnt;
+            dto.fan += dto.valueTilesCnt;
         }
         if (dto.dragonCnt > 0) {
             hands.add(MahjongConst.DRAGON + " " + dto.dragonCnt);

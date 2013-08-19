@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
         TypedArray resourceIds = getResources().obtainTypedArray(R.array.tiles);
         TypedArray grayscaleIds = getResources().obtainTypedArray(R.array.tiles_grayscale);
         ResourceUtil.createResources(resourceIds, grayscaleIds);
+        
     }
 
     /**

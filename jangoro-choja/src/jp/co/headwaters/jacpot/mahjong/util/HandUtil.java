@@ -233,7 +233,7 @@ public class HandUtil {
         }
 
         // 単騎待ちの場合
-        if (dto.winningTile == dto.eyes) {
+        if (dto.isSingle) {
             dto.isFourConcealedTriples = true;
             dto.grandSlamCounter++;
         }
@@ -361,7 +361,7 @@ public class HandUtil {
      */
     public static void analyzeTerminals(HandsStatusDto dto) {
 
-        // 1萬,9萬,1筒,9筒,1索,9索のみで構成されているかを判定
+        // 手牌が一九牌で構成されているかを判定
         for (int hand : dto.hands) {
             if (!Arrays.asList(TERMINALS).contains(hand)) {
                 return;
@@ -388,6 +388,7 @@ public class HandUtil {
         }
 
         if (Arrays.equals(clone, USE_CNTS)) {
+            dto.eyes = -1;
             dto.isSevenPairs = true;
         }
     }
@@ -556,7 +557,7 @@ public class HandUtil {
             }
         }
 
-        if (cnt == 3) {
+        if (cnt == 2) {
             dto.isLittleDragons = true;
         }
     }

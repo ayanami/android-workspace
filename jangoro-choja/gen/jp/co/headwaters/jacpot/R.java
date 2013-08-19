@@ -9,8 +9,8 @@ package jp.co.headwaters.jacpot;
 
 public final class R {
     public static final class array {
-        public static final int tiles=0x7f050000;
-        public static final int tiles_grayscale=0x7f050001;
+        public static final int tiles=0x7f060000;
+        public static final int tiles_grayscale=0x7f060001;
     }
     public static final class attr {
     }
@@ -21,8 +21,8 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
         public static final int a_ms1_1=0x7f020000;
@@ -104,23 +104,23 @@ public final class R {
         public static final int p_bk_1=0x7f02004c;
     }
     public static final class id {
-        public static final int btnMainStart=0x7f090001;
-        public static final int btnMakeReadyHandsFinishRestart=0x7f090002;
-        public static final int btnMakeReadyHandsMainClear=0x7f090003;
-        public static final int btnMakeReadyHandsMainOk=0x7f090004;
-        public static final int btnMakeReadyHandsResultFailureNext=0x7f090005;
-        public static final int btnMakeReadyHandsResultSuccessNext=0x7f090006;
-        public static final int linearLayoutCountDownTimer=0x7f090009;
-        public static final int menuDirection=0x7f090010;
-        public static final int tableLayoutChooseTiles=0x7f090007;
-        public static final int tableLayoutChooseWinningTiles=0x7f090008;
-        public static final int tableLayoutDragon=0x7f09000a;
-        public static final int tableLayoutSelectedTiles=0x7f09000f;
-        public static final int tableLayoutYaku=0x7f09000c;
-        public static final int textViewDirection=0x7f090000;
-        public static final int textViewFan=0x7f09000b;
-        public static final int textViewRound=0x7f09000d;
-        public static final int textViewScore=0x7f09000e;
+        public static final int btnMainStart=0x7f0a0001;
+        public static final int btnMakeReadyHandsFinishRestart=0x7f0a0002;
+        public static final int btnMakeReadyHandsMainClear=0x7f0a0003;
+        public static final int btnMakeReadyHandsMainOk=0x7f0a0004;
+        public static final int btnMakeReadyHandsResultFailureNext=0x7f0a0005;
+        public static final int btnMakeReadyHandsResultSuccessNext=0x7f0a0006;
+        public static final int linearLayoutCountDownTimer=0x7f0a0009;
+        public static final int menuDirection=0x7f0a0010;
+        public static final int tableLayoutChooseTiles=0x7f0a0007;
+        public static final int tableLayoutChooseWinningTiles=0x7f0a0008;
+        public static final int tableLayoutDragon=0x7f0a000a;
+        public static final int tableLayoutSelectedTiles=0x7f0a000f;
+        public static final int tableLayoutYaku=0x7f0a000c;
+        public static final int textViewDirection=0x7f0a0000;
+        public static final int textViewFan=0x7f0a000b;
+        public static final int textViewRound=0x7f0a000d;
+        public static final int textViewScore=0x7f0a000e;
     }
     public static final class layout {
         public static final int ac_direction=0x7f030000;
@@ -140,35 +140,38 @@ public final class R {
         public static final int common_selected_tiles=0x7f03000e;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int main=0x7f090000;
+    }
+    public static final class raw {
+        public static final int jangoro_choja=0x7f040000;
     }
     public static final class string {
         /**  DirectionActivity ac_direction 
          */
-        public static final int ac_direction_text_direction=0x7f060004;
+        public static final int ac_direction_text_direction=0x7f070004;
         /**  MainActivity ac_main 
          */
-        public static final int ac_main_btn_caption_start=0x7f060001;
-        public static final int ac_main_image_view_desc_logo=0x7f060002;
-        public static final int ac_main_menu_caption_direction=0x7f060003;
-        public static final int ac_make_ready_hands_btn_caption_clear=0x7f06000a;
-        public static final int ac_make_ready_hands_btn_caption_next=0x7f06000c;
-        public static final int ac_make_ready_hands_btn_caption_ok=0x7f06000b;
-        public static final int ac_make_ready_hands_btn_caption_restart=0x7f06000d;
-        public static final int ac_make_ready_hands_text_ready_hands=0x7f060008;
-        public static final int ac_make_ready_hands_text_second=0x7f060006;
-        public static final int ac_make_ready_hands_text_select_tiles=0x7f060007;
-        public static final int ac_make_ready_hands_text_select_winning_tiles=0x7f06000e;
+        public static final int ac_main_btn_caption_start=0x7f070001;
+        public static final int ac_main_image_view_desc_logo=0x7f070002;
+        public static final int ac_main_menu_caption_direction=0x7f070003;
+        public static final int ac_make_ready_hands_btn_caption_clear=0x7f07000a;
+        public static final int ac_make_ready_hands_btn_caption_next=0x7f07000c;
+        public static final int ac_make_ready_hands_btn_caption_ok=0x7f07000b;
+        public static final int ac_make_ready_hands_btn_caption_restart=0x7f07000d;
+        public static final int ac_make_ready_hands_text_ready_hands=0x7f070008;
+        public static final int ac_make_ready_hands_text_second=0x7f070006;
+        public static final int ac_make_ready_hands_text_select_tiles=0x7f070007;
+        public static final int ac_make_ready_hands_text_select_winning_tiles=0x7f07000e;
         /**  MakeReadyHandsActivity ac_make_ready_hands 
          */
-        public static final int ac_make_ready_hands_text_to_go=0x7f060005;
-        public static final int ac_make_ready_hands_text_total_score=0x7f060009;
+        public static final int ac_make_ready_hands_text_to_go=0x7f070005;
+        public static final int ac_make_ready_hands_text_total_score=0x7f070009;
         /**  common 
          */
-        public static final int app_name=0x7f060000;
+        public static final int app_name=0x7f070000;
     }
     public static final class style {
-        public static final int ActionButton=0x7f070002;
+        public static final int ActionButton=0x7f080002;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -190,10 +193,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f080001;
     }
 }

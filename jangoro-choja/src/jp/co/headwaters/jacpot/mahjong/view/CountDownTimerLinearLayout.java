@@ -5,11 +5,13 @@ package jp.co.headwaters.jacpot.mahjong.view;
 
 import java.util.concurrent.TimeUnit;
 
+import jp.co.headwaters.jacpot.R;
 import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -54,6 +56,12 @@ public class CountDownTimerLinearLayout extends LinearLayout {
     /** カウントダウンインターバル(ミリ秒) */
     private static final long COUNT_DONW_INTERVAL = 1000;
 
+    /** 音楽切替時上限(ミリ秒) */
+    private static final long SWITCH_MUSIC_UPPER_LIMIT = 11000;
+
+    /** 音楽切替時下限(ミリ秒) */
+    private static final long SWITCH_MUSIC_LOWER_LIMIT = 10000;
+
     /** 残り秒数を表示する{@link TextView} */
     private TextView secondToGo;
 
@@ -62,6 +70,12 @@ public class CountDownTimerLinearLayout extends LinearLayout {
 
     /** 対象の{@link Activity} */
     private Activity target;
+
+    /** 通常時{@link MediaPlayer} */
+    private MediaPlayer main;
+
+    /** 残り10秒を切った場合{@link MediaPlayer} */
+    private MediaPlayer quick;
 
     /**
      * コンストラクタです。
@@ -95,6 +109,10 @@ public class CountDownTimerLinearLayout extends LinearLayout {
         tv = new TextView(context);
         tv.setText(TEXT_SECOND);
         this.addView(tv);
+
+        this.main = MediaPlayer.create(context, R.raw.main);
+
+        this.quick = MediaPlayer.create(context, R.raw.quick);
     }
 
     /**
@@ -106,6 +124,7 @@ public class CountDownTimerLinearLayout extends LinearLayout {
     public void start(long millisInFuture) {
         this.countDownTimer = this.getCountDownTimer(millisInFuture);
         this.countDownTimer.start();
+        this.startMain();
     }
 
     /**
@@ -115,6 +134,8 @@ public class CountDownTimerLinearLayout extends LinearLayout {
      */
     public void cancel() {
         this.countDownTimer.cancel();
+        this.stopMain();
+        this.stopQuick();
     }
 
     /**
@@ -129,15 +150,75 @@ public class CountDownTimerLinearLayout extends LinearLayout {
 
             @Override
             public void onTick(long millisUntilFinished) {
+
+                if (millisUntilFinished < SWITCH_MUSIC_UPPER_LIMIT
+                    && millisUntilFinished > SWITCH_MUSIC_LOWER_LIMIT) {
+                    stopMain();
+                    startQuick();
+                }
                 secondToGo.setText(String.valueOf(TimeUnit.MILLISECONDS
                                 .toSeconds(millisUntilFinished)));
             }
 
             @Override
             public void onFinish() {
+                stopQuick();
                 ((CallbackListener)target).callback(CountDownTimerLinearLayout.this);
             }
         };
+    }
+
+    /**
+     * 
+     * main{@link MediaPlayer}をスタートします。
+     * 
+     */
+    private void startMain() {
+        this.main.seekTo(0);
+        this.main.start();
+    }
+    
+    /**
+     * 
+     * main{@link MediaPlayer}をストップします。
+     * 
+     */
+    private void stopMain() {
+
+        if (this.main.isPlaying()) {
+            this.main.pause();
+        }
+    }
+
+    /**
+     * 
+     * quick{@link MediaPlayer}をスタートします。
+     * 
+     */
+    private void startQuick() {
+        this.quick.seekTo(0);
+        this.quick.start();
+    }
+    
+    /**
+     * 
+     * quick{@link MediaPlayer}をストップします。
+     * 
+     */
+    private void stopQuick() {
+        if (this.quick.isPlaying()) {
+            this.quick.pause();
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onDetachedFromWindow() {
+        this.main.release();
+        this.quick.release();
+        super.onDetachedFromWindow();
     }
 
 }

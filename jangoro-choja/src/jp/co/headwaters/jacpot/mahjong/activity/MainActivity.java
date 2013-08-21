@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
             startActivity(new Intent(MainActivity.this, MakeReadyHandsActivity.class));
+            finish();
         }
     };
 

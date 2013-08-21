@@ -143,7 +143,11 @@ public final class R {
         public static final int main=0x7f090000;
     }
     public static final class raw {
-        public static final int jangoro_choja=0x7f040000;
+        public static final int failure=0x7f040000;
+        public static final int finish=0x7f040001;
+        public static final int main=0x7f040002;
+        public static final int quick=0x7f040003;
+        public static final int win=0x7f040004;
     }
     public static final class string {
         /**  DirectionActivity ac_direction 

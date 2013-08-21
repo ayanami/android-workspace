@@ -86,6 +86,7 @@ public class ChooseTilesTableLayout extends TableLayout {
             int nextId = ResourceUtil.getReversedResourceId(currentId);
             iv.setImageResource(nextId);
             iv.setTag(nextId);
+
         }
     };
 
@@ -122,6 +123,7 @@ public class ChooseTilesTableLayout extends TableLayout {
             this.chooseTilesImageViews.add(iv);
             tr.addView(iv);
         }
+        
     }
 
     /**

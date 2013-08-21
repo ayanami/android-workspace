@@ -49,7 +49,7 @@ public class ChooseWinningTilesTableLayout extends TableLayout {
 
     /** あがり牌リソースID */
     private int winningTileResourceId;
-
+    
     /**
      * あがり牌選択エリア{@link ImageView}の{@link OnClickListener}匿名クラスです。
      */
@@ -62,7 +62,7 @@ public class ChooseWinningTilesTableLayout extends TableLayout {
                 return;
             }
             isSelect = true;
-
+            
             ImageView iv = (ImageView)v;
             winningTileResourceId = Integer.parseInt(iv.getTag().toString());
 

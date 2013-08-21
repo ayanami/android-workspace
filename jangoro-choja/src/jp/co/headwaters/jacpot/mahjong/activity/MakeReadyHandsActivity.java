@@ -20,7 +20,11 @@ import jp.co.headwaters.jacpot.mahjong.view.RoundTextView;
 import jp.co.headwaters.jacpot.mahjong.view.ScoreTextView;
 import jp.co.headwaters.jacpot.mahjong.view.SelectedTilesTableLayout;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -54,14 +58,26 @@ import android.widget.Toast;
  */
 public class MakeReadyHandsActivity extends Activity implements CallbackListener {
 
+    /** Informationメッセージ(雀ゴロ長者を終了しますか?) */
+    private static final String I_MSG_FINISH = "雀ゴロ長者を終了しますか?";
+
+    /** Warningメッセージ(手牌は13枚で構成してください。) */
+    private static final String W_MSG_SPECIFIED_SIZE = "手牌は13枚で構成してください。";
+
+    /** メニュータイトル(終了メニュー) */
+    private static final String MENU_TITLE_FINISH = "終了メニュー";
+    
+    /** テキスト(はい) */
+    private static final String TEXT_YES = "はい";
+
+    /** テキスト(いいえ) */
+    private static final String TEXT_NO = "いいえ";
+
     /** 最大ステージカウント */
     private static final int STAGE_MAX_CNT = 3;
 
     /** 開始秒数配列(ミリ秒) */
     private static final long[] MILLIS_IN_FUTURES = new long[] {40000, 30000, 20000};
-
-    /** Warningメッセージ(手牌は13枚で構成してください。) */
-    private static final String W_MSG_SPECIFIED_SIZE = "手牌は13枚で構成してください。";
 
     /** 現在のステージ */
     private int currentStage;
@@ -86,6 +102,15 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /** {@link ChooseWinningTilesTableLayout} */
     private ChooseWinningTilesTableLayout chooseWinningTilesTableLayout;
+
+    /** 成功時{@link MediaPlayer} */
+    private MediaPlayer win;
+
+    /** 失敗時{@link MediaPlayer} */
+    private MediaPlayer failure;
+
+    /** 終了時{@link MediaPlayer} */
+    private MediaPlayer finish;
 
     /**
      * +@id/btnMakeReadyHandsMainClearの{@link OnClickListener}匿名クラスです。
@@ -129,6 +154,15 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
         @Override
         public void onClick(View v) {
+
+            if (win.isPlaying()) {
+                win.pause();
+            }
+
+            if (failure.isPlaying()) {
+                failure.pause();
+            }
+
             if (currentStage < STAGE_MAX_CNT) {
                 setMainLayout();
             } else {
@@ -144,6 +178,11 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
         @Override
         public void onClick(View v) {
+
+            if (finish.isPlaying()) {
+                finish.pause();
+            }
+
             init();
         }
     };
@@ -155,6 +194,44 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.init();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            new AlertDialog.Builder(this).setTitle(MENU_TITLE_FINISH).setMessage(I_MSG_FINISH)
+                            .setPositiveButton(TEXT_YES, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).setNegativeButton(TEXT_NO, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onDestroy() {
+        this.win.release();
+        this.failure.release();
+        this.finish.release();
+        super.onDestroy();
     }
 
     /**
@@ -216,7 +293,13 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsMainOk)).setOnClickListener(okClickListener);
         // ---------------------------------------------
-        // (9) カウントダウン開始
+        // (9) 音源設定
+        // ---------------------------------------------
+        this.win = MediaPlayer.create(this, R.raw.win);
+        this.failure = MediaPlayer.create(this, R.raw.failure);
+        this.finish = MediaPlayer.create(this, R.raw.finish);
+        // ---------------------------------------------
+        // (10) カウントダウン開始
         // ---------------------------------------------
         this.countDownTimer =
             (CountDownTimerLinearLayout)findViewById(R.id.linearLayoutCountDownTimer);
@@ -266,6 +349,11 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         Button btn = (Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext);
         btn.setOnClickListener(nextClickListener);
         btn.setEnabled(false);
+        // ---------------------------------------------
+        // (7) 音源設定
+        // ---------------------------------------------
+        this.win.seekTo(0);
+        this.win.start();
     }
 
     /**
@@ -300,6 +388,11 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsResultFailureNext))
                         .setOnClickListener(nextClickListener);
+        // ---------------------------------------------
+        // (7) 音源設定
+        // ---------------------------------------------
+        this.failure.seekTo(0);
+        this.failure.start();
     }
 
     /**
@@ -311,7 +404,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
             this.displayResult();
         }
         if (v instanceof ChooseWinningTilesTableLayout) {
-            this.setYakuInfo();
+            this.setHandInfo();
         }
     }
 
@@ -335,7 +428,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
      * 役情報を設定します。
      * 
      */
-    private void setYakuInfo() {
+    private void setHandInfo() {
         HandsStatusDto dto = new HandsStatusDto();
         // ---------------------------------------------
         // (1) あがりタイプ設定(ツモ固定)
@@ -396,6 +489,11 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsFinishRestart))
                         .setOnClickListener(restartClickListener);
+        // ---------------------------------------------
+        // (3) 音源設定
+        // ---------------------------------------------
+        this.finish.seekTo(0);
+        this.finish.start();
     }
 
 }

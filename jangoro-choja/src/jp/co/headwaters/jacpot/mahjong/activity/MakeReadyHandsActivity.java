@@ -21,6 +21,7 @@ import jp.co.headwaters.jacpot.mahjong.view.ScoreTextView;
 import jp.co.headwaters.jacpot.mahjong.view.SelectedTilesTableLayout;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -66,7 +67,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
 
     /** メニュータイトル(終了メニュー) */
     private static final String MENU_TITLE_FINISH = "終了メニュー";
-    
+
     /** テキスト(はい) */
     private static final String TEXT_YES = "はい";
 
@@ -202,21 +203,34 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        // 戻るボタン押下時の処理
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            new AlertDialog.Builder(this).setTitle(MENU_TITLE_FINISH).setMessage(I_MSG_FINISH)
-                            .setPositiveButton(TEXT_YES, new DialogInterface.OnClickListener() {
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).setNegativeButton(TEXT_NO, new DialogInterface.OnClickListener() {
+            // ダイアログの設定
+            Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(MENU_TITLE_FINISH);
+            builder.setMessage(I_MSG_FINISH);
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+            // 「はい」が押下された場合の処理
+            builder.setPositiveButton(TEXT_YES, new DialogInterface.OnClickListener() {
 
-                                }
-                            }).show();
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    countDownTimer.cancel();
+                    finish();
+                }
+            });
+
+            // 「いいえ」が押下された場合の処理
+            builder.setNegativeButton(TEXT_NO, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // 何もしない。
+                }
+            });
+            
+            builder.show();
             return true;
         }
 

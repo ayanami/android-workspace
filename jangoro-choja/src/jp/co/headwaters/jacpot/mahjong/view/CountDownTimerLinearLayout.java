@@ -67,7 +67,10 @@ public class CountDownTimerLinearLayout extends LinearLayout {
 
     /** {@link CountDownTimer} */
     private CountDownTimer countDownTimer;
-
+    
+    /** <code>countDownTimer</code>が作動中かを判定するフラグ */
+    private boolean works;
+    
     /** 対象の{@link Activity} */
     private Activity target;
 
@@ -124,6 +127,7 @@ public class CountDownTimerLinearLayout extends LinearLayout {
     public void start(long millisInFuture) {
         this.countDownTimer = this.getCountDownTimer(millisInFuture);
         this.countDownTimer.start();
+        this.works = true;
         this.startMain();
     }
 
@@ -133,7 +137,11 @@ public class CountDownTimerLinearLayout extends LinearLayout {
      * 
      */
     public void cancel() {
+        if (!this.works) {
+            return;
+        }
         this.countDownTimer.cancel();
+        this.works = false;
         this.stopMain();
         this.stopQuick();
     }
@@ -163,11 +171,12 @@ public class CountDownTimerLinearLayout extends LinearLayout {
             @Override
             public void onFinish() {
                 stopQuick();
+                works = false;
                 ((CallbackListener)target).callback(CountDownTimerLinearLayout.this);
             }
         };
     }
-
+    
     /**
      * 
      * main{@link MediaPlayer}をスタートします。

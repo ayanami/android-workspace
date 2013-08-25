@@ -10,6 +10,8 @@ import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 /**
@@ -45,6 +47,12 @@ public class ScoreTextView extends TextView {
     /** 純カラの場合のテキスト */
     private static final String EMPTY = "(純カラ)";
 
+    /** {@link Animation}のパラメータ配列 */
+    private static final float[] ANIMATION_PARAMS = new float[] {0.0f, 1.0f};
+
+    /** {@link Animation}の継続時間 */
+    private static final long ANIMATION_DURATION = 2000L;
+
     /**
      * コンストラクタです。
      * 
@@ -69,6 +77,18 @@ public class ScoreTextView extends TextView {
             formatScore += EMPTY;
         }
         super.setText(formatScore);
+        this.startAnimation(this.getAlphaAnimation());
     }
 
+    /**
+     * 
+     * {@link AlphaAnimation}を返却します。
+     * 
+     * @return {@link AlphaAnimation}
+     */
+    private Animation getAlphaAnimation() {
+        Animation animation = new AlphaAnimation(ANIMATION_PARAMS[0], ANIMATION_PARAMS[1]);
+        animation.setDuration(ANIMATION_DURATION);
+        return animation;
+    }
 }

@@ -115,8 +115,8 @@ public final class R {
         public static final int tableLayoutChooseTiles=0x7f0a0007;
         public static final int tableLayoutChooseWinningTiles=0x7f0a0008;
         public static final int tableLayoutDragon=0x7f0a000a;
+        public static final int tableLayoutHand=0x7f0a000c;
         public static final int tableLayoutSelectedTiles=0x7f0a000f;
-        public static final int tableLayoutYaku=0x7f0a000c;
         public static final int textViewDirection=0x7f0a0000;
         public static final int textViewFan=0x7f0a000b;
         public static final int textViewRound=0x7f0a000d;
@@ -144,10 +144,12 @@ public final class R {
     }
     public static final class raw {
         public static final int failure=0x7f040000;
-        public static final int finish=0x7f040001;
-        public static final int main=0x7f040002;
-        public static final int quick=0x7f040003;
-        public static final int win=0x7f040004;
+        public static final int fan=0x7f040001;
+        public static final int finish=0x7f040002;
+        public static final int hand=0x7f040003;
+        public static final int main=0x7f040004;
+        public static final int quick=0x7f040005;
+        public static final int win=0x7f040006;
     }
     public static final class string {
         /**  DirectionActivity ac_direction 

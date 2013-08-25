@@ -104,6 +104,9 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
     /** {@link ChooseWinningTilesTableLayout} */
     private ChooseWinningTilesTableLayout chooseWinningTilesTableLayout;
 
+    /** {@link HandsStatusDto} */
+    private HandsStatusDto dto;
+
     /** 成功時{@link MediaPlayer} */
     private MediaPlayer win;
 
@@ -229,7 +232,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
                     // 何もしない。
                 }
             });
-            
+
             builder.show();
             return true;
         }
@@ -420,6 +423,9 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         if (v instanceof ChooseWinningTilesTableLayout) {
             this.setHandInfo();
         }
+        if (v instanceof HandTableLayout) {
+            this.setScoreInfo();
+        }
     }
 
     /**
@@ -443,45 +449,51 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
      * 
      */
     private void setHandInfo() {
-        HandsStatusDto dto = new HandsStatusDto();
+        this.dto = new HandsStatusDto();
         // ---------------------------------------------
         // (1) あがりタイプ設定(ツモ固定)
         // ---------------------------------------------
-        dto.isRon = false;
+        this.dto.isRon = false;
         // ---------------------------------------------
         // (2) 局情報設定
         // ---------------------------------------------
-        ResourceUtil.setDragon(ResourceUtil.resourceIdToIdx.get(dragonTableLayout.getDragonId()),
-                               dto);
-        ResourceUtil.setCurrentRoundInfo(currentStage - 1, dto);
+        ResourceUtil.setDragon(ResourceUtil.resourceIdToIdx.get(this.dragonTableLayout
+                        .getDragonId()), this.dto);
+        ResourceUtil.setCurrentRoundInfo(this.currentStage - 1, this.dto);
         // ---------------------------------------------
         // (3) あがり形解析
         // ---------------------------------------------
         HandsJudgmentUtil.analyzeCompleteHands(this.chooseTilesTableLayout
                         .getSelectedTilesResourceIds(), this.chooseWinningTilesTableLayout
-                        .getWinningTileResourceId(), dto);
+                        .getWinningTileResourceId(), this.dto);
 
         // ---------------------------------------------
         // (4) 役設定
         // ---------------------------------------------
-        ((HandTableLayout)findViewById(R.id.tableLayoutYaku)).setHands(HandUtil.createHands(dto));
-
+        ((HandTableLayout)findViewById(R.id.tableLayoutHand)).setHands(HandUtil
+                        .createHands(this.dto));
+    }
+    
+    /**
+     * 得点情報を設定します。
+     */
+    private void setScoreInfo() {
         // ---------------------------------------------
-        // (5) 符、翻の設定
+        // (1) 符、翻の設定
         // ---------------------------------------------
-        if (dto.grandSlamCounter > 0) {
+        if (this.dto.grandSlamCounter > 0) {
             ((FanTextView)findViewById(R.id.textViewFan)).setGrandSlam();
         } else {
-            ((FanTextView)findViewById(R.id.textViewFan)).setFan(dto.fu, dto.fan);
+            ((FanTextView)findViewById(R.id.textViewFan)).setFan(this.dto.fu, this.dto.fan);
         }
         // ---------------------------------------------
-        // (6) 点数設定
+        // (2) 点数設定
         // ---------------------------------------------
-        ScoreUtil.setScore(dto);
-        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(dto.score);
-        totalScore += dto.score;
+        ScoreUtil.setScore(this.dto);
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(this.dto.score);
+        this.totalScore += this.dto.score;
         // ---------------------------------------------
-        // (7) 次へボタン設定
+        // (3) 次へボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMakeReadyHandsResultSuccessNext)).setEnabled(true);
     }
@@ -497,7 +509,7 @@ public class MakeReadyHandsActivity extends Activity implements CallbackListener
         // ---------------------------------------------
         // (1) 総得点点設定
         // ---------------------------------------------
-        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(totalScore);
+        ((ScoreTextView)findViewById(R.id.textViewScore)).setScore(this.totalScore);
         // ---------------------------------------------
         // (2) 次へボタン設定
         // ---------------------------------------------

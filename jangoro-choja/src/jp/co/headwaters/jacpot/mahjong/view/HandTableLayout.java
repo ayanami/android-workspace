@@ -3,10 +3,20 @@
  */
 package jp.co.headwaters.jacpot.mahjong.view;
 
+import java.util.Arrays;
 import java.util.List;
 
+import jp.co.headwaters.jacpot.R;
+import jp.co.headwaters.jacpot.mahjong.common.AnimationListenerAdapter;
+import jp.co.headwaters.jacpot.mahjong.common.CallbackListener;
+import android.app.Activity;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,6 +54,33 @@ public class HandTableLayout extends TableLayout {
     /** 役のテキストサイズ */
     private static final float TEXT_SIZE_HAND = 20;
 
+    /** {@link Animation}のインターバル */
+    private static final long ANIMATION_INTERVAL = 500L;
+
+    /** {@link Animation}のパラメータ配列 */
+    private static final float[] ANIMATION_PARAMS = new float[] {1000.0f, 0.0f, 0.0f, 0.0f};
+
+    /** {@link Animation}の継続時間 */
+    private static final long ANIMATION_DURATION = 500L;
+
+    /** {@link Animation}のステータス(終了) */
+    private static final int ANIMATION_STATUS_FINISH = 1;
+
+    /** {@link SoundPool}のパラメータ配列 */
+    private static final float[] SOUNDPOOL_PARAMS = new float[] {1.0f, 1.0f, 1.0f};
+
+    /** {@link Animation}のステータス配列 */
+    private int[] animationStatus;
+
+    /** 対象の{@link Activity} */
+    private Activity target;
+
+    /** {@link SoundPool} */
+    private SoundPool soundPool;
+
+    /** 効果音ID(hand) */
+    private int soundId;
+
     /**
      * コンストラクタです。
      * 
@@ -52,6 +89,9 @@ public class HandTableLayout extends TableLayout {
      */
     public HandTableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.target = (Activity)context;
+        this.soundPool = new SoundPool(0, AudioManager.STREAM_MUSIC, 0);
+        this.soundId = this.soundPool.load(context, R.raw.hand, 1);
     }
 
     /**
@@ -62,7 +102,12 @@ public class HandTableLayout extends TableLayout {
      */
     public void setHands(List<String> hands) {
 
+        this.animationStatus = new int[hands.size()];
+        Arrays.fill(this.animationStatus, 0);
+
         TableRow tr = null;
+        long delayMillis = 0L;
+
         for (int i = 0; i < hands.size(); i++) {
 
             // TableRowに設定するTextViewの個数を判定
@@ -71,11 +116,70 @@ public class HandTableLayout extends TableLayout {
                 super.addView(tr);
             }
 
-            TextView tv = new TextView(getContext());
-            tv.setText(hands.get(i));
-            tv.setTextSize(TEXT_SIZE_HAND);
+            final TextView tv = new TextView(getContext());
             tr.addView(tv);
+            tv.setTextSize(TEXT_SIZE_HAND);
+
+            // アニメーションの設定
+            final String hand = hands.get(i);
+            final int idx = i;
+            Runnable doAnimation = new Runnable() {
+
+                @Override
+                public void run() {
+                    tv.setText(hand);
+                    tv.startAnimation(getTranslateAnimation(idx));
+                }
+            };
+
+            new Handler().postDelayed(doAnimation, delayMillis);
+            delayMillis += ANIMATION_INTERVAL;
         }
+
     }
 
+    /**
+     * 
+     * {@link TranslateAnimation}を返却します。
+     * 
+     * @param idx <code>animationStatus</code>の添え字
+     * @return {@link TranslateAnimation}
+     */
+    private Animation getTranslateAnimation(final int idx) {
+        Animation animation =
+            new TranslateAnimation(ANIMATION_PARAMS[0], ANIMATION_PARAMS[1], ANIMATION_PARAMS[2],
+                                   ANIMATION_PARAMS[3]);
+        animation.setDuration(ANIMATION_DURATION);
+
+        // アニメーション終了時の設定
+        animation.setAnimationListener(new AnimationListenerAdapter() {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                animationStatus[idx] = ANIMATION_STATUS_FINISH;
+                soundPool.play(soundId, SOUNDPOOL_PARAMS[0], SOUNDPOOL_PARAMS[1], 0, 0,
+                               SOUNDPOOL_PARAMS[2]);
+
+                int[] finishes = new int[animationStatus.length];
+                Arrays.fill(finishes, ANIMATION_STATUS_FINISH);
+
+                if (Arrays.equals(animationStatus, finishes)) {
+                    ((CallbackListener)target).callback(HandTableLayout.this);
+                }
+            }
+        });
+        return animation;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onDetachedFromWindow() {
+        this.soundPool.release();
+        super.onDetachedFromWindow();
+    }
 }

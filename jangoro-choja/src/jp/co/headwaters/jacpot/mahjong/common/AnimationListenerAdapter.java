@@ -24,12 +24,12 @@ import android.view.animation.Animation.AnimationListener;
  * <tr>
  * <td>2013/08/24</td>
  * <td>－</td>
- * <td>HWS 苗字</td>
+ * <td>HWS 鈴木</td>
  * <td>新規作成</td>
  * </tr>
  * </table>
  * 
- * @author HWS 苗字
+ * @author HWS 鈴木
  */
 public class AnimationListenerAdapter implements AnimationListener {
 

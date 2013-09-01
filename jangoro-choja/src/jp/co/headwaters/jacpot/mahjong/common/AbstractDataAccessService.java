@@ -5,6 +5,7 @@ package jp.co.headwaters.jacpot.mahjong.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -40,6 +41,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
 
+    /** 属性(<code>INTEGER NOT NULL</code>) */
+    public static final String ATTRIBUTE_INTEGER_NOT_NULL = " INTEGER NOT NULL";
+
+    /** 属性(<code>TEXT NOT NULL</code>) */
+    public static final String ATTRIBUTE_TEXT_NOT_NULL = " TEXT NOT NULL";
+
     /** データベース名 */
     private static final String DATABASE_NAME = "jacpot.db";
 
@@ -62,9 +69,6 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
     /** {@link SQLiteDatabase} */
     private SQLiteDatabase db;
 
-    /** <code>Entity</code> */
-    private E entity;
-
     /** テーブル名 */
     private String tableName;
 
@@ -73,12 +77,11 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
      * コンストラクタです。
      * 
      * @param context {@link Context}
-     * @param entity <code>Entity</code>
+     * @param tableName テーブル名
      */
-    public AbstractDataAccessService(Context context, E entity) {
+    public AbstractDataAccessService(Context context, String tableName) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.entity = entity;
-        this.tableName = ((AbstractEntity)this.entity).getTableName();
+        this.tableName = tableName;
     }
 
     /**
@@ -91,10 +94,10 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
         query.append("CREATE TABLE");
         query.append(" " + this.tableName + " (");
         query.append(ID + ATTRIBUTE_PRIMARY_KEY);
-        for (String dataDef : ((AbstractEntity)this.entity).getDataDefs()) {
+        for (String dataDef : this.getDataDefs()) {
             query.append(", " + dataDef);
         }
-        query.append(", " + LAST_UPDATE_DATETIME + AbstractEntity.ATTRIBUTE_TEXT_NOT_NULL);
+        query.append(", " + LAST_UPDATE_DATETIME + ATTRIBUTE_TEXT_NOT_NULL);
         query.append(");");
         db.execSQL(query.toString());
     }
@@ -192,6 +195,14 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
         return this.db.update(this.tableName, values, ID + " = ?",
                               new String[] {String.valueOf(((AbstractEntity)entity).id)});
     }
+
+    /**
+     * 
+     * テーブル定義リストを返却します。
+     * 
+     * @return テーブル定義リスト
+     */
+    protected abstract List<String> getDataDefs();
 
     /**
      * 

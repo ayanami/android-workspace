@@ -3,11 +3,6 @@
  */
 package jp.co.headwaters.jacpot.mahjong.entity;
 
-import static jp.co.headwaters.jacpot.mahjong.entity.names.E001StatusEntityNames.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import jp.co.headwaters.jacpot.mahjong.common.AbstractEntity;
 
 /**
@@ -36,9 +31,6 @@ import jp.co.headwaters.jacpot.mahjong.common.AbstractEntity;
  * @author HWS 鈴木
  */
 public class E001StatusEntity extends AbstractEntity {
-
-    /** テーブル名 */
-    private static final String TABLE_NAME = "E001_STATUS";
 
     /** 国士無双 */
     public int thirteenOrphans;
@@ -120,56 +112,40 @@ public class E001StatusEntity extends AbstractEntity {
     
     /** 称号 */
     public String title;
-
+    
     /**
-     * {@inheritDoc}
+     * 
+     * 初期化処理です。
+     *
      */
-    @Override
-    protected String getTableName() {
-        return TABLE_NAME;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("serial")
-    @Override
-    protected List<String> getDataDefs() {
-
-        List<String> dataDefs = new ArrayList<String>() {
-
-            {
-                add(THIRTEEN_ORPHANS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(NINE_TRESURES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(FOUR_CONCEALED_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_HONORS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(BIG_FOUR_WINDS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(SMALL_FOUR_WINDS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_GREEN + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(BIG_DRAGONS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(TERMINALS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(SEVEN_PAIRS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_SIMPLES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_TERMINALS_AND_HONORS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(LITTLE_DRAGONS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(HALF_FLASH + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(FULL_FLASH + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(DOUBLE_RUN + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(MIXED_OUTSIDE_HAND + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(THREE_COLOR_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(FULL_STRAIGHT + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(ALL_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(THREE_COLOR_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(TWO_DOUBLE_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(PURE_OUTSIDE_HAND + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(THREE_CONCEALED_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(BEST_SCORE + ATTRIBUTE_INTEGER_NOT_NULL);
-                add(TITLE + ATTRIBUTE_TEXT_NOT_NULL);
-            }
-        };
-
-        return dataDefs;
+    public void init() {
+        this.thirteenOrphans = 0;
+        this.nineTresures = 0;
+        this.fourConcealedTriples = 0;
+        this.allHonors = 0;
+        this.bigFourWinds = 0;
+        this.smallFourWinds = 0;
+        this.allGreen = 0;
+        this.bigDragons = 0;
+        this.terminals = 0;
+        this.sevenPairs = 0;
+        this.allSimples = 0;
+        this.allTerminalsAndHonors = 0;
+        this.littleDragons = 0;
+        this.halfFlash = 0;
+        this.fullFlash = 0;
+        this.allRuns = 0;
+        this.doubleRun = 0;
+        this.mixedOutsideHand = 0;
+        this.threeColorRuns = 0;
+        this.fullStraight = 0;
+        this.allTriples = 0;
+        this.threeColorTriples = 0;
+        this.twoDoubleRuns = 0;
+        this.pureOutsideHand = 0;
+        this.threeConcealedTriples = 0;
+        this.bestScore = 0;
+        this.title = "hoge";
     }
 
 }

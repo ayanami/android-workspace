@@ -4,6 +4,8 @@
 package jp.co.headwaters.jacpot.mahjong.activity;
 
 import jp.co.headwaters.jacpot.R;
+import jp.co.headwaters.jacpot.mahjong.entity.E001StatusEntity;
+import jp.co.headwaters.jacpot.mahjong.entity.service.E001StatusService;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 
 /**
@@ -62,16 +63,31 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().requestFeature(Window.FEATURE_LEFT_ICON);
-
+        // ---------------------------------------------
+        // (1) レイアウトの設定
+        // ---------------------------------------------
         setContentView(R.layout.ac_main);
-
+        // ---------------------------------------------
+        // (2) スタートボタン設定
+        // ---------------------------------------------
         ((Button)findViewById(R.id.btnMainStart)).setOnClickListener(startClickListener);
-
+        // ---------------------------------------------
+        // (3) リソース設定
+        // ---------------------------------------------
         TypedArray resourceIds = getResources().obtainTypedArray(R.array.tiles);
         TypedArray grayscaleIds = getResources().obtainTypedArray(R.array.tiles_grayscale);
         ResourceUtil.createResources(resourceIds, grayscaleIds);
-        
+        // ---------------------------------------------
+        // (4) DB設定
+        // ---------------------------------------------
+        E001StatusService service = new E001StatusService(this);
+        service.open();
+        if (service.getCount() == 0) {
+            E001StatusEntity entity = new E001StatusEntity();
+            entity.init();
+            service.insert(entity);
+        }
+        service.close();
     }
 
     /**

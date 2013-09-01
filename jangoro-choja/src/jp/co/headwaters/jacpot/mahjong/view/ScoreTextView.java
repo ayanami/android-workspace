@@ -75,6 +75,7 @@ public class ScoreTextView extends TextView {
             MessageFormat.format(SCORE, new Object[] {NumberFormat.getInstance().format(score)});
         if (ResourceUtil.isEmptyWinningTiles) {
             formatScore += EMPTY;
+            ResourceUtil.isEmptyWinningTiles = false;
         }
         super.setText(formatScore);
         this.startAnimation(this.getAlphaAnimation());

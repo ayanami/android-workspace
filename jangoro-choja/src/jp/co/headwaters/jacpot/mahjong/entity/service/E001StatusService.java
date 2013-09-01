@@ -5,6 +5,9 @@ package jp.co.headwaters.jacpot.mahjong.entity.service;
 
 import static jp.co.headwaters.jacpot.mahjong.entity.names.E001StatusEntityNames.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -38,14 +41,59 @@ import jp.co.headwaters.jacpot.mahjong.entity.E001StatusEntity;
  */
 public class E001StatusService extends AbstractDataAccessService<E001StatusEntity> {
 
+    /** テーブル名 */
+    private static final String TABLE_NAME = "E001_STATUS";
+
     /**
      * コンストラクタです。
      * 
      * @param context {@link Context}
-     * @param entity {@link E001StatusEntity}
      */
-    public E001StatusService(Context context, E001StatusEntity entity) {
-        super(context, entity);
+    public E001StatusService(Context context) {
+        super(context, TABLE_NAME);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("serial")
+    @Override
+    protected List<String> getDataDefs() {
+
+        List<String> dataDefs = new ArrayList<String>() {
+
+            {
+                add(THIRTEEN_ORPHANS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(NINE_TRESURES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(FOUR_CONCEALED_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_HONORS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(BIG_FOUR_WINDS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(SMALL_FOUR_WINDS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_GREEN + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(BIG_DRAGONS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(TERMINALS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(SEVEN_PAIRS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_SIMPLES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_TERMINALS_AND_HONORS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(LITTLE_DRAGONS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(HALF_FLASH + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(FULL_FLASH + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(DOUBLE_RUN + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(MIXED_OUTSIDE_HAND + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(THREE_COLOR_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(FULL_STRAIGHT + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(ALL_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(THREE_COLOR_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(TWO_DOUBLE_RUNS + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(PURE_OUTSIDE_HAND + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(THREE_CONCEALED_TRIPLES + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(BEST_SCORE + ATTRIBUTE_INTEGER_NOT_NULL);
+                add(TITLE + ATTRIBUTE_TEXT_NOT_NULL);
+            }
+        };
+
+        return dataDefs;
     }
 
     /**

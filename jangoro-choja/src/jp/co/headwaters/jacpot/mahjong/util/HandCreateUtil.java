@@ -223,6 +223,38 @@ public class HandCreateUtil {
     }
     
     /**
+     * 二盃口のリソースIDを含むリソースIDリストを返却します。
+     * 
+     * @param size リソースIDリストのサイズ
+     * @return リソースIDリスト
+     */
+    @SuppressWarnings("serial")
+    public static List<Integer> getTwoDoubleRunsResourceIds(int size) {
+
+        List<Integer> resourceIds = new ArrayList<Integer>() {
+
+            {
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN2));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN2));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN3));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN3));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN4));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN4));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN2));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN2));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN3));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN3));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN4));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN4));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN8));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.PIN8));
+            }
+        };
+
+        return ResourceUtil.getSpecifiedResourceIds(resourceIds, size);
+    }
+    
+    /**
      * 純全帯のリソースIDを含むリソースIDリストを返却します。
      * 
      * @param size リソースIDリストのサイズ

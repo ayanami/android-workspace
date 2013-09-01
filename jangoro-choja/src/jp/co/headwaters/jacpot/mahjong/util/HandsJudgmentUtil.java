@@ -311,13 +311,17 @@ public class HandsJudgmentUtil {
                         break;
                 }
 
-                if (Arrays.equals(clone, USE_CNTS) || dto.isSevenPairs || dto.isThirtheenOrphans) {
+                if (Arrays.equals(clone, USE_CNTS) || dto.isThirtheenOrphans) {
 
                     return true;
                 }
             }
         }
 
+        if (dto.isSevenPairs) {
+
+            return true;
+        }
         return false;
     }
 

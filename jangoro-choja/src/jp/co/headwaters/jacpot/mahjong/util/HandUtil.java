@@ -855,6 +855,7 @@ public class HandUtil {
         if (Arrays.equals(clone, USE_CNTS)) {
             dto.isTwoDoubleRuns = true;
             dto.isDoubleRun = false;
+            dto.isSevenPairs = false;
         }
     }
 

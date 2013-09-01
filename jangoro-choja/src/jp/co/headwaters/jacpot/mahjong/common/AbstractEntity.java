@@ -3,7 +3,6 @@
  */
 package jp.co.headwaters.jacpot.mahjong.common;
 
-import java.util.List;
 
 /**
  * <p>
@@ -32,31 +31,10 @@ import java.util.List;
  */
 public abstract class AbstractEntity {
 
-    /** 属性(<code>INTEGER NOT NULL</code>) */
-    public static final String ATTRIBUTE_INTEGER_NOT_NULL = " INTEGER NOT NULL";
-
-    /** 属性(<code>TEXT NOT NULL</code>) */
-    public static final String ATTRIBUTE_TEXT_NOT_NULL = " TEXT NOT NULL";
-
     /** {@link android.database.sqlite.SQLiteDatabase}の<code>primary key</code> */
     public long id;
 
     /** 最新更新日時 */
     public String lastUpdateDatetime;
 
-    /**
-     * 
-     * テーブル名を返却します。
-     * 
-     * @return テーブル名
-     */
-    protected abstract String getTableName();
-
-    /**
-     * 
-     * テーブル定義リストを返却します。
-     * 
-     * @return テーブル定義リスト
-     */
-    protected abstract List<String> getDataDefs();
 }

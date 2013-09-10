@@ -65,7 +65,7 @@ import android.widget.Toast;
 public class ReadyHandsMakeActivity extends Activity implements CallbackListener {
 
     /** 最大ステージカウント */
-    private static final int STAGE_MAX_CNT = 1;
+    private static final int STAGE_MAX_CNT = 3;
 
     /** 開始秒数配列(ミリ秒) */
     private static final long[] MILLIS_IN_FUTURES = new long[] {40000, 30000, 20000};

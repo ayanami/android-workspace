@@ -151,6 +151,24 @@ public class E001StatusService extends AbstractDataAccessService<E001StatusEntit
         int i = 0;
         if (c.moveToFirst()) {
             entity.id = c.getLong(i++);
+            entity.title = c.getString(i++);
+            entity.bestScore = c.getInt(i++);
+            entity.allSimples = c.getInt(i++);
+            entity.allRuns = c.getInt(i++);
+            entity.doubleRun = c.getInt(i++);
+            entity.sevenPairs = c.getInt(i++);
+            entity.mixedOutsideHand = c.getInt(i++);
+            entity.threeColorRuns = c.getInt(i++);
+            entity.fullStraight = c.getInt(i++);
+            entity.allTriples = c.getInt(i++);
+            entity.threeColorTriples = c.getInt(i++);
+            entity.threeConcealedTriples = c.getInt(i++);
+            entity.allTerminalsAndHonors = c.getInt(i++);
+            entity.littleDragons = c.getInt(i++);
+            entity.twoDoubleRuns = c.getInt(i++);
+            entity.pureOutsideHand = c.getInt(i++);
+            entity.halfFlash = c.getInt(i++);
+            entity.fullFlash = c.getInt(i++);
             entity.thirteenOrphans = c.getInt(i++);
             entity.nineTresures = c.getInt(i++);
             entity.fourConcealedTriples = c.getInt(i++);
@@ -160,24 +178,6 @@ public class E001StatusService extends AbstractDataAccessService<E001StatusEntit
             entity.allGreen = c.getInt(i++);
             entity.bigDragons = c.getInt(i++);
             entity.terminals = c.getInt(i++);
-            entity.sevenPairs = c.getInt(i++);
-            entity.allSimples = c.getInt(i++);
-            entity.allTerminalsAndHonors = c.getInt(i++);
-            entity.littleDragons = c.getInt(i++);
-            entity.halfFlash = c.getInt(i++);
-            entity.fullFlash = c.getInt(i++);
-            entity.allRuns = c.getInt(i++);
-            entity.doubleRun = c.getInt(i++);
-            entity.mixedOutsideHand = c.getInt(i++);
-            entity.threeColorRuns = c.getInt(i++);
-            entity.fullStraight = c.getInt(i++);
-            entity.allTriples = c.getInt(i++);
-            entity.threeColorTriples = c.getInt(i++);
-            entity.twoDoubleRuns = c.getInt(i++);
-            entity.pureOutsideHand = c.getInt(i++);
-            entity.threeConcealedTriples = c.getInt(i++);
-            entity.bestScore = c.getInt(i++);
-            entity.title = c.getString(i++);
             entity.lastUpdateDatetime = c.getString(i++);
         }
         c.close();
@@ -194,35 +194,40 @@ public class E001StatusService extends AbstractDataAccessService<E001StatusEntit
         List<E001StatusDto> dataList = new ArrayList<E001StatusDto>() {
 
             {
+                // ID、称号、対々和以外を表示
                 add(new E001StatusDto(CommonConst.TEXT_BEST_SCORE,
                                       ScoreUtil.getFormatScore(entity.bestScore), null));
                 add(new E001StatusDto(getArgs(MahjongConst.ALL_SIMPLES, entity.allSimples)));
                 add(new E001StatusDto(getArgs(MahjongConst.ALL_RUNS, entity.allRuns)));
                 add(new E001StatusDto(getArgs(MahjongConst.DOUBLE_RUN, entity.doubleRun)));
-                add(new E001StatusDto(getArgs(SEVEN_PAIRS, entity.sevenPairs)));
-                add(new E001StatusDto(getArgs(MIXED_OUTSIDE_HAND, entity.mixedOutsideHand)));
-                add(new E001StatusDto(getArgs(THREE_COLOR_RUNS, entity.threeColorRuns)));
-                add(new E001StatusDto(getArgs(FULL_STRAIGHT, entity.fullStraight)));
-                add(new E001StatusDto(getArgs(ALL_TRIPLES, entity.allTriples)));
-                add(new E001StatusDto(getArgs(THREE_COLOR_TRIPLES, entity.threeColorTriples)));
-                add(new E001StatusDto(
-                                      getArgs(THREE_CONCEALED_TRIPLES, entity.threeConcealedTriples)));
-                add(new E001StatusDto(getArgs(ALL_TERMINALS_AND_HONORS,
+                add(new E001StatusDto(getArgs(MahjongConst.SEVEN_PAIRS, entity.sevenPairs)));
+                add(new E001StatusDto(getArgs(MahjongConst.MIXED_OUTSIDE_HAND,
+                                              entity.mixedOutsideHand)));
+                add(new E001StatusDto(getArgs(MahjongConst.THREE_COLOR_RUNS, entity.threeColorRuns)));
+                add(new E001StatusDto(getArgs(MahjongConst.FULL_STRAIGHT, entity.fullStraight)));
+                add(new E001StatusDto(getArgs(MahjongConst.THREE_COLOR_TRIPLES,
+                                              entity.threeColorTriples)));
+                add(new E001StatusDto(getArgs(MahjongConst.THREE_CONCEALED_TRIPLES,
+                                              entity.threeConcealedTriples)));
+                add(new E001StatusDto(getArgs(MahjongConst.ALL_TERMINALS_AND_HONORS,
                                               entity.allTerminalsAndHonors)));
-                add(new E001StatusDto(getArgs(LITTLE_DRAGONS, entity.littleDragons)));
-                add(new E001StatusDto(getArgs(TWO_DOUBLE_RUNS, entity.twoDoubleRuns)));
-                add(new E001StatusDto(getArgs(PURE_OUTSIDE_HAND, entity.pureOutsideHand)));
-                add(new E001StatusDto(getArgs(HALF_FLASH, entity.halfFlash)));
-                add(new E001StatusDto(getArgs(FULL_FLASH, entity.fullFlash)));
-                add(new E001StatusDto(getArgs(THIRTEEN_ORPHANS, entity.thirteenOrphans)));
-                add(new E001StatusDto(getArgs(NINE_TRESURES, entity.nineTresures)));
-                add(new E001StatusDto(getArgs(FOUR_CONCEALED_TRIPLES, entity.fourConcealedTriples)));
-                add(new E001StatusDto(getArgs(ALL_HONORS, entity.allHonors)));
-                add(new E001StatusDto(getArgs(BIG_FOUR_WINDS, entity.bigFourWinds)));
-                add(new E001StatusDto(getArgs(SMALL_FOUR_WINDS, entity.smallFourWinds)));
-                add(new E001StatusDto(getArgs(ALL_GREEN, entity.allGreen)));
-                add(new E001StatusDto(getArgs(BIG_DRAGONS, entity.bigDragons)));
-                add(new E001StatusDto(getArgs(TERMINALS, entity.terminals)));
+                add(new E001StatusDto(getArgs(MahjongConst.LITTLE_DRAGONS, entity.littleDragons)));
+                add(new E001StatusDto(getArgs(MahjongConst.TWO_DOUBLE_RUNS, entity.twoDoubleRuns)));
+                add(new E001StatusDto(getArgs(MahjongConst.PURE_OUTSIDE_HAND,
+                                              entity.pureOutsideHand)));
+                add(new E001StatusDto(getArgs(MahjongConst.HALF_FLASH, entity.halfFlash)));
+                add(new E001StatusDto(getArgs(MahjongConst.FULL_FLASH, entity.fullFlash)));
+                add(new E001StatusDto(
+                                      getArgs(MahjongConst.THIRTEEN_ORPHANS, entity.thirteenOrphans)));
+                add(new E001StatusDto(getArgs(MahjongConst.NINE_TRESURES, entity.nineTresures)));
+                add(new E001StatusDto(getArgs(MahjongConst.FOUR_CONCEALED_TRIPLES,
+                                              entity.fourConcealedTriples)));
+                add(new E001StatusDto(getArgs(MahjongConst.ALL_HONORS, entity.allHonors)));
+                add(new E001StatusDto(getArgs(MahjongConst.BIG_FOUR_WINDS, entity.bigFourWinds)));
+                add(new E001StatusDto(getArgs(MahjongConst.SMALL_FOUR_WINDS, entity.smallFourWinds)));
+                add(new E001StatusDto(getArgs(MahjongConst.ALL_GREEN, entity.allGreen)));
+                add(new E001StatusDto(getArgs(MahjongConst.BIG_DRAGONS, entity.bigDragons)));
+                add(new E001StatusDto(getArgs(MahjongConst.TERMINALS, entity.terminals)));
             }
         };
 

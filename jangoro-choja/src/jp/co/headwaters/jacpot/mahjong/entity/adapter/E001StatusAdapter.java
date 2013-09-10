@@ -54,7 +54,7 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
      * {@inheritDoc}
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         // ---------------------------------------------
         // (1) Viewの取得
@@ -77,5 +77,4 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
         }
         return v;
     }
-
 }

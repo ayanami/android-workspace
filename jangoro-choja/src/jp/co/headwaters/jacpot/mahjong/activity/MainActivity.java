@@ -11,11 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.os.Handler;
 
 /**
  * <p>
@@ -43,15 +39,18 @@ import android.widget.Button;
  * @author HWS 鈴木
  */
 public class MainActivity extends Activity {
-
+    
+    /** {@link Activity}切替インターバル(ミリ秒) */
+    private static final long CHANGE_ACTIVITY_INTERVAL = 2000;
+    
     /**
-     * +@id/btnMainStartの{@link OnClickListener}匿名クラスです。
+     * 一定時間後にメニュー画面に遷移するための{@link Runnable}匿名クラスです。
      */
-    private OnClickListener startClickListener = new OnClickListener() {
-
+    private Runnable changeActivity = new Runnable() {
+        
         @Override
-        public void onClick(View v) {
-            startActivity(new Intent(MainActivity.this, MakeReadyHandsActivity.class));
+        public void run() {
+            startActivity(new Intent(MainActivity.this, MenuActivity.class));
             finish();
         }
     };
@@ -68,17 +67,13 @@ public class MainActivity extends Activity {
         // ---------------------------------------------
         setContentView(R.layout.ac_main);
         // ---------------------------------------------
-        // (2) スタートボタン設定
-        // ---------------------------------------------
-        ((Button)findViewById(R.id.btnMainStart)).setOnClickListener(startClickListener);
-        // ---------------------------------------------
-        // (3) リソース設定
+        // (2) リソース設定
         // ---------------------------------------------
         TypedArray resourceIds = getResources().obtainTypedArray(R.array.tiles);
         TypedArray grayscaleIds = getResources().obtainTypedArray(R.array.tiles_grayscale);
         ResourceUtil.createResources(resourceIds, grayscaleIds);
         // ---------------------------------------------
-        // (4) DB設定
+        // (3) DB設定
         // ---------------------------------------------
         E001StatusService service = new E001StatusService(this);
         service.open();
@@ -88,34 +83,10 @@ public class MainActivity extends Activity {
             service.insert(entity);
         }
         service.close();
+        // ---------------------------------------------
+        // (4) 画面遷移
+        // ---------------------------------------------
+        new Handler().postDelayed(changeActivity, CHANGE_ACTIVITY_INTERVAL);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.menuDirection:
-                Intent intent = new Intent(this, DirectionActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    };
 
 }

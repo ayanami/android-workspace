@@ -5,23 +5,29 @@
     <string name="app_name">雀ゴロ長者</string>
 
     <!-- MainActivity ac_main -->
-    <string name="ac_main_btn_caption_start">ゲームスタート</string>
     <string name="ac_main_image_view_desc_logo">ゲームスタート</string>
-    <string name="ac_main_menu_caption_direction">ゲームの説明</string>
 
     <!-- DirectionActivity ac_direction -->
     <string name="ac_direction_text_direction">ゲームを通じて、麻雀を覚えてください！！</string>
 
-    <!-- MakeReadyHandsActivity ac_make_ready_hands -->
-    <string name="ac_make_ready_hands_text_to_go">残り</string>
-    <string name="ac_make_ready_hands_text_second">秒</string>
-    <string name="ac_make_ready_hands_text_select_tiles">時間内に聴牌形を完成させろ！！</string>
-    <string name="ac_make_ready_hands_text_ready_hands">聴牌形</string>
-    <string name="ac_make_ready_hands_text_total_score">総得点</string>
-    <string name="ac_make_ready_hands_btn_caption_clear">クリア</string>
-    <string name="ac_make_ready_hands_btn_caption_ok">OK</string>
-    <string name="ac_make_ready_hands_btn_caption_next">次へ</string>
-    <string name="ac_make_ready_hands_btn_caption_restart">もう一回</string>
-    <string name="ac_make_ready_hands_text_select_winning_tiles">あがり牌を選択しろ！！</string>
+    <!-- MenuActivity ac_menu -->
+    <string name="ac_menu_btn_caption_start">ゲームスタート</string>
+    <string name="ac_menu_btn_caption_data_access">ステータスを確認</string>
+
+    <!-- DataAccessActivity ac_data_access -->
+    <string name="ac_data_access_btn_caption_goto_menu">メニューへ</string>
+
+    <!-- MakeReadyHandsActivity ac_ready_hands_make -->
+    <string name="ac_ready_hands_make_text_to_go">残り</string>
+    <string name="ac_ready_hands_make_text_second">秒</string>
+    <string name="ac_ready_hands_make_text_select_tiles">時間内に聴牌形を完成させろ！！</string>
+    <string name="ac_ready_hands_make_text_ready_hands">聴牌形</string>
+    <string name="ac_ready_hands_make_text_total_score">総得点</string>
+    <string name="ac_ready_hands_make_btn_caption_clear">クリア</string>
+    <string name="ac_ready_hands_make_btn_caption_ok">OK</string>
+    <string name="ac_ready_hands_make_btn_caption_next">次へ</string>
+    <string name="ac_ready_hands_make_btn_caption_goto_menu">メニューへ</string>
+    <string name="ac_ready_hands_make_btn_caption_restart">もう一回</string>
+    <string name="ac_ready_hands_make_text_select_winning_tiles">あがり牌を選択しろ！！</string>
 
 </resources>

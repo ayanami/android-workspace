@@ -8,18 +8,18 @@
 
     <include layout="@layout/common_dragon" />
 
-    <include layout="@layout/common_selected_tiles" />
+    <include layout="@layout/common_ready_hands_tiles" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ac_make_ready_hands_text_select_winning_tiles"
+        android:text="@string/ac_ready_hands_make_text_select_winning_tiles"
         android:textColor="#FFFF0000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <include layout="@layout/common_choose_winning_tiles" />
+    <include layout="@layout/common_winning_tiles_select" />
 
     <include layout="@layout/common_hand" />
 
@@ -44,9 +44,9 @@
         android:gravity="bottom" >
 
         <Button
-            android:id="@+id/btnMakeReadyHandsResultSuccessNext"
+            android:id="@+id/btnReadyHandsMakeResultSuccessNext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ac_make_ready_hands_btn_caption_next" />
+            android:text="@string/ac_ready_hands_make_btn_caption_next" />
     </LinearLayout>
 </LinearLayout>

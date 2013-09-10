@@ -14,20 +14,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ac_make_ready_hands_text_select_tiles"
+        android:text="@string/ac_ready_hands_make_text_select_tiles"
         android:textColor="#FFFF0000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <include layout="@layout/common_choose_tiles" />
+    <include layout="@layout/common_tiles_select" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ac_make_ready_hands_text_ready_hands" />
+        android:text="@string/ac_ready_hands_make_text_ready_hands" />
 
-    <include layout="@layout/common_selected_tiles" />
+    <include layout="@layout/common_ready_hands_tiles" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,18 +35,18 @@
         android:gravity="bottom" >
 
         <Button
-            android:id="@+id/btnMakeReadyHandsMainClear"
+            android:id="@+id/btnReadyHandsMakeMainClear"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/ac_make_ready_hands_btn_caption_clear" />
+            android:text="@string/ac_ready_hands_make_btn_caption_clear" />
 
         <Button
-            android:id="@+id/btnMakeReadyHandsMainOk"
+            android:id="@+id/btnReadyHandsMakeMainOk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/ac_make_ready_hands_btn_caption_ok" />
+            android:text="@string/ac_ready_hands_make_btn_caption_ok" />
     </LinearLayout>
 
 </LinearLayout>

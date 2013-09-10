@@ -5,7 +5,7 @@ package jp.co.headwaters.jacpot.mahjong.constant;
 
 /**
  * <p>
- * 麻雀定数クラスです。
+ * 麻雀定数定義クラスです。
  * </p>
  * 
  * 作成日：2013/08/13<br>

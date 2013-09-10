@@ -32,6 +32,60 @@ import jp.co.headwaters.jacpot.mahjong.common.AbstractEntity;
  */
 public class E001StatusEntity extends AbstractEntity {
 
+    /** 称号 */
+    public String title;
+    
+    /** 最高得点 */
+    public int bestScore;
+    
+    /** 断ヤオ */
+    public int allSimples;
+
+    /** 平和 */
+    public int allRuns;
+
+    /** 一盃口 */
+    public int doubleRun;
+
+    /** 七対子 */
+    public int sevenPairs;
+
+    /** 全帯 */
+    public int mixedOutsideHand;
+
+    /** 三色同順 */
+    public int threeColorRuns;
+
+    /** 一気通貫 */
+    public int fullStraight;
+
+    /** 対々和 */
+    public int allTriples;
+
+    /** 三色同刻 */
+    public int threeColorTriples;
+
+    /** 三暗刻 */
+    public int threeConcealedTriples;
+    
+    /** 小三元 */
+    public int littleDragons;
+
+    /** 混老頭 */
+    public int allTerminalsAndHonors;
+
+    /** 二盃口 */
+    public int twoDoubleRuns;
+
+    /** 純全帯 */
+    public int pureOutsideHand;
+
+    /** 混一色 */
+    public int halfFlash;
+
+    /** 清一色 */
+    public int fullFlash;
+
     /** 国士無双 */
     public int thirteenOrphans;
     
@@ -59,66 +113,30 @@ public class E001StatusEntity extends AbstractEntity {
     /** 清老頭 */
     public int terminals;
 
-    /** 七対子 */
-    public int sevenPairs;
-
-    /** 断ヤオ */
-    public int allSimples;
-
-    /** 混老頭 */
-    public int allTerminalsAndHonors;
-
-    /** 小三元 */
-    public int littleDragons;
-
-    /** 混一色 */
-    public int halfFlash;
-
-    /** 清一色 */
-    public int fullFlash;
-
-    /** 平和 */
-    public int allRuns;
-
-    /** 一盃口 */
-    public int doubleRun;
-
-    /** 全帯 */
-    public int mixedOutsideHand;
-
-    /** 三色同順 */
-    public int threeColorRuns;
-
-    /** 一気通貫 */
-    public int fullStraight;
-
-    /** 対々和 */
-    public int allTriples;
-
-    /** 三色同刻 */
-    public int threeColorTriples;
-
-    /** 二盃口 */
-    public int twoDoubleRuns;
-
-    /** 純全帯 */
-    public int pureOutsideHand;
-
-    /** 三暗刻 */
-    public int threeConcealedTriples;
-    
-    /** 最高得点 */
-    public int bestScore;
-    
-    /** 称号 */
-    public String title;
-    
     /**
      * 
      * 初期化処理です。
      *
      */
     public void init() {
+        this.title = "";
+        this.bestScore = 0;
+        this.allSimples = 0;
+        this.allRuns = 0;
+        this.doubleRun = 0;
+        this.sevenPairs = 0;
+        this.mixedOutsideHand = 0;
+        this.threeColorRuns = 0;
+        this.fullStraight = 0;
+        this.allTriples = 0;
+        this.threeColorTriples = 0;
+        this.threeConcealedTriples = 0;
+        this.littleDragons = 0;
+        this.allTerminalsAndHonors = 0;
+        this.twoDoubleRuns = 0;
+        this.pureOutsideHand = 0;
+        this.halfFlash = 0;
+        this.fullFlash = 0;
         this.thirteenOrphans = 0;
         this.nineTresures = 0;
         this.fourConcealedTriples = 0;
@@ -128,24 +146,5 @@ public class E001StatusEntity extends AbstractEntity {
         this.allGreen = 0;
         this.bigDragons = 0;
         this.terminals = 0;
-        this.sevenPairs = 0;
-        this.allSimples = 0;
-        this.allTerminalsAndHonors = 0;
-        this.littleDragons = 0;
-        this.halfFlash = 0;
-        this.fullFlash = 0;
-        this.allRuns = 0;
-        this.doubleRun = 0;
-        this.mixedOutsideHand = 0;
-        this.threeColorRuns = 0;
-        this.fullStraight = 0;
-        this.allTriples = 0;
-        this.threeColorTriples = 0;
-        this.twoDoubleRuns = 0;
-        this.pureOutsideHand = 0;
-        this.threeConcealedTriples = 0;
-        this.bestScore = 0;
-        this.title = "hoge";
     }
-
 }

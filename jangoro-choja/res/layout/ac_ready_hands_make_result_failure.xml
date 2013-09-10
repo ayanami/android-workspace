@@ -14,7 +14,7 @@
 
         <include layout="@layout/common_dragon" />
 
-        <include layout="@layout/common_selected_tiles" />
+        <include layout="@layout/common_ready_hands_tiles" />
     </LinearLayout>
 
     <LinearLayout
@@ -33,10 +33,10 @@
         android:gravity="bottom" >
 
         <Button
-            android:id="@+id/btnMakeReadyHandsResultFailureNext"
+            android:id="@+id/btnReadyHandsMakeResultFailureNext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ac_make_ready_hands_btn_caption_next" />
+            android:text="@string/ac_ready_hands_make_btn_caption_next" />
     </LinearLayout>
 
 </LinearLayout>

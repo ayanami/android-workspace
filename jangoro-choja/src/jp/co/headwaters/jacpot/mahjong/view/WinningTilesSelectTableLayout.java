@@ -39,7 +39,7 @@ import android.widget.TableRow;
  * 
  * @author HWS 鈴木
  */
-public class ChooseWinningTilesTableLayout extends TableLayout {
+public class WinningTilesSelectTableLayout extends TableLayout {
 
     /** 対象の{@link Activity} */
     private Activity target;
@@ -68,7 +68,7 @@ public class ChooseWinningTilesTableLayout extends TableLayout {
 
             iv.setImageResource(winningTileResourceId);
 
-            ((CallbackListener)target).callback(ChooseWinningTilesTableLayout.this);
+            ((CallbackListener)target).callback(WinningTilesSelectTableLayout.this);
         }
     };
 
@@ -78,7 +78,7 @@ public class ChooseWinningTilesTableLayout extends TableLayout {
      * @param context {@link Context}
      * @param attrs {@link AttributeSet}
      */
-    public ChooseWinningTilesTableLayout(Context context, AttributeSet attrs) {
+    public WinningTilesSelectTableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.target = (Activity)context;
     }

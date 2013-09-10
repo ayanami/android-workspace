@@ -37,10 +37,10 @@ import android.widget.TableRow;
  * 
  * @author HWS 鈴木
  */
-public class SelectedTilesTableLayout extends TableLayout {
+public class ReadyHandsTilesTableLayout extends TableLayout {
 
     /** 手牌エリア{@link TableRow}イメージリソースサイズ */
-    private static final int SELECTED_TILES_AREA_IAMGE_RESOURCE_SIZE = 13;
+    private static final int READY_HANDS_TILES_AREA_IAMGE_RESOURCE_SIZE = 13;
 
     /** 再利用するための{@link TableRow} */
     private TableRow recycleTableRow;
@@ -51,7 +51,7 @@ public class SelectedTilesTableLayout extends TableLayout {
      * @param context {@link Context}
      * @param attrs {@link AttributeSet}
      */
-    public SelectedTilesTableLayout(Context context, AttributeSet attrs) {
+    public ReadyHandsTilesTableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -65,7 +65,7 @@ public class SelectedTilesTableLayout extends TableLayout {
 
         this.recycleTableRow = new TableRow(getContext());
         super.addView(this.recycleTableRow);
-        for (int i = 0; i < SELECTED_TILES_AREA_IAMGE_RESOURCE_SIZE; i++) {
+        for (int i = 0; i < READY_HANDS_TILES_AREA_IAMGE_RESOURCE_SIZE; i++) {
             ImageView iv = new ImageView(getContext());
             this.recycleTableRow.addView(iv);
             imageViews.add(iv);

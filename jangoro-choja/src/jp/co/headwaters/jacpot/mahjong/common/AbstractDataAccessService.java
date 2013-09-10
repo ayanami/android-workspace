@@ -38,8 +38,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 
  * @author HWS 鈴木
  * @param <E> {@link AbstractEntity}型の<code>Entity</code>クラス。
+ * @param <D> 画面表示用<code>Dto</code>クラス。
  */
-public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
+public abstract class AbstractDataAccessService<E, D> extends SQLiteOpenHelper {
 
     /** 属性(<code>INTEGER NOT NULL</code>) */
     public static final String ATTRIBUTE_INTEGER_NOT_NULL = " INTEGER NOT NULL";
@@ -129,7 +130,7 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
      * {@link SQLiteDatabase}をクローズします。
      */
     public void close() {
-        this.close();
+        this.db.close();
     }
 
     /**
@@ -195,7 +196,7 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
         return this.db.update(this.tableName, values, ID + " = ?",
                               new String[] {String.valueOf(((AbstractEntity)entity).id)});
     }
-
+    
     /**
      * 
      * テーブル定義リストを返却します。
@@ -212,5 +213,14 @@ public abstract class AbstractDataAccessService<E> extends SQLiteOpenHelper {
      * @return {@link ContentValues}
      */
     protected abstract ContentValues getContentValues(E entity);
+
+    /**
+     * 
+     * <code>Entity</code>を画面表示用にカスタマイズします。
+     * 
+     * @param entity <code>Entity</code>
+     * @return 画面表示用<code>Dto</code>リスト
+     */
+    public abstract List<D> toDisplay(E entity);
 
 }

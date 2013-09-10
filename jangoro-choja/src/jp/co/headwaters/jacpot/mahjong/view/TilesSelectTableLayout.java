@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jp.co.headwaters.jacpot.mahjong.util.HandCreateUtil;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -41,33 +40,33 @@ import android.widget.TableRow;
  * 
  * @author HWS 鈴木
  */
-public class ChooseTilesTableLayout extends TableLayout {
+public class TilesSelectTableLayout extends TableLayout {
 
     /** 牌選択エリアイメージリソースサイズ */
-    private static final int CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE = 34;
+    private static final int FROM_TILES_AREA_IMAGE_RESOURCE_SIZE = 34;
 
     /** 牌選択エリア{@link ImageView}上限 */
-    private static final int CHOOSE_TILES_AREA_IMAGE_VIEW_LIMIT = 9;
+    private static final int FROM_TILES_AREA_IMAGE_VIEW_LIMIT = 9;
 
     /** 手牌エリア{@link TableRow}イメージリソースサイズ */
-    private static final int SELECTED_TILES_AREA_IAMGE_RESOURCE_SIZE = 13;
+    private static final int TO_TILES_AREA_IAMGE_RESOURCE_SIZE = 13;
 
     /** 牌選択エリアリソースIDリスト */
-    private List<Integer> chooseTilesResourceIds = new ArrayList<Integer>();
+    private List<Integer> fromTilesResourceIds = new ArrayList<Integer>();
 
     /** 牌選択エリア{@link ImageView}リスト */
-    private List<ImageView> chooseTilesImageViews = new ArrayList<ImageView>();
+    private List<ImageView> fromTilesImageViews = new ArrayList<ImageView>();
 
     /** 選択後牌エリアリソースIDリスト */
-    private List<Integer> selectedTilesResourceIds = new ArrayList<Integer>();
+    private List<Integer> toTilesResourceIds = new ArrayList<Integer>();
 
     /** 選択後牌エリア{@link ImageView}リスト */
-    private List<ImageView> selectedTilesImageViews = new ArrayList<ImageView>();
+    private List<ImageView> toTilesImageViews = new ArrayList<ImageView>();
 
     /**
      * 牌選択エリア{@link ImageView}の{@link OnClickListener}匿名クラスです。
      */
-    private OnClickListener selectTilesClickListener = new OnClickListener() {
+    private OnClickListener fromTilesClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -77,12 +76,12 @@ public class ChooseTilesTableLayout extends TableLayout {
             boolean isReverse = ResourceUtil.isReverse(currentId);
 
             if (!isReverse
-                && selectedTilesResourceIds.size() >= SELECTED_TILES_AREA_IAMGE_RESOURCE_SIZE) {
+                && toTilesResourceIds.size() >= TO_TILES_AREA_IAMGE_RESOURCE_SIZE) {
                 return;
             }
 
-            setSelectedTilesResourceIds(isReverse, currentId);
-            setImageViews(selectedTilesImageViews, selectedTilesResourceIds);
+            setToTilesResourceIds(isReverse, currentId);
+            setImageViews(toTilesImageViews, toTilesResourceIds);
 
             int nextId = ResourceUtil.getReversedResourceId(currentId);
             iv.setImageResource(nextId);
@@ -97,7 +96,7 @@ public class ChooseTilesTableLayout extends TableLayout {
      * @param context {@link Context}
      * @param attrs {@link AttributeSet}
      */
-    public ChooseTilesTableLayout(Context context, AttributeSet attrs) {
+    public TilesSelectTableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -105,26 +104,23 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 初期化処理です。
      */
     public void init() {
-//        this.chooseTilesResourceIds =
-//            ResourceUtil.getRandomResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
-
-        this.chooseTilesResourceIds =
-                        HandCreateUtil.getTwoDoubleRunsResourceIds(CHOOSE_TILES_AREA_IMAGE_RESOURCE_SIZE);
+        this.fromTilesResourceIds =
+            ResourceUtil.getRandomResourceIds(FROM_TILES_AREA_IMAGE_RESOURCE_SIZE);
 
         TableRow tr = null;
-        for (int i = 0; i < this.chooseTilesResourceIds.size(); i++) {
+        for (int i = 0; i < this.fromTilesResourceIds.size(); i++) {
 
             // TableRowに設定するImageViewの個数を判定
-            if (i % CHOOSE_TILES_AREA_IMAGE_VIEW_LIMIT == 0) {
+            if (i % FROM_TILES_AREA_IMAGE_VIEW_LIMIT == 0) {
                 tr = new TableRow(getContext());
                 super.addView(tr);
             }
 
             ImageView iv = new ImageView(getContext());
-            iv.setImageResource(this.chooseTilesResourceIds.get(i));
-            iv.setTag(this.chooseTilesResourceIds.get(i));
-            iv.setOnClickListener(this.selectTilesClickListener);
-            this.chooseTilesImageViews.add(iv);
+            iv.setImageResource(this.fromTilesResourceIds.get(i));
+            iv.setTag(this.fromTilesResourceIds.get(i));
+            iv.setOnClickListener(this.fromTilesClickListener);
+            this.fromTilesImageViews.add(iv);
             tr.addView(iv);
         }
         
@@ -136,16 +132,16 @@ public class ChooseTilesTableLayout extends TableLayout {
      * @param isReverse イメージリソースが反転しているか
      * @param resourceId リソースID
      */
-    private void setSelectedTilesResourceIds(boolean isReverse, int resourceId) {
+    private void setToTilesResourceIds(boolean isReverse, int resourceId) {
 
         if (isReverse) {
-            this.selectedTilesResourceIds.remove((Object)ResourceUtil
+            this.toTilesResourceIds.remove((Object)ResourceUtil
                             .getReversedResourceId(resourceId));
         } else {
-            this.selectedTilesResourceIds.add(resourceId);
+            this.toTilesResourceIds.add(resourceId);
         }
 
-        Collections.sort(this.selectedTilesResourceIds);
+        Collections.sort(this.toTilesResourceIds);
 
     }
 
@@ -154,9 +150,9 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 牌選択エリア{@link ImageView}リストを設定します。
      * 
      */
-    public void setChooseTilesImageViews() {
+    public void setFromTilesImageViews() {
 
-        this.setImageViews(this.chooseTilesImageViews, this.chooseTilesResourceIds);
+        this.setImageViews(this.fromTilesImageViews, this.fromTilesResourceIds);
     }
 
     /**
@@ -193,9 +189,9 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 選択後牌エリアのリソースを初期化します。
      * 
      */
-    public void clearSelectedTilesResources() {
-        this.cleanImageViews(this.selectedTilesImageViews);
-        this.selectedTilesResourceIds.clear();
+    public void clearToTilesResources() {
+        this.cleanImageViews(this.toTilesImageViews);
+        this.toTilesResourceIds.clear();
     }
 
     /**
@@ -204,8 +200,8 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 
      * @return 選択後牌エリアリソースIDリスト
      */
-    public List<Integer> getSelectedTilesResourceIds() {
-        return this.selectedTilesResourceIds;
+    public List<Integer> getToTilesResourceIds() {
+        return this.toTilesResourceIds;
     }
 
     /**
@@ -214,8 +210,8 @@ public class ChooseTilesTableLayout extends TableLayout {
      * 
      * @return 選択後牌エリア{@link ImageView}リスト
      */
-    public List<ImageView> getSelectedTilesImageViews() {
-        return this.selectedTilesImageViews;
+    public List<ImageView> getToTilesImageViews() {
+        return this.toTilesImageViews;
     }
 
     /**
@@ -225,7 +221,7 @@ public class ChooseTilesTableLayout extends TableLayout {
      * @return 判定結果
      */
     public boolean isSpecifiedSize() {
-        return this.selectedTilesResourceIds.size() == SELECTED_TILES_AREA_IAMGE_RESOURCE_SIZE;
+        return this.toTilesResourceIds.size() == TO_TILES_AREA_IAMGE_RESOURCE_SIZE;
     }
 
 }

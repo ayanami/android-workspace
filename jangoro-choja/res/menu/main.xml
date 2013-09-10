@@ -1,4 +1,2 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menuDirection" android:title="@string/ac_main_menu_caption_direction"></item>
-
 </menu>

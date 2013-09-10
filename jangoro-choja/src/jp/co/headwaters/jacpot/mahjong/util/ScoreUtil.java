@@ -3,11 +3,14 @@
  */
 package jp.co.headwaters.jacpot.mahjong.util;
 
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
+import jp.co.headwaters.jacpot.mahjong.message.Message;
 
 /**
  * <p>
@@ -221,5 +224,21 @@ public class ScoreUtil {
         if (SCORES.containsKey(fan)) {
             dto.score = SCORES.get(fan)[idx];
         }
+    }
+
+    /**
+     * 
+     * フォーマット済得点を返却します。
+     * 
+     * @param score 得点
+     * @return フォーマット済得点
+     */
+    public static String getFormatScore(int score) {
+
+        // カンマ編集
+        String numeralCommas = NumberFormat.getInstance().format(score);
+        
+        // プレースホルダに設定
+        return MessageFormat.format(Message.I_MSG_SCORE, new Object[] {numeralCommas});
     }
 }

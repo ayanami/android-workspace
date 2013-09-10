@@ -9,6 +9,7 @@ import java.util.List;
 
 import jp.co.headwaters.jacpot.mahjong.constant.MahjongConst;
 import jp.co.headwaters.jacpot.mahjong.dto.HandsStatusDto;
+import jp.co.headwaters.jacpot.mahjong.entity.E001StatusEntity;
 
 /**
  * <p>
@@ -937,38 +938,48 @@ public class HandUtil {
      * 役リストを生成します。
      * 
      * @param dto {@link HandsStatusDto}
+     * @param entity {@link E001StatusEntity}
      * @return 役リスト
      */
-    public static List<String> createHands(HandsStatusDto dto) {
+    public static List<String> createHands(HandsStatusDto dto, E001StatusEntity entity) {
 
         List<String> hands = new ArrayList<String>();
 
         if (dto.isThirtheenOrphans) {
             hands.add(MahjongConst.THIRTEEN_ORPHANS);
+            entity.thirteenOrphans = 1;
         }
         if (dto.isNineTreasures) {
             hands.add(MahjongConst.NINE_TRESURES);
+            entity.nineTresures = 1;
         }
         if (dto.isFourConcealedTriples) {
             hands.add(MahjongConst.FOUR_CONCEALED_TRIPLES);
+            entity.fourConcealedTriples = 1;
         }
         if (dto.isAllHonors) {
             hands.add(MahjongConst.ALL_HONORS);
+            entity.allHonors = 1;
         }
         if (dto.isBigFourWinds) {
             hands.add(MahjongConst.BIG_FOUR_WINDS);
+            entity.bigFourWinds = 1;
         }
         if (dto.isSmallFourWinds) {
             hands.add(MahjongConst.SMALL_FOUR_WINDS);
+            entity.smallFourWinds = 1;
         }
         if (dto.isAllGreen) {
             hands.add(MahjongConst.ALL_GREEN);
+            entity.allGreen = 1;
         }
         if (dto.isBigDragons) {
             hands.add(MahjongConst.BIG_DRAGONS);
+            entity.bigDragons = 1;
         }
         if (dto.isTerminals) {
             hands.add(MahjongConst.TERMINALS);
+            entity.terminals = 1;
         }
         if (dto.grandSlamCounter > 0) {
             return hands;
@@ -980,18 +991,22 @@ public class HandUtil {
         if (dto.isSevenPairs) {
             hands.add(MahjongConst.SEVEN_PAIRS + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.sevenPairs = 1;
         }
         if (dto.isAllSimples) {
             hands.add(MahjongConst.ALL_SIMPLES + MahjongConst.FAN1);
             dto.fan += 1;
+            entity.allSimples = 1;
         }
         if (dto.isAllTerminalsAndHonors) {
             hands.add(MahjongConst.ALL_TERMINALS_AND_HONORS + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.allTerminalsAndHonors = 1;
         }
         if (dto.isLittleDragons) {
             hands.add(MahjongConst.LITTLE_DRAGONS + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.littleDragons = 1;
         }
         if (dto.isHalfFlash) {
             if (dto.conceal) {
@@ -1001,6 +1016,7 @@ public class HandUtil {
                 hands.add(MahjongConst.HALF_FLASH + MahjongConst.FAN2);
                 dto.fan += 2;
             }
+            entity.halfFlash = 1;
         }
         if (dto.isFullFlash) {
             if (dto.conceal) {
@@ -1010,18 +1026,17 @@ public class HandUtil {
                 hands.add(MahjongConst.FULL_FLASH + MahjongConst.FAN5);
                 dto.fan += 5;
             }
-        }
-        if (dto.isLittleDragons) {
-            hands.add(MahjongConst.LITTLE_DRAGONS + MahjongConst.FAN2);
-            dto.fan += 2;
+            entity.fullFlash = 1;
         }
         if (dto.isAllRuns) {
             hands.add(MahjongConst.ALL_RUNS + MahjongConst.FAN1);
             dto.fan += 1;
+            entity.allRuns = 1;
         }
         if (dto.isDoubleRun) {
             hands.add(MahjongConst.DOUBLE_RUN + MahjongConst.FAN1);
             dto.fan += 1;
+            entity.doubleRun = 1;
         }
         if (dto.isMixedOutsideHand) {
             if (dto.conceal) {
@@ -1031,6 +1046,7 @@ public class HandUtil {
                 hands.add(MahjongConst.MIXED_OUTSIDE_HAND + MahjongConst.FAN1);
                 dto.fan += 1;
             }
+            entity.mixedOutsideHand = 1;
         }
         if (dto.isThreeColorRuns) {
             if (dto.conceal) {
@@ -1040,6 +1056,7 @@ public class HandUtil {
                 hands.add(MahjongConst.THREE_COLOR_RUNS + MahjongConst.FAN1);
                 dto.fan += 1;
             }
+            entity.threeColorRuns = 1;
         }
         if (dto.isFullStraight) {
             if (dto.conceal) {
@@ -1049,18 +1066,22 @@ public class HandUtil {
                 hands.add(MahjongConst.FULL_STRAIGHT + MahjongConst.FAN1);
                 dto.fan += 1;
             }
+            entity.fullStraight = 1;
         }
         if (dto.isAllTriples) {
             hands.add(MahjongConst.ALL_TRIPLES + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.allTriples = 1;
         }
         if (dto.isThreeColorTriples) {
             hands.add(MahjongConst.THREE_COLOR_TRIPLES + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.threeColorTriples = 1;
         }
         if (dto.isTwoDoubleRuns) {
             hands.add(MahjongConst.TWO_DOUBLE_RUNS + MahjongConst.FAN3);
             dto.fan += 3;
+            entity.twoDoubleRuns = 1;
         }
         if (dto.isPureOutsideHand) {
             if (dto.conceal) {
@@ -1070,10 +1091,12 @@ public class HandUtil {
                 hands.add(MahjongConst.PURE_OUTSIDE_HAND + MahjongConst.FAN2);
                 dto.fan += 2;
             }
+            entity.pureOutsideHand = 1;
         }
         if (dto.isThreeConcealedTriples) {
             hands.add(MahjongConst.THREE_CONCEALED_TRIPLES + MahjongConst.FAN2);
             dto.fan += 2;
+            entity.threeConcealedTriples = 1;
         }
         if (dto.valueTilesCnt > 0) {
             hands.add(MahjongConst.VALUE_TILES + " " + dto.valueTilesCnt);

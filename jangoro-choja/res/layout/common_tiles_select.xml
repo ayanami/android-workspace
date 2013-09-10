@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <jp.co.headwaters.jacpot.mahjong.view.ChooseWinningTilesTableLayout
-        android:id="@+id/tableLayoutChooseWinningTiles"
+    <jp.co.headwaters.jacpot.mahjong.view.TilesSelectTableLayout
+        android:id="@+id/tableLayoutTilesSelect"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*" >
-    </jp.co.headwaters.jacpot.mahjong.view.ChooseWinningTilesTableLayout>
+    </jp.co.headwaters.jacpot.mahjong.view.TilesSelectTableLayout>
 
 </merge>

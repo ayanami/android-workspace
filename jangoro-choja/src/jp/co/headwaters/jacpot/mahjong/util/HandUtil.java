@@ -389,7 +389,6 @@ public class HandUtil {
         }
 
         if (Arrays.equals(clone, USE_CNTS)) {
-            dto.eyes = -1;
             dto.isSevenPairs = true;
         }
     }

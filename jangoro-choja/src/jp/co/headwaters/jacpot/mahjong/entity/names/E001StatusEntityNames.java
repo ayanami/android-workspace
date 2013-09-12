@@ -28,95 +28,112 @@ package jp.co.headwaters.jacpot.mahjong.entity.names;
  * 
  * @author HWS 鈴木
  */
-public class E001StatusEntityNames {
+public enum E001StatusEntityNames {
+
+    /** カラム名(ID) */
+    ID(0),
 
     /** カラム名(称号) */
-    public static final String TITLE = "title";
+    TITLE(1),
 
     /** カラム名(最高得点) */
-    public static final String BEST_SCORE = "best_score";
+    BEST_SCORE(2),
 
     /** カラム名(断ヤオ) */
-    public static final String ALL_SIMPLES = "all_simples";
+    ALL_SIMPLES(3),
 
     /** カラム名(平和) */
-    public static final String ALL_RUNS = "all_runs";
+    ALL_RUNS(4),
 
     /** カラム名(一盃口) */
-    public static final String DOUBLE_RUN = "double_run";
+    DOUBLE_RUN(5),
 
     /** カラム名(七対子) */
-    public static final String SEVEN_PAIRS = "seven_pairs";
+    SEVEN_PAIRS(6),
 
     /** カラム名(全帯) */
-    public static final String MIXED_OUTSIDE_HAND = "mixed_outside_hand";
+    MIXED_OUTSIDE_HAND(7),
 
     /** カラム名(三色同順) */
-    public static final String THREE_COLOR_RUNS = "three_color_runs";
+    THREE_COLOR_RUNS(8),
 
     /** カラム名(一気通貫) */
-    public static final String FULL_STRAIGHT = "full_straight";
+    FULL_STRAIGHT(9),
 
     /** カラム名(対々和) */
-    public static final String ALL_TRIPLES = "all_triples";
+    ALL_TRIPLES(10),
 
     /** カラム名(三色同刻) */
-    public static final String THREE_COLOR_TRIPLES = "three_color_triples";
+    THREE_COLOR_TRIPLES(11),
 
     /** カラム名(三暗刻) */
-    public static final String THREE_CONCEALED_TRIPLES = "three_concealed_triples";
+    THREE_CONCEALED_TRIPLES(12),
 
     /** カラム名(混老頭) */
-    public static final String ALL_TERMINALS_AND_HONORS = "all_terminals_and_honors";
+    ALL_TERMINALS_AND_HONORS(13),
 
     /** カラム名(小三元) */
-    public static final String LITTLE_DRAGONS = "little_dragons";
+    LITTLE_DRAGONS(14),
 
     /** カラム名(二盃口) */
-    public static final String TWO_DOUBLE_RUNS = "two_double_runs";
+    TWO_DOUBLE_RUNS(15),
 
     /** カラム名(純全帯) */
-    public static final String PURE_OUTSIDE_HAND = "pure_outside_hand";
+    PURE_OUTSIDE_HAND(16),
 
     /** カラム名(混一色) */
-    public static final String HALF_FLASH = "half_flash";
+    HALF_FLASH(17),
 
     /** カラム名(清一色) */
-    public static final String FULL_FLASH = "full_flash";
+    FULL_FLASH(18),
 
     /** カラム名(国士無双) */
-    public static final String THIRTEEN_ORPHANS = "thirteen_orphans";
+    THIRTEEN_ORPHANS(19),
 
     /** カラム名(九蓮宝燈) */
-    public static final String NINE_TRESURES = "nine_tresures";
+    NINE_TRESURES(20),
 
     /** カラム名(四暗刻) */
-    public static final String FOUR_CONCEALED_TRIPLES = "four_concealed_triples";
+    FOUR_CONCEALED_TRIPLES(21),
 
     /** カラム名(字一色) */
-    public static final String ALL_HONORS = "all_honors";
+    ALL_HONORS(22),
 
     /** カラム名(大四喜) */
-    public static final String BIG_FOUR_WINDS = "big_four_winds";
+    BIG_FOUR_WINDS(23),
 
     /** カラム名(小四喜) */
-    public static final String SMALL_FOUR_WINDS = "small_four_winds";
+    SMALL_FOUR_WINDS(24),
 
     /** カラム名(緑一色) */
-    public static final String ALL_GREEN = "all_green";
+    ALL_GREEN(25),
 
     /** カラム名(大三元) */
-    public static final String BIG_DRAGONS = "big_dragons";
+    BIG_DRAGONS(26),
 
     /** カラム名(清老頭) */
-    public static final String TERMINALS = "terminals";
-
+    TERMINALS(27),
+    
+    /** カラム名(最新更新日時) */
+    LAST_UPDATE_DATETIME(28);
+    
+    /** カラムの添え字 */
+    private int index;
+    
     /**
-     * 
-     * <code>Entity</code>名称クラスのため、コンストラクタをプロテクトします。
+     * コンストラクタです。
+     * @param index カラムの添え字
      */
-    protected E001StatusEntityNames() {
-
+    private E001StatusEntityNames(int index) {
+        this.index = index;
     }
-
+    
+    /**
+     * カラムの添え字を返却します。
+     * 
+     * @return カラムの添え字
+     */
+    public int getIndex() {
+        return this.index;
+    }
 }

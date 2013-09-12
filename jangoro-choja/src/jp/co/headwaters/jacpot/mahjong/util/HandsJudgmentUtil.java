@@ -320,6 +320,7 @@ public class HandsJudgmentUtil {
 
         if (dto.isSevenPairs) {
 
+            dto.eyes = -1;
             return true;
         }
         return false;

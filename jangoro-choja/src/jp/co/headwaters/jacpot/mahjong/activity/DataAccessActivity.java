@@ -80,12 +80,15 @@ public class DataAccessActivity extends Activity {
         E001StatusService service = new E001StatusService(this);
         service.open();
         E001StatusEntity entity = service.find();
+        service.close();
+        // ---------------------------------------------
+        // (3) データの設定
+        // ---------------------------------------------
         List<E001StatusDto> dataList = service.toDisplay(entity);
         E001StatusAdapter adapter = new E001StatusAdapter(getLayoutInflater(), dataList);
         ((ListView)findViewById(R.id.listViewDataAccess)).setAdapter(adapter);
-        service.close();
         // ---------------------------------------------
-        // (3) メニューへボタン設定
+        // (4) メニューへボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnDataAccessGotoMenu))
                         .setOnClickListener(gotoMenuClickListener);

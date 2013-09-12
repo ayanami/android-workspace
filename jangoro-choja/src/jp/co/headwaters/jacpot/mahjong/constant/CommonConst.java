@@ -46,12 +46,6 @@ public class CommonConst {
     /** テキスト(最高得点) */
     public static final String TEXT_BEST_SCORE = "最高得点";
     
-    /** テキスト(CLEAR) */
-    public static final String TEXT_CLEAR = "CLEAR";
-
-    /** テキスト(NOT CLEAR) */
-    public static final String TEXT_NOT_CLEAR = "NOT CLEAR";
-
     /** テキスト(隠し項目) */
     public static final String TEXT_HIDDNE = "???";
 

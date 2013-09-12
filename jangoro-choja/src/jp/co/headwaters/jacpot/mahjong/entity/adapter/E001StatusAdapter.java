@@ -8,9 +8,11 @@ import java.util.List;
 import jp.co.headwaters.jacpot.R;
 import jp.co.headwaters.jacpot.mahjong.common.AbstractEntityAdapter;
 import jp.co.headwaters.jacpot.mahjong.entity.dto.E001StatusDto;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
@@ -65,6 +67,7 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
         }
         TextView header = (TextView)v.findViewById(R.id.textViewDataAccessListHeader);
         TextView contents = (TextView)v.findViewById(R.id.textViewDataAccessListContents);
+        RatingBar star = (RatingBar)v.findViewById(R.id.ratingBarDataAccessList);
         TextView desc = (TextView)v.findViewById(R.id.textViewDataAccessListDesc);
         // ---------------------------------------------
         // (2) データの設定
@@ -74,6 +77,24 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
             header.setText(dto.header);
             contents.setText(dto.contents);
             desc.setText(dto.desc);
+            contents.setTextColor(Color.WHITE);
+            desc.setTextColor(Color.WHITE);
+            star.setVisibility(RatingBar.VISIBLE);
+            star.setRating(0);
+            switch (dto.handCompleteType) {
+                case COMPLETE:
+                    star.setRating(1);
+                    break;
+                case NOT_COMPLETE:
+                    contents.setTextColor(Color.GRAY);
+                    desc.setTextColor(Color.GRAY);
+                    break;
+                case NOTHING:
+                    star.setVisibility(RatingBar.GONE);
+                    break;
+                default:
+                    break;
+            }
         }
         return v;
     }

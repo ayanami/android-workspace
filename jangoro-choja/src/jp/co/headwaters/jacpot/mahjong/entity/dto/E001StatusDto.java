@@ -3,6 +3,7 @@
  */
 package jp.co.headwaters.jacpot.mahjong.entity.dto;
 
+import jp.co.headwaters.jacpot.mahjong.type.HandCompleteType;
 
 /**
  * <p>
@@ -33,31 +34,29 @@ public class E001StatusDto {
 
     /** ヘッダー */
     public String header;
-    
+
     /** コンテンツ */
     public String contents;
-    
+
+    /** {@link HandCompleteType} */
+    public HandCompleteType handCompleteType;
+
     /** ディスクリプション */
     public String desc;
-    
+
     /**
      * コンストラクタです。
+     * 
      * @param header ヘッダー
      * @param contents コンテンツ
+     * @param handCompleteType {@link HandCompleteType}
      * @param desc ディスクリプション
      */
-    public E001StatusDto(String header, String contents, String desc) {
+    public E001StatusDto(String header, String contents, HandCompleteType handCompleteType,
+                         String desc) {
         this.header = header;
         this.contents = contents;
+        this.handCompleteType = handCompleteType;
         this.desc = desc;
     }
-    /**
-     * コンストラクタです。
-     * @param args {0:コンテンツ, 1:ディスクリプション}
-     */
-    public E001StatusDto(String[] args) {
-        this.contents = args[0];
-        this.desc = args[1];
-    }
-    
 }

@@ -194,7 +194,7 @@ public class E001StatusService extends AbstractDataAccessService<E001StatusEntit
         List<E001StatusDto> dataList = new ArrayList<E001StatusDto>() {
 
             {
-                // ID、称号、対々和以外を表示
+                // ID、称号、対々和、混老頭以外を表示
                 add(new E001StatusDto(CommonConst.TEXT_BEST_SCORE,
                                       ScoreUtil.getFormatScore(entity.bestScore),
                                       HandCompleteType.NOTHING, null));
@@ -208,8 +208,6 @@ public class E001StatusService extends AbstractDataAccessService<E001StatusEntit
                 add(createE001StatusDto(MahjongConst.THREE_COLOR_TRIPLES, entity.threeColorTriples));
                 add(createE001StatusDto(MahjongConst.THREE_CONCEALED_TRIPLES,
                                         entity.threeConcealedTriples));
-                add(createE001StatusDto(MahjongConst.ALL_TERMINALS_AND_HONORS,
-                                        entity.allTerminalsAndHonors));
                 add(createE001StatusDto(MahjongConst.LITTLE_DRAGONS, entity.littleDragons));
                 add(createE001StatusDto(MahjongConst.TWO_DOUBLE_RUNS, entity.twoDoubleRuns));
                 add(createE001StatusDto(MahjongConst.PURE_OUTSIDE_HAND, entity.pureOutsideHand));

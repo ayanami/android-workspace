@@ -74,13 +74,14 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
         // ---------------------------------------------
         E001StatusDto dto = (E001StatusDto)getItem(position);
         if (dto != null) {
-            header.setText(dto.header);
-            contents.setText(dto.contents);
-            desc.setText(dto.desc);
+
+            // デフォルト値を設定(ListViewScrollCache対応)
             contents.setTextColor(Color.WHITE);
             desc.setTextColor(Color.WHITE);
             star.setVisibility(RatingBar.VISIBLE);
             star.setRating(0);
+
+            // 役コンプリートタイプによる分岐
             switch (dto.handCompleteType) {
                 case COMPLETE:
                     star.setRating(1);
@@ -95,6 +96,11 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
                 default:
                     break;
             }
+
+            // テキストの設定
+            header.setText(dto.header);
+            contents.setText(dto.contents);
+            desc.setText(dto.desc);
         }
         return v;
     }

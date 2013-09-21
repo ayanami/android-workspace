@@ -7,13 +7,11 @@
     <!-- MainActivity ac_main -->
     <string name="ac_main_image_view_desc_logo">ゲームスタート</string>
 
-    <!-- DirectionActivity ac_direction -->
-    <string name="ac_direction_text_direction">ゲームを通じて、麻雀を覚えてください！！</string>
-
     <!-- MenuActivity ac_menu -->
     <string name="ac_menu_btn_caption_start">ゲームスタート</string>
     <string name="ac_menu_btn_caption_data_access">ステータスを確認</string>
-
+    <string name="ac_menu_btn_caption_finish">終了</string>
+    
     <!-- DataAccessActivity ac_data_access -->
     <string name="ac_data_access_btn_caption_goto_menu">メニューへ</string>
 

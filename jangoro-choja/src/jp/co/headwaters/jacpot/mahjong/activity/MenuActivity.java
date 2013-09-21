@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-
 /**
  * <p>
  * メニュー画面用<code>Activity</code>クラスです。
@@ -67,7 +66,18 @@ public class MenuActivity extends Activity {
             finish();
         }
     };
-    
+
+    /**
+     * +@id/btnMenuFinishの{@link OnClickListener}匿名クラスです。
+     */
+    private OnClickListener finishClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    };
+
     /**
      * 
      * {@inheritDoc}
@@ -80,13 +90,17 @@ public class MenuActivity extends Activity {
         // ---------------------------------------------
         setContentView(R.layout.ac_menu);
         // ---------------------------------------------
-        // (2) スタートボタン設定
+        // (2) ゲームスタートボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMenuStart)).setOnClickListener(startClickListener);
         // ---------------------------------------------
         // (3) ステータスを確認ボタン設定
         // ---------------------------------------------
         ((Button)findViewById(R.id.btnMenuDataAccess)).setOnClickListener(dataAccessClickListener);
+        // ---------------------------------------------
+        // (4) 終了ボタン設定
+        // ---------------------------------------------
+        ((Button)findViewById(R.id.btnMenuFinish)).setOnClickListener(finishClickListener);
     };
 
     /**

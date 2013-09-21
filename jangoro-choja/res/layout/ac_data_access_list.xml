@@ -9,7 +9,7 @@
         android:id="@+id/textViewDataAccessListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
+        android:textColor="@android:color/black"
         android:textSize="12sp" />
 
     <LinearLayout
@@ -21,7 +21,6 @@
             android:id="@+id/textViewDataAccessListContents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
             android:textSize="25sp" />
 
         <LinearLayout
@@ -33,9 +32,9 @@
 
             <RatingBar
                 android:id="@+id/ratingBarDataAccessList"
+                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?android:attr/ratingBarStyleIndicator"
                 android:numStars="1" />
         </LinearLayout>
     </LinearLayout>
@@ -44,7 +43,6 @@
         android:id="@+id/textViewDataAccessListDesc"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffffff"
         android:textSize="12sp"
         android:textStyle="italic" />
 

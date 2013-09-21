@@ -2,22 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnMenuStart"
-        style="@style/ActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/ac_menu_btn_caption_start" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/ac_main_image_view_desc_logo"
+        android:paddingTop="20dp"
+        android:src="@drawable/menu" />
 
-    <Button
-        android:id="@+id/btnMenuDataAccess"
-        style="@style/ActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/ac_menu_btn_caption_data_access" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <Button
+            android:id="@+id/btnMenuStart"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_selector_blue"
+            android:text="@string/ac_menu_btn_caption_start"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/btnMenuDataAccess"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_selector_red"
+            android:textColor="#ffffff"
+            android:text="@string/ac_menu_btn_caption_data_access" />
+
+        <Button
+            android:id="@+id/btnMenuFinish"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_selector_smoke"
+            android:text="@string/ac_menu_btn_caption_finish" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -76,8 +76,8 @@ public class E001StatusAdapter extends AbstractEntityAdapter<E001StatusDto> {
         if (dto != null) {
 
             // デフォルト値を設定(ListViewScrollCache対応)
-            contents.setTextColor(Color.WHITE);
-            desc.setTextColor(Color.WHITE);
+            contents.setTextColor(Color.BLACK);
+            desc.setTextColor(Color.BLACK);
             star.setVisibility(RatingBar.VISIBLE);
             star.setRating(0);
 

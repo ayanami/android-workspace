@@ -30,12 +30,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="bottom" >
+        android:gravity="bottom"
+        android:padding="20dp" >
 
         <Button
             android:id="@+id/btnReadyHandsMakeResultFailureNext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_smoke"
             android:text="@string/ac_ready_hands_make_btn_caption_next" />
     </LinearLayout>
 

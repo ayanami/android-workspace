@@ -23,19 +23,25 @@
 
     <Button
         android:id="@+id/btnReadyHandsMakeFinishRestart"
-        style="@style/ActionButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="@string/ac_ready_hands_make_btn_caption_restart" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_selector_blue"
+        android:text="@string/ac_ready_hands_make_btn_caption_restart"
+        android:textColor="#ffffff" />
 
     <Button
         android:id="@+id/btnReadyHandsMakeFinishGotoMenu"
-        style="@style/ActionButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_selector_smoke"
         android:text="@string/ac_ready_hands_make_btn_caption_goto_menu" />
+
 </LinearLayout>

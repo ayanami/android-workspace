@@ -334,6 +334,10 @@ public class HandsJudgmentUtil {
      */
     private static void analyzePungParts(int[] useCnts, List<Integer> pungs) {
 
+        if (Arrays.equals(useCnts, USE_CNTS)) {
+            return;
+        }
+
         for (int i = 0; i < MahjongConst.TILE_TYPES; i++) {
 
             if (useCnts[i] >= 3) {
@@ -350,6 +354,10 @@ public class HandsJudgmentUtil {
      * @param chows 順子リスト
      */
     private static void analyzeChowParts(int[] useCnts, List<Integer[]> chows) {
+
+        if (Arrays.equals(useCnts, USE_CNTS)) {
+            return;
+        }
 
         // 萬子 -> 筒子 -> 索子の順に判定
         for (int i = 0; i < 3; i++) {
@@ -385,6 +393,11 @@ public class HandsJudgmentUtil {
      * @return 判定結果
      */
     private static boolean isOutsideHandWithDoubleRun(HandsStatusDto dto) {
+        
+        // 順子があるかを判定
+        if (dto.chows.isEmpty()) {
+            return false;
+        }
 
         // 雀頭がヤオ九牌で構成されているかを判定
         if (!Arrays.asList(HandUtil.TERMINALS_AND_HONORS).contains(dto.eyes)) {

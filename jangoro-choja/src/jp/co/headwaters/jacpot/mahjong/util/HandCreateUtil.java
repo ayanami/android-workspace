@@ -275,8 +275,8 @@ public class HandCreateUtil {
                 add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN3));
                 add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN3));
                 add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN3));
-                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN7));
-                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN8));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN9));
+                add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN9));
                 add(ResourceUtil.idxToResourceId.get(MahjongConst.MAN9));
                 add(ResourceUtil.idxToResourceId.get(MahjongConst.SOU9));
             }

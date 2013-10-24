@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jp.co.headwaters.jacpot.mahjong.util.HandCreateUtil;
 import jp.co.headwaters.jacpot.mahjong.util.ResourceUtil;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -75,8 +76,7 @@ public class TilesSelectTableLayout extends TableLayout {
             int currentId = Integer.parseInt(iv.getTag().toString());
             boolean isReverse = ResourceUtil.isReverse(currentId);
 
-            if (!isReverse
-                && toTilesResourceIds.size() >= TO_TILES_AREA_IAMGE_RESOURCE_SIZE) {
+            if (!isReverse && toTilesResourceIds.size() >= TO_TILES_AREA_IAMGE_RESOURCE_SIZE) {
                 return;
             }
 
@@ -123,7 +123,7 @@ public class TilesSelectTableLayout extends TableLayout {
             this.fromTilesImageViews.add(iv);
             tr.addView(iv);
         }
-        
+
     }
 
     /**
@@ -135,8 +135,7 @@ public class TilesSelectTableLayout extends TableLayout {
     private void setToTilesResourceIds(boolean isReverse, int resourceId) {
 
         if (isReverse) {
-            this.toTilesResourceIds.remove((Object)ResourceUtil
-                            .getReversedResourceId(resourceId));
+            this.toTilesResourceIds.remove((Object)ResourceUtil.getReversedResourceId(resourceId));
         } else {
             this.toTilesResourceIds.add(resourceId);
         }
